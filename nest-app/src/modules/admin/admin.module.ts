@@ -7,17 +7,16 @@ import { UsersModule } from './users/users.module';
   imports: [
     RouterModule.register([
       {
-        path: '/admin',
+        path: '/api/admin',
         children: [
           {
-            path: '/login',
+            path: '/',
             module: LoginModule,
           },
         ],
       },
     ]),
-    LoginModule,
-    UsersModule,
+    LoginModule
   ],
 })
 export class AdminModule {}

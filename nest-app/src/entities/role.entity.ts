@@ -5,6 +5,9 @@ export class Role {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({unique: true, nullable: false})
+  identification: string;
+
   @Column()
-  identifications: string;
+  auths: string;
 }

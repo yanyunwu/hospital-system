@@ -1,7 +1,7 @@
 import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { SettingDrawer } from '@ant-design/pro-layout';
 import { PageLoading } from '@ant-design/pro-layout';
-import type { RunTimeLayoutConfig } from 'umi';
+import type { RunTimeLayoutConfig, RequestConfig } from 'umi';
 import { history, Link } from 'umi';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
@@ -105,4 +105,26 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     ...initialState?.settings,
   };
+};
+
+
+// 全局请求
+const requestInterceptor = (url: string, options: any) => {
+  const access_token = localStorage.getItem('token')
+  return {
+    url: url, 
+    options: {
+      ...options,
+      headers: {
+        authorization: `Bearer ${access_token}`,
+      },
+    },
+  };
+};
+
+export const request: RequestConfig = {
+  timeout: 10000,
+  errorConfig: {},
+  requestInterceptors: [requestInterceptor],
+  responseInterceptors: [],
 };
