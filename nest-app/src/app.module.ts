@@ -22,7 +22,7 @@ import { AdminModule } from './modules/admin/admin.module';
       database: 'hospital_system',
       entities: [resolve(__dirname, './entities/**/*.entity.{js,ts}')],
       synchronize: true,
-      logging: true,
+      logging: true
     }),
   ],
   controllers: [AppController],

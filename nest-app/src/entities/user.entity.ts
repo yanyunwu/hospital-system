@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from 'typeorm';
+import { Post } from './post.entity';
+import { AnonymousMailbox } from './anonymousMailbox.entity';
 
 @Entity()
 export class User {
@@ -34,4 +36,10 @@ export class User {
 
   @CreateDateColumn()
   createTime: string;
+
+  @OneToMany(() => Post, post => post.user)
+  posts: Post[];
+
+  @OneToMany(() => AnonymousMailbox, anonymousMailbox => anonymousMailbox.user)
+  anonymousMailboxs: AnonymousMailbox[];
 }

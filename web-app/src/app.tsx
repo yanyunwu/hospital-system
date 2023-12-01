@@ -108,7 +108,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
 };
 
 
-// 全局请求
+// 全局请求 封装一下身份验证的东西
 const requestInterceptor = (url: string, options: any) => {
   const access_token = localStorage.getItem('token')
   return {
