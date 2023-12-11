@@ -14,6 +14,30 @@ export async function rule(
   },
   options?: { [key: string]: any },
 ) {
+  return {
+    data: [
+      {
+        key: 1,
+        disabled: false,
+        href: 'https://ant.design',
+        avatar: [
+          'https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png',
+          'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png',
+        ][0],
+        name: `TradeCode ${1}`,
+        owner: '曲丽丽',
+        desc: '这是一段描述',
+        callNo: Math.floor(Math.random() * 1000),
+        status: (Math.floor(Math.random() * 10) % 4).toString(),
+        updatedAt: new Date(),
+        createdAt: new Date(),
+        progress: Math.ceil(Math.random() * 100),
+      },
+    ],
+    total: 1,
+    success: true,
+  };
+
   return request<{
     data: TableListItem[];
     /** 列表的内容总数 */

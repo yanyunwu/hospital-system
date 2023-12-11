@@ -11,6 +11,11 @@ export class LoginService {
 
   async signIn(username: string, pass: string): Promise<any> {
     const user = await this.usersService.findOne(username);
+
+    if(!user) {
+      throw '用户不存在！'
+    }
+
     if (user?.password !== pass) {
       throw new UnauthorizedException();
     }

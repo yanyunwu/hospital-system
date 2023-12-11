@@ -95,6 +95,25 @@ export default defineConfig({
       ],
     },
     {
+      path: '/access',
+      icon: 'table',
+      name: '权限管理',
+      routes: [
+        {
+          name: '角色管理',
+          icon: 'smile',
+          path: '/access/role',
+          component: './access/role',
+        },
+        {
+          name: '菜单管理',
+          icon: 'smile',
+          path: '/access/auth',
+          component: './access/auth',
+        },
+      ],
+    },
+    {
       path: '/form',
       icon: 'form',
       name: 'form',
