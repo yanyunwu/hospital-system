@@ -15,13 +15,6 @@ export class User {
   @Column({nullable: false})
   password: string;
 
-  // 账户类型 web端管理员 手机端用户 手机端管理员 
-  @Column({nullable: false})
-  accountType: string;
-
-  @Column({nullable: true})
-  roles: string;
-
   // 性别
   @Column({nullable: true})
   sex: number;
@@ -30,9 +23,16 @@ export class User {
   @Column({nullable: true})
   age: number;
 
+  @Column({type: 'date'})
+  birthday: string
+
+  // 姓名昵称
+  @Column()
+  nickname: string
+
   // 学号
   @Column({nullable: true})
-  stuId: number;
+  stuId: string;
 
   @CreateDateColumn()
   createTime: string;

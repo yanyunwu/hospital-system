@@ -18,11 +18,16 @@ import { AccessModule } from './access/access.module';
             path: '/access',
             module: AccessModule,
           },
+          {
+            path: '/user',
+            module: UsersModule,
+          }
         ],
       },
     ]),
     LoginModule,
     AccessModule,
+    UsersModule
   ],
 })
 export class AdminModule {}

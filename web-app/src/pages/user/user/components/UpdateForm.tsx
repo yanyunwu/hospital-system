@@ -52,40 +52,28 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         }}
         title="基本信息"
       >
-            <ProFormText
-          label="标识符"
-          rules={[
-            {
-              required: true,
-              message: '标识符必填项',
-            },
-          ]}
-          width="md"
+        <ProFormText
           name="identification"
-        />
-        <ProFormText
-          label="菜单名称"
+          label="标识符"
+          width="md"
           rules={[
             {
               required: true,
-              message: '菜单名称必填项',
+              message: '请输入标识符！',
             },
           ]}
-          width="md"
+        />
+        <ProFormText
           name="name"
-        />
-        <ProFormText
-          label="菜单路径"
+          label="角色名称"
+          width="md"
           rules={[
             {
               required: true,
-              message: '菜单路径必填项',
+              message: '请输入角色名称！',
             },
           ]}
-          width="md"
-          name="path"
         />
-        <ProFormSwitch label="状态" width="md" name="status" />
       </StepsForm.StepForm>
       <StepsForm.StepForm
         initialValues={{

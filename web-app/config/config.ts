@@ -114,6 +114,25 @@ export default defineConfig({
       ],
     },
     {
+      path: '/customer',
+      icon: 'table',
+      name: '用户管理',
+      routes: [
+        {
+          name: '系统人员管理',
+          icon: 'smile',
+          path: '/customer/admin',
+          component: './user/admin',
+        },
+        {
+          name: '用户信息管理',
+          icon: 'smile',
+          path: '/customer/user',
+          component: './user/user',
+        },
+      ],
+    },
+    {
       path: '/form',
       icon: 'form',
       name: 'form',

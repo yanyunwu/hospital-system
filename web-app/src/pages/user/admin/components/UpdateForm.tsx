@@ -1,7 +1,9 @@
 import React from 'react';
 import { Modal } from 'antd';
-import { ProFormText, StepsForm, ProFormCheckbox } from '@ant-design/pro-form';
+import { ProFormText, StepsForm, ProFormCheckbox, ProFormDatePicker, ProFormRadio } from '@ant-design/pro-form';
 import type { TableListItem } from '../data';
+import { useRequest } from 'ahooks';
+import { role } from '@/pages/access/role/service';
 
 export type FormValueType = {
   target?: string;
@@ -19,6 +21,14 @@ export type UpdateFormProps = {
 };
 
 const UpdateForm: React.FC<UpdateFormProps> = (props) => {
+
+  const { data } = useRequest(role);
+
+  const checkboxValues = (data?.data || []).map((item) => ({
+    label: item.name,
+    value: item.id,
+  }));
+
   return (
     <StepsForm
       stepsProps={{
@@ -32,7 +42,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
               padding: '32px 40px 48px',
             }}
             destroyOnClose
-            title="角色配置"
+            title="基本信息配置"
             visible={props.updateModalVisible}
             footer={submitter}
             onCancel={() => {
@@ -46,59 +56,78 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
       onFinish={props.onSubmit}
     >
       <StepsForm.StepForm
-        initialValues={{
-          name: props.values.name,
-          identification: props.values.identification,
-        }}
+        initialValues={{...props.values}}
         title="基本信息"
       >
-            <ProFormText
-          label="标识符"
+         <ProFormText
+          label="用户名"
           rules={[
             {
               required: true,
-              message: '标识符必填项',
+              message: '必填项',
             },
           ]}
           width="md"
-          name="identification"
+          name="username"
+        />
+        <ProFormRadio.Group
+          name="sex"
+          label="性别"
+          options={[
+            {
+              label: '男',
+              value: 0,
+            },
+            {
+              label: '女',
+              value: 1,
+            },
+            {
+              label: '未知',
+              value: 2,
+            },
+          ]}
+        />
+        <ProFormDatePicker
+              label="出生年月"
+              rules={[
+                {
+                  required: true,
+                  message: '必填项',
+                },
+              ]}
+              width="md"
+              name="birthday"
+            />
+
+        <ProFormText
+          label="姓名/昵称"
+          rules={[
+            {
+              required: true,
+              message: '必填项',
+            },
+          ]}
+          width="md"
+          name="nickname"
         />
         <ProFormText
-          label="菜单名称"
-          rules={[
-            {
-              required: true,
-              message: '菜单名称必填项',
-            },
-          ]}
+          label="医生编号"
           width="md"
-          name="name"
+          name="doctorId"
         />
-        <ProFormText
-          label="菜单路径"
-          rules={[
-            {
-              required: true,
-              message: '菜单路径必填项',
-            },
-          ]}
-          width="md"
-          name="path"
-        />
-        <ProFormSwitch label="状态" width="md" name="status" />
       </StepsForm.StepForm>
       <StepsForm.StepForm
         initialValues={{
-          target: '0',
-          template: '0',
+          roles: props.values.roles?.split(',').map((item) => parseInt(item)),
         }}
-        title="配置角色权限"
+        title="配置用户角色"
       >
         <ProFormCheckbox.Group
-          name="auths"
+          name="roles"
           layout="horizontal"
-          label="选择相应权限"
-          options={['农业', '制造业', '互联网']}
+          label="配置角色"
+          options={checkboxValues}
         />
       </StepsForm.StepForm>
     </StepsForm>
