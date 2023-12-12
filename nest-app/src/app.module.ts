@@ -4,14 +4,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { resolve } from 'node:path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { EventsModule } from './events/events.module';
+import { EventsModule } from './modules/events/events.module';
 import { AdminModule } from './modules/admin/admin.module';
+import { MpModule } from './modules/mp/mp.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ envFilePath: ['.env.development.local', '.env'] }),
-    EventsModule,
     AdminModule,
+    MpModule,
+    EventsModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',

@@ -9,6 +9,9 @@
 					<view style="padding-left: 1rpx;font-size: 28rpx;color: #777;">{{userInfo.username}}</view>
 				</view>
 			</view>
+				
+			<button @click="handlelogin">登录11111</button>
+			
 			<view class="index_header_bottom">
 				<view class=""><text>{{userInfo.good}}</text><text>被赞</text></view>
 				<view class=""><text>{{userInfo.like}}</text><text>喜欢</text></view>
@@ -72,6 +75,7 @@
 <script>
 	// import {signIn, getUserInfo} from '@/api/index.js'
 	// import {getAllTag, getUserAllTagId, setTags} from '@/api/index.js'
+	import request from '@/utils/request.js'
 	export default {
 		data() {
 			return {
@@ -97,11 +101,36 @@
 			this.getUserInfo()
 		},
 		methods: {
-			handlelogin() {
-				if(this.isLogin) return
-				uni.navigateTo({
-					url:"/pages/login/login"
+		 handlelogin() {
+				// if(this.isLogin) return
+				// uni.navigateTo({
+				// 	url:"/pages/login/login"
+				// })
+					
+				// const loginres =await uni.login()
+				
+				// console.log('loginres', loginres)
+				
+				// const res = await request({
+				// 	url: '/api/mp/login',
+				// 	method: 'post',
+				// 	data: {
+				// 		code: loginres.code
+				// 	}
+				// })
+				
+				// console.log(res)
+				
+				uni.getUserProfile({
+					desc: "用于完善会员资料",
+					success: (res) => {
+						console.log('getUserProfile', res)
+					},
+					fail: (err) => {
+							console.log('getUserProfile err', err)
+					}
 				})
+				
 			},
 			handleSetting() {
 				uni.navigateTo({
