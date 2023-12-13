@@ -130,29 +130,23 @@
 			})
 		},
 		onReady(options){
-			setTimeout(() => {
-				console.log("onLoadonLoad", io)
-				
-				const socket = io("ws://localhost:3000",  {
-				  query: {a: 1},
-				  transports: [ 'websocket', 'polling' ],
-				  timeout: 5000,
-				});
-				
-				socket.on('connect', () => {
-				
-					console.log('ws 已连接');
-					socket.emit('newMessage', {a: "好好好"})
-					socket.send({a: 111})
-				});
-				
-				socket.on('error', (msg) => {
-					console.log('ws error', msg);
-				});			
-				console.log("socket", socket)
-				
-			},1100)
+			const token = uni.getStorageSync('token') 
 			
+			const socket = io("ws://localhost:3000",  {
+			  query: {token: `${token}`},
+			  transports: [ 'websocket', 'polling' ],
+			  timeout: 5000,
+			});
+			
+			socket.on('connect', () => {
+				console.log('ws 已连接');
+				socket.send({a: 111})
+			});
+			
+			socket.on('error', (msg) => {
+				console.log('ws error', msg);
+			});			
+
 			this.messageList.push(...new Array(20).fill({
 				
 					type: 'self',

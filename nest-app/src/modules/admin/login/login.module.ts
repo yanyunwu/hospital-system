@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { LoginController } from './login.controller';
 import { LoginService } from './login.service';
 import { UsersModule } from '../users/users.module';
-import { JwtModule } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './login.guard';

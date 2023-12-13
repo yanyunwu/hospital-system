@@ -10,11 +10,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
-    JwtModule.register({
-      global: true,
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: '24h' },
-    }),
     HttpModule,
     TypeOrmModule.forFeature([User])
   ],
