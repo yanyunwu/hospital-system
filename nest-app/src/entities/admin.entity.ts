@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from 'typeorm';
+import { LiveChat } from './liveChat.entity';
 
 @Entity()
 export class Admin {
@@ -45,4 +46,7 @@ export class Admin {
 
   @CreateDateColumn()
   createTime: string;
+
+  @OneToMany(() => LiveChat, liveChat => liveChat.adminUser)
+  liveChats: LiveChat[];
 }

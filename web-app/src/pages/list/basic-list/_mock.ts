@@ -104,18 +104,18 @@ function fakeList(count: number): BasicListItemDataType[] {
 
 let sourceData: BasicListItemDataType[] = [];
 
-function getFakeList(req: Request, res: Response) {
-  const params = req.query as any;
+export function getFakeList() {
+  // const params = req.query as any;
 
-  const count = Number(params.count) * 1 || 20;
+  // const count = Number(params.count) * 1 || 20;
 
-  const result = fakeList(count);
+  const result = fakeList(20);
   sourceData = result;
-  return res.json({
+  return {
     data: {
       list: result,
     },
-  });
+  }
 }
 
 function postFakeList(req: Request, res: Response) {

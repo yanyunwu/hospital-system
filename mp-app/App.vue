@@ -1,7 +1,14 @@
 <script>
+	import request from './utils/request.js'
 	export default {
+		data() {
+			return {
+				token: ""
+			}
+		},
 		onLaunch: function() {
 			console.log('App Launch')
+			
 		},
 		onShow: function() {
 			console.log('App Show')

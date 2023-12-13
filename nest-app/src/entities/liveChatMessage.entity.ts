@@ -12,6 +12,12 @@ export class LiveChatMessage {
   @Column()
   speakUserId: number
 
+  @Column()
+  speakUserName: string
+
+  @Column() // 0 用户 1 系统用户
+  speakUserType: number
+
   @Column({type: 'text'})
   content: string
 

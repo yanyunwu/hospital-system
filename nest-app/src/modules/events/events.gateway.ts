@@ -22,7 +22,7 @@ import {
         console.log('un ', client.id)
     }
     handleConnection(client: Socket, ...args: any[]) {
-        console.log('client', client.id);
+        console.log('client', client.handshake.query);
     }
 
     
@@ -32,7 +32,12 @@ import {
 
     @SubscribeMessage('newMessage')
     handleMessage(@MessageBody() body: any, @ConnectedSocket() client: Socket,) {
-            console.log('client', client);
+        console.log('client', body);
+    }
+
+    @SubscribeMessage('message')
+    handleMsg(@MessageBody() body: any, @ConnectedSocket() client: Socket,) {
+            console.log('client msg', body);
     }
 
     @SubscribeMessage('events')

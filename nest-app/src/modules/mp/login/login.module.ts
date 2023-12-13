@@ -5,6 +5,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
 import { jwtConstants } from 'src/modules/admin/login/constants';
 import { HttpModule } from '@nestjs/axios';
+import { User } from 'src/entities/user.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
@@ -13,11 +15,13 @@ import { HttpModule } from '@nestjs/axios';
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '24h' },
     }),
-    HttpModule
+    HttpModule,
+    TypeOrmModule.forFeature([User])
   ],
   controllers: [LoginController],
   providers: [
     LoginService,
   ],
+  exports: [LoginService]
 })
 export class LoginModule {}

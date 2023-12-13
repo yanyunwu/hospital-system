@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { EventsModule } from './modules/events/events.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { MpModule } from './modules/mp/mp.module';
+import { SessionModule } from './modules/session/session.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { MpModule } from './modules/mp/mp.module';
     AdminModule,
     MpModule,
     EventsModule,
+    SessionModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',

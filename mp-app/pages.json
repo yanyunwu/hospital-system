@@ -4,7 +4,6 @@
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "华中农业大学"
-				// "navigationStyle": "custom"
 			}
 		},
 		{
@@ -12,7 +11,8 @@
 			"style" : 
 			{
 				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
+				"enablePullDownRefresh" : false,
+				"navigationStyle": "custom"
 			}
 		},
 		{

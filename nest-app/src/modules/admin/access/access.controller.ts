@@ -15,7 +15,6 @@ export class AccessController {
     /**
      * 角色管理模块
     */
-    @Public()
     @Get('/getRole')
     async getRuleList(@Query() qurey: {
         skip?: number

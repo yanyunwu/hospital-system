@@ -1,5 +1,6 @@
 import { request } from 'umi';
 import type { BasicListItemDataType } from './data.d';
+import { getFakeList } from './_mock';
 
 type ParamsType = {
   count?: number;
@@ -8,9 +9,7 @@ type ParamsType = {
 export async function queryFakeList(
   params: ParamsType,
 ): Promise<{ data: { list: BasicListItemDataType[] } }> {
-  return request('/api/get_list', {
-    params,
-  });
+  return getFakeList()
 }
 
 export async function removeFakeList(

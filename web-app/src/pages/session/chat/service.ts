@@ -23,7 +23,7 @@ export async function get(
       total?: number;
       success?: boolean;
     };
-  }>('/api/admin/user/getAdminUserList', {
+  }>('/api/admin/user/getUserList', {
     method: 'GET',
     params: {
       skip: current && current - 1,
@@ -38,11 +38,8 @@ export async function get(
 
 /** 新建规则 PUT /api/rule */
 export async function set(data: { [key: string]: any }, options?: { [key: string]: any }) {
-  return request<TableListItem>('/api/admin/user/setAdminUser', {
-    data: {
-      ...data,
-      roles: data.roles.join(','),
-    },
+  return request<TableListItem>('/api/admin/user/setUser', {
+    data,
     method: 'POST',
     ...(options || {}),
   });
@@ -50,7 +47,7 @@ export async function set(data: { [key: string]: any }, options?: { [key: string
 
 /** 新建规则 POST /api/rule */
 export async function add(data: { [key: string]: any }, options?: { [key: string]: any }) {
-  return request<TableListItem>('/api/admin/user/addAdminUser', {
+  return request<TableListItem>('/api/admin/user/addUser', {
     data,
     method: 'POST',
     ...(options || {}),
@@ -59,7 +56,7 @@ export async function add(data: { [key: string]: any }, options?: { [key: string
 
 /** 删除规则 DELETE /api/rule */
 export async function del(data: { ids: number[] }, options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/admin/user/delAdminUser', {
+  return request<Record<string, any>>('/api/admin/user/delUser', {
     data,
     method: 'POST',
     ...(options || {}),

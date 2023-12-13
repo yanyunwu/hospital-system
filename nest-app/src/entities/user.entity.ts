@@ -1,18 +1,22 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from 'typeorm';
 import { Post } from './post.entity';
 import { AnonymousMailbox } from './anonymousMailbox.entity';
+import { LiveChat } from './liveChat.entity';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column({unique: true, nullable: true})
+  openId: string;
   
   // 用户名
-  @Column({unique: true, nullable: false})
+  @Column({unique: true, nullable: true})
   username: string;
   
   // 密码
-  @Column({nullable: false})
+  @Column({nullable: true})
   password: string;
 
   // 性别
@@ -23,11 +27,11 @@ export class User {
   @Column({nullable: true})
   age: number;
 
-  @Column({type: 'date'})
+  @Column({type: 'date', nullable: true})
   birthday: string
 
   // 姓名昵称
-  @Column()
+  @Column({nullable: true})
   nickname: string
 
   // 学号
@@ -36,6 +40,9 @@ export class User {
 
   @CreateDateColumn()
   createTime: string;
+
+  @OneToMany(() => LiveChat, liveChat => liveChat.user)
+  liveChats: LiveChat[];
 
   @OneToMany(() => Post, post => post.user)
   posts: Post[];

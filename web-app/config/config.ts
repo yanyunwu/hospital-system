@@ -133,6 +133,25 @@ export default defineConfig({
       ],
     },
     {
+      path: '/session',
+      icon: 'table',
+      name: '会话管理',
+      routes: [
+        {
+          name: '实时会话',
+          icon: 'smile',
+          path: '/session/chat',
+          component: './session/chat',
+        },
+        {
+          name: '会话信息管理',
+          icon: 'smile',
+          path: '/session/chat-list',
+          component: './session/chat-list',
+        },
+      ],
+    },
+    {
       path: '/form',
       icon: 'form',
       name: 'form',
