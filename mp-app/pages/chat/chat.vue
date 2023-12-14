@@ -8,7 +8,7 @@
 						<view v-if="item.type === 'self'" class="chat_message_item chat_message_self">
 							<image :src="selfimg"  style="width: 80rpx;height: 80rpx;"></image>
 							<view>
-								<view><text>{{item.nick}}</text></view>
+								<view><text>{{item.name}}</text></view>
 								<view class="chat_message_text"><text>{{item.text}}</text></view>
 							</view>
 						</view>
@@ -16,7 +16,7 @@
 						<view v-else-if="item.type === 'other'" class="chat_message_item chat_message_other">
 							<image :src="selfimg"  style="width: 80rpx;height: 80rpx;"></image>
 							<view>
-								<view><text>{{item.nick}}</text></view>
+								<view><text>{{item.name}}</text></view>
 								<view class="chat_message_text"><text>{{item.text}}</text></view>
 							</view>
 						</view>
@@ -61,11 +61,13 @@
 					// },
 					{
 						type: 'self',
-						text: "hello"
+						text: "hello",
+						name: 'text',
 					},
 					{
 						type: 'other',
-						text: "hello"
+						text: "hello",
+						name: 'text',
 					}
 				],
 				selfimg: "../../static/touxiang.png",
@@ -84,10 +86,7 @@
 					sessionId: this.sessionId,
 					text: this.waitMsg,
 				})
-				this.messageList.push({
-					type: 'self',
-					text: this.waitMsg
-				})
+				
 				this.waitMsg = ""
 				nextTick(() => {
 					this.initContentHeight()
@@ -139,13 +138,22 @@
 						
 				socket.on('message', (message) => {
 					console.log('message', message)
-					if (message.sessionId !== this.sessionId) {
+					if (message.liveChat.id !== this.sessionId) {
 						return 
 					}
 					
 					this.messageList.push({
 						type: 'other',
-						text: message.text
+						text: message.content,
+						name: message.speakUserName
+					})
+				})
+				
+				socket?.on('message_ok', (message) => {
+					this.messageList.push({
+						type: 'self',
+						text: message.content,
+						name: message.speakUserName
 					})
 				})
 			}

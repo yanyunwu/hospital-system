@@ -24,8 +24,8 @@ export class LoginService {
     // if (user?.password !== pass) {
     //   throw new UnauthorizedException();
     // }
-    wxres.openid && this.getUserByOpenId(wxres.openid)
-    const payload = { ...wxres };
+    const user = await this.getUserByOpenId(wxres.openid)
+    const payload = { ...wxres, userId: user.id };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };

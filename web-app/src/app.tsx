@@ -9,6 +9,7 @@ import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import defaultSettings from '../config/defaultSettings';
 import Logo from '../public/hzaulogo.jpg'
+import { message } from 'antd';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -125,11 +126,20 @@ const requestInterceptor = (url: string, options: any) => {
   };
 };
 
+// 全局请求 封装一下身份验证的东西
+const responseInterceptor = (response: any) => {
+  if (response.status === 401) {
+    message.error('登录失效')
+    location.href = '/user/login'
+  }
+  return response;
+}
+
 export const request: RequestConfig = {
   timeout: 10000,
   errorConfig: {},
   requestInterceptors: [requestInterceptor],
-  responseInterceptors: [],
+  responseInterceptors: [responseInterceptor],
   errorHandler: (err) => {
     console.log(err)
   }

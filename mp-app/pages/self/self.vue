@@ -13,6 +13,10 @@
 					<text>{{name}}</text>
 				</view>
 			</view>
+			<view class="onwer-extend">
+				<view class="title"><text>个人签名</text></view>
+				<view class="content"><text>为世界一切美好的事物而战</text></view>
+			</view>
 		</view>
 		<view class="onwer-info-card">
 			<view class="onwer-info-card-item" v-for="item in info">
@@ -125,15 +129,27 @@
 		padding: 160rpx 30rpx 20rpx 30rpx;
 		
 		.onwer-card-container {
-			padding-bottom: 200rpx;
+			padding-bottom: 20rpx;
 			background-color: white;
-			border-radius: 40rpx;
+			border-radius: 15rpx;
 			margin-bottom: 40rpx;
+			
+			.onwer-extend {
+				.title {
+					padding: 20rpx 0;
+					text-align: center;
+				}
+				
+				.content {
+					text-align: center;
+					font-size: 14px
+				}
+			}
 		}
 		
 		.onwer-card {
 			background-color: royalblue;
-			border-radius: 40rpx;
+			border-radius: 15rpx;
 			padding: 40rpx 20rpx;
 			padding-top: 20rpx;
 			
@@ -164,7 +180,7 @@
 		
 		.onwer-info-card {
 			background-color: white;
-			border-radius: 40rpx;
+			border-radius: 15rpx;
 			padding: 40rpx;
 			
 			&-item {

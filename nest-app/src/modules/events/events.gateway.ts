@@ -43,7 +43,7 @@ export class EventsGateway implements OnGatewayConnection,OnGatewayDisconnect {
       const openId = payload.openid
       const adminUserId = payload.adminUserId
       if (openId) {
-        this.eventsService.handleClientSocketConnection(openId, client, this.server)
+        this.eventsService.handleClientSocketConnection(openId, client, this.server, payload.userId)
         console.log(`client ${client.id} 上线, openid: ${openId}`)
       } else {
         this.eventsService.handleAdminSocketConnection(adminUserId, client, this.server)

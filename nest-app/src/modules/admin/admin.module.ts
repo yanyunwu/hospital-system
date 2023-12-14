@@ -4,6 +4,7 @@ import { LoginModule } from './login/login.module';
 import { UsersModule } from './users/users.module';
 import { AccessModule } from './access/access.module';
 import { SessionModule } from './session/session.module';
+import { MessageModule } from './message/message.module';
 
 @Module({
   imports: [
@@ -34,6 +35,9 @@ import { SessionModule } from './session/session.module';
     AccessModule,
     UsersModule,
     SessionModule,
+    MessageModule,
   ],
+  controllers: [],
+  providers: [],
 })
 export class AdminModule {}

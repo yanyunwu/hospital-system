@@ -95,11 +95,13 @@ const TableList: React.FC = () => {
   const [messageList, setMessageList] = useState([
     {
       type: 'self',
-      text: "hello"
+      text: "hello",
+      name: 'test'
     },
     {
       type: 'other',
-      text: "hello"
+      text: "hello",
+      name: 'test'
     }
   ])
   /** 国际化配置 */
@@ -181,14 +183,6 @@ const TableList: React.FC = () => {
       sessionId: currentRow?.id
     })
 
-    setMessageList([
-      ...messageList,
-        {
-          type: 'self',             
-          text: waitText
-        }
-    ])
-
     setWaitText('')
   }
 
@@ -212,7 +206,7 @@ const TableList: React.FC = () => {
 
   useEffect(() => {
     socket?.on('message', (message) => {
-      if (message.sessionId !== currentRow?.id){
+      if (message.liveChat.id !== currentRow?.id){
         return 
       }
 
@@ -220,14 +214,30 @@ const TableList: React.FC = () => {
         ...messageList,
           {
             type: 'other',
-            text: message.text
+            text: message.content,
+            name: message.speakUserName
+          }
+      ])
+    })
+    socket?.on('message_ok', (message) => {
+      console.log('message_ok', message, currentRow)
+      if (message.liveChat.id !== currentRow?.id){
+        return 
+      }
+
+      setMessageList([
+        ...messageList,
+          {
+            type: 'self',
+            text: message.content,
+            name: message.speakUserName
           }
       ])
     })
     return () => {
       socket?.removeListener('message')
     }
-  }, [socket, messageList])
+  }, [socket, messageList, currentRow?.id])
 
   return (
     <PageContainer>

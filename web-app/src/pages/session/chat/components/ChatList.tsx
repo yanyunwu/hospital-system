@@ -40,6 +40,7 @@ const ChatList: React.FC<ChatListProps> = (props) => {
         <div className="chat_message_item chat_message_self">
            <Avatar size="large" style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
           <div>
+            <div>{item.name}</div>
             <div className="chat_message_text"><span>{item.text}</span></div>
           </div>
         </div>
@@ -49,6 +50,7 @@ const ChatList: React.FC<ChatListProps> = (props) => {
         <div v-else-if="item.type === 'other'" className="chat_message_item chat_message_other">
            <Avatar size="large" style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
           <div>
+            <div>{item.name}</div>
             <div className="chat_message_text"><span>{item.text}</span></div>
           </div>
         </div>
