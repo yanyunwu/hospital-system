@@ -1,15 +1,18 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input, Drawer, Popconfirm } from 'antd';
-import React, { useState, useRef } from 'react';
+
+import { Button, message, Input, Drawer, Popconfirm, Modal } from 'antd';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { ModalForm, ProFormText, ProFormRadio, ProFormDatePicker } from '@ant-design/pro-form';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
-import type { FormValueType } from './components/UpdateForm';
+import type { FormValueType } from './components/ChatList';
 import { get, add, set, del } from './service';
 import type { TableListItem, TableListPagination } from './data';
+import ChatList from './components/ChatList';
+import { Socket, io } from 'socket.io-client'
+
+
 /**
  * 添加节点
  *
@@ -87,66 +90,53 @@ const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [currentRow, setCurrentRow] = useState<TableListItem>();
   const [selectedRowsState, setSelectedRows] = useState<TableListItem[]>([]);
+
+  const [waitText, setWaitText] = useState('')
+  const [messageList, setMessageList] = useState([
+    {
+      type: 'self',
+      text: "hello"
+    },
+    {
+      type: 'other',
+      text: "hello"
+    }
+  ])
   /** 国际化配置 */
 
   const columns: ProColumns<TableListItem>[] = [
     {
-      title: '用户名',
-      dataIndex: 'username',
-      valueType: 'text',
-    },
-    {
-      title: '性别',
-      dataIndex: 'sex',
-      valueEnum: {
-        0: {
-          text: '男'
-        },
-        1: {
-          text: '女'
-        },
-        2: {
-          text: '未知'
-        }
+      title: '昵称/姓名',
+      dataIndex: 'user',
+      render(dom, item) {
+        return item.user?.nickname
       }
     },
     {
-      title: '年龄',
-      dataIndex: 'age',
-      valueType: 'text',
-    },
-    {
-      title: '姓名/昵称',
-      dataIndex: 'nickname',
-      valueType: 'text',
-    },
-    {
-      title: '出生年月',
-      dataIndex: 'birthday',
-      valueType: 'text',
-    },
-    {
-      title: '学号',
-      dataIndex: 'stuId',
-      valueType: 'text',
+      title: '当前状态',
+      dataIndex: 'status',
+      hideInForm: true,
+      valueEnum: {
+        0: {
+          text: '等待回复',
+          status: 'Success',
+        },
+        1: {
+          text: '回复中',
+          status: 'Success',
+        },
+        2: {
+          text: '关闭',
+          status: 'Error',
+        },
+      },
     },
     {
       title: '创建时间',
       dataIndex: 'createTime',
       valueType: 'dateTime',
-      renderFormItem: (item, { defaultRender, ...rest }, form) => {
-        const status = form.getFieldValue('status');
-
-        if (`${status}` === '0') {
-          return false;
-        }
-
-        if (`${status}` === '3') {
-          return <Input {...rest} placeholder="请输入异常原因！" />;
-        }
-
-        return defaultRender(item);
-      },
+      sorter:  (a, b) => Date.parse(a.createTime) - Date.parse(b.createTime),
+      sortOrder: 'descend'
     },
     {
       title: '操作',
@@ -160,9 +150,8 @@ const TableList: React.FC = () => {
             setCurrentRow(record);
           }}
         >
-          配置
+          回复
         </a>,
-        <a>重置密码</a>,
         <Popconfirm
           key="subscribeAlert"
           title="确定要进行删除操作吗？"
@@ -174,11 +163,71 @@ const TableList: React.FC = () => {
           okText="确定"
           cancelText="取消"
         >
-          <a>删除</a>
+          <a>关闭</a>
         </Popconfirm>,
       ],
     },
   ];
+  const [socket, setSocket] = useState<Socket | null>(null)
+
+  const handleSendMessage = () => {
+    if (!waitText) {
+      return 
+    }
+
+    socket?.send({
+      text: waitText,
+      openId: currentRow?.user.openId,
+      sessionId: currentRow?.id
+    })
+
+    setMessageList([
+      ...messageList,
+        {
+          type: 'self',             
+          text: waitText
+        }
+    ])
+
+    setWaitText('')
+  }
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    const socket = io("ws://localhost:3000", {
+      query: {token},
+      transports: [ 'websocket', 'polling' ],
+      timeout: 5000,
+    })
+
+    setSocket(socket)
+
+    socket.on('connect', () => {
+      console.log('连接上了')
+    })
+    return () => {
+      socket?.close()
+    }
+  }, [])
+
+  useEffect(() => {
+    socket?.on('message', (message) => {
+      if (message.sessionId !== currentRow?.id){
+        return 
+      }
+
+      setMessageList([
+        ...messageList,
+          {
+            type: 'other',
+            text: message.text
+          }
+      ])
+    })
+    return () => {
+      socket?.removeListener('message')
+    }
+  }, [socket, messageList])
 
   return (
     <PageContainer>
@@ -189,17 +238,6 @@ const TableList: React.FC = () => {
         search={{
           labelWidth: 120,
         }}
-        toolBarRender={() => [
-          <Button
-            type="primary"
-            key="primary"
-            onClick={() => {
-              handleModalVisible(true);
-            }}
-          >
-            <PlusOutlined /> 新建
-          </Button>,
-        ]}
         request={get}
         columns={columns}
         rowSelection={{
@@ -238,157 +276,22 @@ const TableList: React.FC = () => {
           </Popconfirm>
         </FooterToolbar>
       )}
-      <ModalForm
-        title="新建用户"
-        width="400px"
-        visible={createModalVisible}
-        initialValues={{ sex: 2 }}
-        onVisibleChange={handleModalVisible}
-        onFinish={async (value) => {
-          const success = await handleAdd(value as TableListItem);
-          if (success) {
-            handleModalVisible(false);
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
-          }
-        }}
+      <Modal 
+        title="对话框" 
+        open={updateModalVisible} 
+        onCancel={() => handleUpdateModalVisible(false)} 
+        cancelText="关闭弹窗"
+        okText="发送"
+        width="80%"
+        onOk={handleSendMessage}
       >
-        <ProFormText
-          label="用户名"
-          rules={[
-            {
-              required: true,
-              message: '必填项',
-            },
-          ]}
-          width="md"
-          name="username"
-        />
-        <ProFormRadio.Group
-          name="sex"
-          label="性别"
-          options={[
-            {
-              label: '男',
-              value: 0,
-            },
-            {
-              label: '女',
-              value: 1,
-            },
-            {
-              label: '未知',
-              value: 2,
-            },
-          ]}
-        />
-        <ProFormDatePicker
-              label="出生年月"
-              rules={[
-                {
-                  required: true,
-                  message: '必填项',
-                },
-              ]}
-              width="md"
-              name="birthday"
-            />
-
-        <ProFormText
-          label="姓名/昵称"
-          rules={[
-            {
-              required: true,
-              message: '必填项',
-            },
-          ]}
-          width="md"
-          name="nickname"
-        />
-        <ProFormText
-          label="学号"
-          width="md"
-          name="stuId"
-        />
-      </ModalForm>
-      <ModalForm
-        title="修改信息"
-        width="400px"
-        initialValues={{ ...currentRow }}
-        visible={updateModalVisible}
-        onVisibleChange={handleUpdateModalVisible}
-        onFinish={async (value) => {
-          const success = await handleUpdate(value, currentRow);
-
-          if (success) {
-            handleUpdateModalVisible(false);
-            setCurrentRow(undefined);
-
-            if (actionRef.current) {
-              actionRef.current.reload();
-            } 
-          }
-        }}
-      >
-        <ProFormText
-          label="用户名"
-          rules={[
-            {
-              required: true,
-              message: '必填项',
-            },
-          ]}
-          width="md"
-          name="username"
-        />
-        <ProFormRadio.Group
-          name="sex"
-          label="性别"
-          options={[
-            {
-              label: '男',
-              value: 0,
-            },
-            {
-              label: '女',
-              value: 1,
-            },
-            {
-              label: '未知',
-              value: 2,
-            },
-          ]}
-        />
-        <ProFormDatePicker
-              label="出生年月"
-              rules={[
-                {
-                  required: true,
-                  message: '必填项',
-                },
-              ]}
-              width="md"
-              name="birthday"
-            />
-
-        <ProFormText
-          label="姓名/昵称"
-          rules={[
-            {
-              required: true,
-              message: '必填项',
-            },
-          ]}
-          width="md"
-          name="nickname"
-        />
-        <ProFormText
-          label="学号"
-          width="md"
-          name="stuId"
-        />
-      </ModalForm>
+        <ChatList 
+          waitText={waitText}  
+          onChangeText={(text: string) => setWaitText(text)}
+          messageList={messageList}
+          onSend={handleSendMessage}
+          ></ChatList>
+      </Modal>
       <Drawer
         width={600}
         visible={showDetail}

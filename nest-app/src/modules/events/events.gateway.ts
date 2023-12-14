@@ -10,6 +10,7 @@ import {
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { jwtConstants } from '../admin/login/constants';
+import { EventsService } from './events.service';
   
 @WebSocketGateway({
   cors: {
@@ -21,14 +22,10 @@ export class EventsGateway implements OnGatewayConnection,OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
 
-  clientMap: Map<string, Socket>
-  adminClientMap: Map<string, Socket>
-
   constructor(
-    private jwt: JwtService
+    private jwt: JwtService,
+    private eventsService: EventsService
   ) {
-    this.clientMap = new Map()
-    this.adminClientMap = new Map()
   }
 
 
@@ -36,7 +33,7 @@ export class EventsGateway implements OnGatewayConnection,OnGatewayDisconnect {
       console.log(`client ${client.id} 下线了`)
   }
 
-  async handleConnection(client: Socket, ...args: any[]) {
+  async handleConnection(client: Socket) {
     const query = client.handshake.query
     try {
       const payload = await this.jwt.verifyAsync(query.token as string, {
@@ -46,27 +43,16 @@ export class EventsGateway implements OnGatewayConnection,OnGatewayDisconnect {
       const openId = payload.openid
       const adminUserId = payload.adminUserId
       if (openId) {
-        this.clientMap.set(openId, client)
+        this.eventsService.handleClientSocketConnection(openId, client, this.server)
         console.log(`client ${client.id} 上线, openid: ${openId}`)
-        client.on('disconnect', () => {
-          this.clientMap.delete(openId)
-        })
       } else {
-        this.adminClientMap.set(adminUserId, client)
+        this.eventsService.handleAdminSocketConnection(adminUserId, client, this.server)
         console.log(`client ${client.id} 上线, adminUserId: ${adminUserId}`)
-        client.on('disconnect', () => {
-          this.adminClientMap.delete(adminUserId)
-        })
       }
 
     } catch(err) {
       console.log('err', err)
       client.disconnect()
     }
-  }
-
-  @SubscribeMessage('message')
-  handleMsg(@MessageBody() body: any, @ConnectedSocket() client: Socket,) {
-          console.log('client msg', body);
   }
 }

@@ -8,6 +8,7 @@ import Footer from '@/components/Footer';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import defaultSettings from '../config/defaultSettings';
+import Logo from '../public/hzaulogo.jpg'
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -53,6 +54,8 @@ export async function getInitialState(): Promise<{
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
+    title: '华中农业大学',
+    logo: () => <img style={{'borderRadius': 1000}} src={Logo}></img>,
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
     waterMarkProps: {
@@ -127,4 +130,7 @@ export const request: RequestConfig = {
   errorConfig: {},
   requestInterceptors: [requestInterceptor],
   responseInterceptors: [],
+  errorHandler: (err) => {
+    console.log(err)
+  }
 };

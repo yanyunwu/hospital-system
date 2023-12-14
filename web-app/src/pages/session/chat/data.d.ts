@@ -1,12 +1,11 @@
+import type { TableListItem as User } from '../../user/user/data'
+import type { TableListItem as Admin } from '../../user/admin/data'
+
 export type TableListItem = {
   id: number;
-  username: string;
-  password: string;
-  sex: number;
-  age: number;
-  birthday: string
-  nickname: string
-  stuId: number;
+  status: number
+  user: User;
+  adminUser: Admin;
   createTime: string;
 };
 

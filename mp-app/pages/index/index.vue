@@ -21,6 +21,7 @@
 
 
 <script>
+import request from '../../utils/request.js'
 export default {
 	data() {
 		return {
@@ -44,8 +45,27 @@ export default {
 	},
 	methods: {
 		goTo(item) {
+			if (item.to === '/pages/chat/chat') {
+				this.handleBeforeGoToChat(item)
+				return 
+			}
+			
 			uni.navigateTo({
 				url: item.to
+			})
+		},
+		
+		async handleBeforeGoToChat(item) {
+			
+			const data = await request({
+				url: "/api/session/addNewSession",
+				method: "post"
+			})
+			
+			console.log('sessionId data', data)
+			
+			uni.navigateTo({
+				url: `${item.to}?sessionId=${data.data.data.id}`
 			})
 		}
 	}

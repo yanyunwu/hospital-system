@@ -22,6 +22,7 @@ export class SessionController {
         const live = new LiveChat()
         live.status = 0
         live.user = user
-        this.liveChatRepository.save(live)
+    
+        return this.liveChatRepository.save(live)
     }
 }

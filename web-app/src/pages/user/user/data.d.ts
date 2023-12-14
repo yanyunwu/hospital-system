@@ -1,5 +1,6 @@
 export type TableListItem = {
   id: number;
+  openId: string;
   username: string;
   password: string;
   sex: number;

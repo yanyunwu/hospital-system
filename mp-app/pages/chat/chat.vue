@@ -40,7 +40,6 @@
 				<image mode="widthFix" src="../../static/fasong.png" @click="handleSendMessage"></image>
 			</view>
 		</view>
-		
 	</view>
 </template>
 
@@ -48,22 +47,25 @@
 	import io from '@hyoga/uni-socket.io';
 	import { nextTick } from 'vue';
 	import request from '../../utils/request.js'
+	
+	let socket
 
 	export default {
 		data() {
 			return {
+				sessionId: null,
 				messageList: [
-					{
-						type: 'system',
-						text: '你们已经匹配成功，说点什么吧'
-					},
+					// {
+					// 	type: 'system',
+					// 	text: '你们已经匹配成功，说点什么吧'
+					// },
 					{
 						type: 'self',
-						text: "313123"
+						text: "hello"
 					},
 					{
 						type: 'other',
-						text: "eqeqweq"
+						text: "hello"
 					}
 				],
 				selfimg: "../../static/touxiang.png",
@@ -78,15 +80,18 @@
 		},
 		methods: {
 			handleSendMessage() {
+				socket?.send({
+					sessionId: this.sessionId,
+					text: this.waitMsg,
+				})
 				this.messageList.push({
-				
 					type: 'self',
-					text: "eqwqweqwe"
-				
-			})
-			nextTick(() => {
-				 this.initContentHeight()
-			})
+					text: this.waitMsg
+				})
+				this.waitMsg = ""
+				nextTick(() => {
+					this.initContentHeight()
+				})
 			},
 			initScrollHeight() {
 			            uni.createSelectorQuery()
@@ -115,45 +120,45 @@
 					})
 					.exec();
 			},
-		
+			initSocket() {
+				const token = uni.getStorageSync('token')
+				
+				socket = io("ws://localhost:3000",  {
+				  query: {token: `${token}`},
+				  transports: [ 'websocket', 'polling' ],
+				  timeout: 5000,
+				});
+				
+				socket.on('connect', () => {
+					console.log('ws 已连接');
+				});
+				
+				socket.on('error', (msg) => {
+					console.log('ws error', msg);
+				});
+						
+				socket.on('message', (message) => {
+					console.log('message', message)
+					if (message.sessionId !== this.sessionId) {
+						return 
+					}
+					
+					this.messageList.push({
+						type: 'other',
+						text: message.text
+					})
+				})
+			}
 		},
 		 mounted() {
 			// 先获取滚动视图的高度
 			this.initScrollHeight();
 		},
-		onLoad() {
-			request({
-				url: "/api/session/addNewSession",
-				method: "post"
-			}).then(data => {
-				console.log("datadata", data)
-			})
+		onLoad(query) {
+			const sessionId = parseInt(query.sessionId)
+			this.sessionId = sessionId
+			this.initSocket()
 		},
-		onReady(options){
-			const token = uni.getStorageSync('token') 
-			
-			const socket = io("ws://localhost:3000",  {
-			  query: {token: `${token}`},
-			  transports: [ 'websocket', 'polling' ],
-			  timeout: 5000,
-			});
-			
-			socket.on('connect', () => {
-				console.log('ws 已连接');
-				socket.send({a: 111})
-			});
-			
-			socket.on('error', (msg) => {
-				console.log('ws error', msg);
-			});			
-
-			this.messageList.push(...new Array(20).fill({
-				
-					type: 'self',
-					text: "313123"
-				
-			}))
-		}
 	}
 </script>
 

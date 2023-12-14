@@ -23,7 +23,7 @@ export async function get(
       total?: number;
       success?: boolean;
     };
-  }>('/api/admin/user/getUserList', {
+  }>('/api/admin/session/getSessionList', {
     method: 'GET',
     params: {
       skip: current && current - 1,
