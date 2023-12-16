@@ -24,4 +24,8 @@
 	page {
 		height: 100%;
 	}
+	
+	image {
+		height: auto;
+	}
 </style>
