@@ -1,6 +1,6 @@
 <template>
 	<view class="container"> 
-		<textarea placeholder="请输入内容吧..."></textarea>
+		<textarea v-model="content" placeholder="请输入内容吧..."></textarea>
 		<view class="operate">
 			<view class="operate-top">
 				<view class="left">
@@ -8,6 +8,7 @@
 					<image mode="widthFix" src="../../../static/zhaop.png" @click="handleSelectImage"></image>
 				</view>
 				<view class="right">
+					<view style="margin-right: 50rpx;"><radio style="transform:scale(0.8)" :checked="anonymous" @click="anonymous = !anonymous" /><text>是否匿名</text></view>
 					<button type="primary" size="mini" @click="handleSend">发送</button>
 				</view>
 			</view>
@@ -19,10 +20,16 @@
 </template>
 
 <script>
+	import { BASE_URL } from '../../../utils/request.js'
 	export default {
 		data() {
 			return {
-				imageList: []
+				imageList: [],
+				
+				// form
+				picture: [],
+				anonymous: false,
+				content: ""
 			}
 		},
 		methods: {
@@ -32,6 +39,19 @@
 					sourceType: ['album'],
 					success: (res) => {
 						console.log(res);
+						
+						res.tempFilePaths.forEach((item, index) => {
+							uni.uploadFile({
+								url: `${BASE_URL}/api/file/upload`, //仅为示例，非真实的接口地址
+								filePath: item,
+								name: 'file',
+								success: (uploadFileRes) => {
+									this.picture[index] = uploadFileRes.data.data
+									console.log(uploadFileRes.data);
+								}
+							});
+						})
+						
 						this.imageList = [...res.tempFilePaths]
 					}
 				});
@@ -100,6 +120,10 @@
 				}
 				
 				.right {
+					font-size: 14px;
+					color: #777;
+					display: flex;
+					align-items: center;
 					padding-right: 20rpx;
 				}
 			}

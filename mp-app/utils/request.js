@@ -1,5 +1,5 @@
 
-const BASE_URL = process.env.NODE_ENV === 'production'
+export const BASE_URL = process.env.NODE_ENV === 'production'
 	? 'xxxx'
 	: 'http://localhost:3000'
 

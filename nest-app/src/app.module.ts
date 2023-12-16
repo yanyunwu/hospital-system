@@ -8,6 +8,8 @@ import { EventsModule } from './modules/events/events.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { MpModule } from './modules/mp/mp.module';
 import { SessionModule } from './modules/session/session.module';
+import { FileModule } from './modules/file/file.module';
+import { CommunityModule } from './modules/community/community.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { SessionModule } from './modules/session/session.module';
     MpModule,
     EventsModule,
     SessionModule,
+    FileModule,
+    CommunityModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
