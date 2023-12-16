@@ -1,6 +1,5 @@
 <template>
 	<view class="container">
-	
 		<view class="swiper">
 			<liu-slide-img :list="list" :type="2" :autoplay="autoplay" :interval="interval"></liu-slide-img>
 		</view>
@@ -64,7 +63,13 @@ export default {
 					image: "../../static/yijianfankui.png",
 					text: "意见反馈",
 					to: "/pages/chat/chat"
-				}
+				},
+				{
+					image: "../../static/xinlijiankang.png",
+					text: "心理健康",
+					to: "/pages/chat/chat"
+				},
+				{},{}
 			]
 		}
 	},

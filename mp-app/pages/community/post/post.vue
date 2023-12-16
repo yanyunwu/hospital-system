@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<view class="post" v-for="item in posts" @click="handleClickPost(item)">
+		<view class="post">
 			<view class="info">
 				<view class="avatar">
 					<image mode="widthFix" :src="item.avatar"></image>
@@ -22,8 +22,9 @@
 			</view>
 		</view>
 		
-		<view class="post-publish" @click="handleClickPublish">
-			<image mode="widthFix" src="../../static/post-publish.png"></image>
+		<view class="reply">
+			<input />
+			<button>回复</button>
 		</view>
 	</view>
 </template>
@@ -32,10 +33,9 @@
 	export default {
 		data() {
 			return {
-				posts: [
-					{
+				item: {
 						id: 1,
-						avatar: "../../static/touxiang.png",
+						avatar: "../../../static/touxiang.png",
 						anonymous: false,
 						name: "周杨杰",
 						time: "2023/10/21",
@@ -48,101 +48,27 @@
 						],
 						comments: 0,
 						views: 22
-					},
-					{
-						avatar: "../../static/touxiang.png",
-						anonymous: false,
-						name: "周杨杰",
-						time: "2023/10/21",
-						content: '哈哈哈哈哈',
-						picture: [
-							"../../static/touxiang.png",
-							"../../static/touxiang.png",
-							"../../static/touxiang.png",
-							"../../static/touxiang.png",
-							"../../static/touxiang.png",
-						],
-						comments: 0,
-						views: 22
-					},
-					{
-						avatar: "../../static/touxiang.png",
-						anonymous: false,
-						name: "周杨杰",
-						time: "2023/10/21",
-						content: '哈哈哈哈哈',
-						picture: [
-							"../../static/touxiang.png",
-							"../../static/touxiang.png",
-							"../../static/touxiang.png",
-							"../../static/touxiang.png",
-							"../../static/touxiang.png",
-						],
-						comments: 0,
-						views: 22
-					},
-					{
-						avatar: "../../static/touxiang.png",
-						anonymous: false,
-						name: "周杨杰",
-						time: "2023/10/21",
-						content: '哈哈哈哈哈',
-						picture: [
-							"../../static/touxiang.png",
-							"../../static/touxiang.png",
-							"../../static/touxiang.png",
-							"../../static/touxiang.png",
-							"../../static/touxiang.png",
-						],
-						comments: 0,
-						views: 22
-					},
-					{
-						avatar: "../../static/touxiang.png",
-						anonymous: false,
-						name: "周杨杰",
-						time: "2023/10/21",
-						content: '哈哈哈哈哈',
-						picture: [
-							"../../static/touxiang.png",
-							"../../static/touxiang.png",
-							"../../static/touxiang.png",
-							"../../static/touxiang.png",
-							"../../static/touxiang.png",
-						],
-						comments: 0,
-						views: 22
 					}
-				]
-			}
+			};
 		},
+		
 		methods: {
-			handleClickPost(item) {
-				uni.navigateTo({
-					url: `/pages/community/post/post?postId=${item.id}`
-				})
-			},
-			
-			handleClickPublish() {
-				uni.navigateTo({
-					url: '/pages/community/publish/publish'
-				})
-			},
-			
 			handlePreview(current, list) {
 				uni.previewImage({
 					urls:list,
 					current:current,
 				})
 			}
+		},
+		
+		onLoad() {
+			
 		}
 	}
 </script>
 
-
-<style scoped lang="less">
+<style lang="less" scoped>
 	.container {
-	  padding: 20px;
 	  background-color: #f8f8f8;
 	  min-height: 100vh;
 	  box-sizing: border-box;
@@ -150,9 +76,7 @@
 	  .post {
 	    margin-bottom: 20px;
 	    background-color: #ffffff;
-	    border-radius: 10px;
 	    padding: 15px;
-	    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	
 	    .info {
 	      display: flex;
@@ -192,11 +116,6 @@
 	      color: #333;
 	      line-height: 1.5;
 	      margin-bottom: 15px;
-			overflow : hidden;
-			text-overflow: ellipsis;
-			display: -webkit-box;
-			-webkit-line-clamp: 3; 
-			-webkit-box-orient: vertical;
 	    }
 	
 	    .picture {
@@ -230,14 +149,9 @@
 	    }
 	  }
 	  
-	  .post-publish {
+	  .reply {
 		  position: fixed;
-		  right: 50rpx;
-		  bottom: 100rpx;
-		  width: 100rpx;
-		  image {
-			  width: 100%;
-		  }
+		  bottom: 0;
 	  }
 	}
 
