@@ -3,6 +3,10 @@ import { Post } from './post.entity';
 import { AnonymousMailbox } from './anonymousMailbox.entity';
 import { LiveChat } from './liveChat.entity';
 import { PostReply } from './postReply.entity';
+import { BookingDateRecord } from './bookingDateRecord.entity';
+import { RR } from './rr.entity';
+import { Feedback } from './feedback.entity';
+import { UserNotice } from './userNotice.entity';
 
 @Entity()
 export class User {
@@ -53,6 +57,18 @@ export class User {
 
   @OneToMany(() => PostReply, postReply => postReply.user)
   postReplys: PostReply[];
+
+  @OneToMany(() => BookingDateRecord, bookingDateRecords => bookingDateRecords.user)
+  bookingDateRecords: BookingDateRecord[];
+
+  @OneToMany(() => RR, rrs => rrs.user)
+  rrs: RR[];
+
+  @OneToMany(() => Feedback, feedbacks => feedbacks.user)
+  feedbacks: Feedback[];
+
+  @OneToMany(() => UserNotice, userNotices => userNotices.user)
+  userNotices: UserNotice[];
 
   @OneToMany(() => AnonymousMailbox, anonymousMailbox => anonymousMailbox.user)
   anonymousMailboxs: AnonymousMailbox[];
