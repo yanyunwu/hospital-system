@@ -35,9 +35,21 @@ export class CommunityController {
         body.user = user
         return this.communityService.addPost(body)
     }
-    @Public()
+
+
+
     @Get('/getPost')
     getPost(@Query('id') id: string) {
         return this.communityService.getPost(parseInt(id))
+    }
+
+    @Post('/addPostReply')
+    async addPostReply(@Body() body: {
+        postId: number,
+        content: string
+    }, @Req() req: Request) {
+        const payload = req['user']
+        const user = await this.loginService.getUserByOpenId(payload.openid)
+        return this.communityService.addPostReply(body.postId, user, body.content)
     }
 }

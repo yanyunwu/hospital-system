@@ -78,7 +78,7 @@ export class UsersService {
     }
 
     async getUserList(skip?: number, take?: number, options?: User): Promise<[Array<User & { key: number }>, number]> {
-        const {liveChats, posts,anonymousMailboxs,...rest} = options
+        const {liveChats, posts,anonymousMailboxs,postReplys, ...rest} = options
         const [data, count] =  await this.userRepository.findAndCount({
             where: {
                 ...rest

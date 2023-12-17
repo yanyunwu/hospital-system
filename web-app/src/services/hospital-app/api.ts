@@ -18,3 +18,12 @@ export async function getRoleList(
     ...(options || {}),
   });
 }
+
+export async function getSessionMessageList(id: number) {
+  return request('/api/admin/session/getSessionMessageList', {
+    method: 'GET',
+    params: {
+      id
+    },
+  });
+}

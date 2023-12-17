@@ -63,6 +63,14 @@
 				})
 			},
 			handleSend() {
+				if (!this.content) {
+					uni.showToast({
+						icon: 'none',
+						title: '内容不能为空哦！'
+					})
+					return 
+				}
+				
 				uni.showModal({
 					title: "发送帖子",
 					content: "确定要发送吗？",

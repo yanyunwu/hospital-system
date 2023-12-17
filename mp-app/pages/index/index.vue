@@ -12,6 +12,8 @@
 				<view class="icon_text"><text>{{item.text}}</text></view>
 			</view>
 		</view>
+		
+		<view class="announcement"></view>
 	</view>
 </template>
 

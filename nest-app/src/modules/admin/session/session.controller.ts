@@ -27,4 +27,10 @@ export class SessionController {
             success: true
         }
     }
+    
+    @Public()
+    @Get('/getSessionMessageList')
+    async getSessionMessageList(@Query('id') id: string) {
+        return this.sessionService.getSessionMessageList(parseInt(id))
+    }
 }

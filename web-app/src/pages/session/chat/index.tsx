@@ -11,6 +11,7 @@ import { get, add, set, del } from './service';
 import type { TableListItem, TableListPagination } from './data';
 import ChatList from './components/ChatList';
 import { Socket, io } from 'socket.io-client'
+import { getSessionMessageList } from '@/services/hospital-app/api';
 
 
 /**
@@ -93,16 +94,6 @@ const TableList: React.FC = () => {
 
   const [waitText, setWaitText] = useState('')
   const [messageList, setMessageList] = useState([
-    {
-      type: 'self',
-      text: "hello",
-      name: 'test'
-    },
-    {
-      type: 'other',
-      text: "hello",
-      name: 'test'
-    }
   ])
   /** 国际化配置 */
 
@@ -148,8 +139,12 @@ const TableList: React.FC = () => {
         <a
           key="config"
           onClick={() => {
-            handleUpdateModalVisible(true);
             setCurrentRow(record);
+            getSessionMessageList(record.id).then(value => {
+              console.log('value', value)
+              setMessageList(value.data)
+              handleUpdateModalVisible(true);
+            })
           }}
         >
           回复
@@ -209,14 +204,9 @@ const TableList: React.FC = () => {
       if (message.liveChat.id !== currentRow?.id){
         return 
       }
-
       setMessageList([
-        ...messageList,
-          {
-            type: 'other',
-            text: message.content,
-            name: message.speakUserName
-          }
+        // @ts-ignore
+        ...messageList, message
       ])
     })
     socket?.on('message_ok', (message) => {
@@ -226,12 +216,8 @@ const TableList: React.FC = () => {
       }
 
       setMessageList([
-        ...messageList,
-          {
-            type: 'self',
-            text: message.content,
-            name: message.speakUserName
-          }
+         // @ts-ignore
+        ...messageList, message
       ])
     })
     return () => {

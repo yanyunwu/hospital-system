@@ -3,8 +3,8 @@
 		<view class="onwer-card-container">
 			<view class="onwer-card">
 				<view class="onwer-card-top">
-					<image mode="widthFix" src="../../static/bianji.png"></image>
-					<image mode="widthFix" src="../../static/shezhi.png"></image>
+					<image mode="widthFix" src="../../static/bianji.png" @click="handleEdit"></image>
+					<image mode="widthFix" src="../../static/shezhi.png" @click="handleSetting"></image>
 				</view>
 				<view class="onwer-card-avator">
 					<image mode="widthFix" :src="avator" @click="handleLogin"></image>
@@ -19,9 +19,25 @@
 			</view>
 		</view>
 		<view class="onwer-info-card">
-			<view class="onwer-info-card-item" v-for="item in info">
-				<view class="onwer-info-card-item-label">{{item.label}}</view>
-				<view class="onwer-info-card-item-value">{{item.value}}</view>
+			<view class="onwer-info-card-item">
+				<view class="onwer-info-card-item-label">姓名</view>
+				<view class="onwer-info-card-item-value">{{userData.nickname}}</view>
+			</view>
+			<view class="onwer-info-card-item">
+				<view class="onwer-info-card-item-label">性别</view>
+				<view class="onwer-info-card-item-value">{{getSex(userData.sex)}}</view>
+			</view>
+			<view class="onwer-info-card-item">
+				<view class="onwer-info-card-item-label">年龄</view>
+				<view class="onwer-info-card-item-value">{{userData.age || '无'}}</view>
+			</view>
+			<view class="onwer-info-card-item">
+				<view class="onwer-info-card-item-label">出生年月</view>
+				<view class="onwer-info-card-item-value">{{userData.birthday}}</view>
+			</view>
+			<view class="onwer-info-card-item">
+				<view class="onwer-info-card-item-label">学号</view>
+				<view class="onwer-info-card-item-value">{{userData.stuId || '未设置'}}</view>
 			</view>
 		</view>
 	</view>
@@ -32,26 +48,31 @@
 	export default {
 		data() {
 			return {
-				info: [
-					{
-						label: "姓名",
-						value: "周杨杰"
-					},
-					{
-						label: "出生年月",
-						value: "2001.10.22"
-					},
-					{
-						label: "学号",
-						value: "2020315220308"
-					}
-				],
+				userData: {
+					age: null,
+					birthday: "2023-12-05",
+					createTime: "2023-12-13T10:53:19.115Z",
+					id: 2,
+					nickname: "测试人员",
+					openId: "otlQF5ACNXeJxMRzPHK2CeKSDZ3I",
+					password: null,
+					sex: 0,
+					stuId: null,
+					username: "yanyun",
+				},
 				
 				name: '点击头像进行登录',
 				avator: "../../static/touxiang.png"
 			}
 		},
 		methods: {
+			getSex(sex) {
+				return sex === 0 
+				 ? '男'
+				 : sex === 1
+				 ? '女'
+				 : '未知'
+			},
 			handleLogin() {
 				const token = uni.getStorageSync('token')
 				const userInfo = uni.getStorageSync('userInfo')
@@ -91,6 +112,7 @@
 							}).then((data) => {
 								console.log('data', data)
 								uni.setStorageSync('token', data.data.data.access_token)
+								this.getInfo()
 							})
 						}
 					})
@@ -111,11 +133,37 @@
 				
 				this.name = userInfo.nickName
 				this.avator = userInfo.avatarUrl
+			},
+			
+			getInfo() {
+				request({
+					url: '/api/mp/user/getMyInfo'
+				}).then(res => {
+					console.log('获取用户信息', res)
+					this.userData = res.data.data
+				})
+			},
+			
+			
+			handleEdit() {
+				uni.navigateTo({
+					url: '/pages/self/edit/edit'
+				})
+			},
+			
+			handleSetting() {
+				uni.navigateTo({
+					url: '/pages/self/setting/setting'
+				})
 			}
 		},
 		
 		onLoad() {
 			this.setInfo()
+		},
+		
+		onShow() {
+			this.getInfo()
 		}
 	}
 </script>

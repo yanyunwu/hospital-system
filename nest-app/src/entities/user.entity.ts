@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } f
 import { Post } from './post.entity';
 import { AnonymousMailbox } from './anonymousMailbox.entity';
 import { LiveChat } from './liveChat.entity';
+import { PostReply } from './postReply.entity';
 
 @Entity()
 export class User {
@@ -34,6 +35,9 @@ export class User {
   @Column({nullable: true})
   nickname: string
 
+  @Column({nullable: true})
+  name: string
+
   // 学号
   @Column({nullable: true})
   stuId: string;
@@ -46,6 +50,9 @@ export class User {
 
   @OneToMany(() => Post, post => post.user)
   posts: Post[];
+
+  @OneToMany(() => PostReply, postReply => postReply.user)
+  postReplys: PostReply[];
 
   @OneToMany(() => AnonymousMailbox, anonymousMailbox => anonymousMailbox.user)
   anonymousMailboxs: AnonymousMailbox[];

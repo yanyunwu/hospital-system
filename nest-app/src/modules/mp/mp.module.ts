@@ -12,6 +12,10 @@ import { LoginModule } from './login/login.module';
             {
               path: '/',
               module: LoginModule,
+            },
+            {
+              path: '/user',
+              module: UserModule,
             }
           ],
         },

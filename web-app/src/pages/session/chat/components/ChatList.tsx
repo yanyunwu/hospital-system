@@ -35,23 +35,23 @@ const ChatList: React.FC<ChatListProps> = (props) => {
   }, [props.messageList])
 
   function renderMessage(item: any) {
-    if (item.type === 'self') {
+    if (item.speakUserType === 1) {
       return (
         <div className="chat_message_item chat_message_self">
            <Avatar size="large" style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
           <div>
-            <div>{item.name}</div>
-            <div className="chat_message_text"><span>{item.text}</span></div>
+            <div>{item.speakUserName}</div>
+            <div className="chat_message_text"><span>{item.content}</span></div>
           </div>
         </div>
       )
-    } else if (item.type === 'other') {
+    } else if (item.speakUserType === 0) {
       return (
-        <div v-else-if="item.type === 'other'" className="chat_message_item chat_message_other">
+        <div className="chat_message_item chat_message_other">
            <Avatar size="large" style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
           <div>
-            <div>{item.name}</div>
-            <div className="chat_message_text"><span>{item.text}</span></div>
+            <div>{item.speakUserName}</div>
+            <div className="chat_message_text"><span>{item.content}</span></div>
           </div>
         </div>
       )
@@ -59,7 +59,7 @@ const ChatList: React.FC<ChatListProps> = (props) => {
       return (
         <div className="message_system">
           <div>
-            {item.text}
+            {item.content}
           </div>
         </div>
       )

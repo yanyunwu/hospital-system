@@ -3,10 +3,10 @@
 		<view class="post" v-for="item in posts" @click="handleClickPost(item)">
 			<view class="info">
 				<view class="avatar">
-					<image mode="widthFix" :src="item.avatar"></image>
+					<image mode="widthFix" :src="item.anonymous ? anonymousAvatar : item.avatar"></image>
 				</view>
 				<view class="title">
-					<view class="name">{{item.user.nickname}}</view>
+					<view class="name">{{item.anonymous ? anonymousName : item.user.nickname}}</view>
 					<view class="time">{{new Date(item.createTime).toLocaleDateString() + ' ' + new Date(item.createTime).toLocaleTimeString()}}</view>
 				</view>
 			</view>
@@ -33,7 +33,9 @@
 	export default {
 		data() {
 			return {
-				posts: []
+				posts: [],
+				anonymousAvatar: "../../static/touxiang.png",
+				anonymousName: "匿名用户"
 			}
 		},
 		methods: {

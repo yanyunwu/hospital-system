@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, ManyToMany, JoinTable, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { Post } from './post.entity';
+import { User } from './user.entity';
 
 @Entity()
 export class PostReply {
@@ -9,8 +10,8 @@ export class PostReply {
   @ManyToOne(() => Post, post => post.replies)
   post: Post;
 
-  @Column()
-  postUserId: number
+  @ManyToOne(() => User, user => user.postReplys)
+  user: User;
 
   @Column({type: 'text'})
   content: string

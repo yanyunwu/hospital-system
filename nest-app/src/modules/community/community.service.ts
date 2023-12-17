@@ -1,12 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from 'src/entities/post.entity';
+import { PostReply } from 'src/entities/postReply.entity';
+import { User } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class CommunityService {
     @InjectRepository(Post)
     private postRepository: Repository<Post>
+
+    @InjectRepository(PostReply)
+    private postReplyRepository: Repository<PostReply>
 
     async getPostList(skip?: number, take?: number, options?: Post): Promise<[Array<Post & { key: number }>, number]> {
         const {picture, user,replies, ...rest} = options
@@ -36,7 +41,7 @@ export class CommunityService {
             where: {
                 id
             },
-            relations: ['user', 'replies']
+            relations: ['user', 'replies', 'replies.user']
         })
 
         data.views += 1
@@ -48,6 +53,18 @@ export class CommunityService {
     addPost(body: Post) {
         // const post = new Post()
         return this.postRepository.save(body)
+    }
+
+
+
+    async addPostReply(postId: number, user: User, content: string) {
+        const post = await this.postRepository.findOne({ where: { id: postId } })
+        const reply = new PostReply()
+        reply.post = post
+        reply.user = user
+        reply.content = content
+
+        return this.postReplyRepository.save(reply)
     }
 
 }
