@@ -34,7 +34,7 @@ const audio = ['mp3', 'wav', 'ogg'];
             'YYYY-MM-DD',
           )}`
           const filePath = path.resolve(__dirname, `../../../`, thePath)
-          file['url'] = `${process.env.BASE_URL}/${thePath}`
+          file['url'] = `/${thePath}`
           await dirExists(filePath); // 判断文件夹是否存在，不存在则自动生成
           return cb(null, filePath);
         },

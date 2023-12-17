@@ -22,9 +22,10 @@ export class UsersService {
     }
 
     async getAdminUserList(skip?: number, take?: number, options?: Admin): Promise<[Array<Admin & { key: number }>, number]> {
+        const {liveChats,...rest} = options
         const [data, count] =  await this.adminUserRepository.findAndCount({
             where: {
-                ...options
+                ...rest
             },
             skip: skip * take,
             take
@@ -77,9 +78,10 @@ export class UsersService {
     }
 
     async getUserList(skip?: number, take?: number, options?: User): Promise<[Array<User & { key: number }>, number]> {
+        const {liveChats, posts,anonymousMailboxs,...rest} = options
         const [data, count] =  await this.userRepository.findAndCount({
             where: {
-                ...options
+                ...rest
             },
             skip: skip * take,
             take

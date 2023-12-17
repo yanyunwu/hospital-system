@@ -46,7 +46,7 @@
 <script>
 	import io from '@hyoga/uni-socket.io';
 	import { nextTick } from 'vue';
-	import request from '../../utils/request.js'
+	import request, { BASE_SOCKET_URL } from '../../utils/request.js'
 	
 	let socket
 
@@ -122,7 +122,7 @@
 			initSocket() {
 				const token = uni.getStorageSync('token')
 				
-				socket = io("ws://localhost:3000",  {
+				socket = io(BASE_SOCKET_URL,  {
 				  query: {token: `${token}`},
 				  transports: [ 'websocket', 'polling' ],
 				  timeout: 5000,

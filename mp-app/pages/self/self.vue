@@ -138,6 +138,7 @@
 				.title {
 					padding: 20rpx 0;
 					text-align: center;
+					
 				}
 				
 				.content {

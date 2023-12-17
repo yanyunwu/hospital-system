@@ -15,8 +15,8 @@ export class Post {
   content: string
 
   // 多张图片分号分隔
-  @Column()
-  picture: string
+  @Column({type: 'json'})
+  picture: JSON
 
   // 浏览量
   @Column({type: 'int', default: 0})

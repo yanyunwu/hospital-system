@@ -10,9 +10,10 @@ export class SessionService {
     private liveChatRepository: Repository<LiveChat>
 
     async getSessionList(skip?: number, take?: number, options?: LiveChat): Promise<[Array<LiveChat & { key: number }>, number]> {
+        const {user,liveChatMessages,adminUser, ...rest} = options
         const [data, count] =  await this.liveChatRepository.findAndCount({
             where: {
-                ...options
+                ...rest
             },
             skip: skip * take,
             take,

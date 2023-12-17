@@ -20,7 +20,7 @@
 </template>
 
 <script>
-	import { BASE_URL } from '../../../utils/request.js'
+	import request, { BASE_URL } from '../../../utils/request.js'
 	export default {
 		data() {
 			return {
@@ -46,8 +46,8 @@
 								filePath: item,
 								name: 'file',
 								success: (uploadFileRes) => {
-									this.picture[index] = uploadFileRes.data.data
-									console.log(uploadFileRes.data);
+									const data = JSON.parse(uploadFileRes.data)
+									this.picture[index] = data.data
 								}
 							});
 						})
@@ -68,8 +68,19 @@
 					content: "确定要发送吗？",
 					success: (res) => {
 						if (res.confirm) {
-							uni.switchTab({
-								url: '/pages/community/community'
+							console.log('this.anonymous', typeof this.anonymous)
+							request({
+								url: '/api/community/addPost',
+								method: 'post',
+								data: {
+									picture: this.picture,
+									anonymous: this.anonymous,
+									content: this.content
+								}
+							}).then(() => {
+								uni.switchTab({
+									url: '/pages/community/community'
+								})
 							})
 						}
 					}
@@ -77,6 +88,7 @@
 			}
 		},
 		onLoad() {
+			console.log('BASE_URL', BASE_URL)
 			uni.enableAlertBeforeUnload({
 				message: '你还没有发布，确定要返回吗（内容将丢失）？'
 			})

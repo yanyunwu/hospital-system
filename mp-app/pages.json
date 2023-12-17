@@ -10,7 +10,7 @@
 			"path" : "pages/self/self",
 			"style" : 
 			{
-				"navigationBarTitleText" : "",
+				"navigationBarTitleText" : "个人主页",
 				"enablePullDownRefresh" : false,
 				"navigationStyle": "custom"
 			}
@@ -19,7 +19,7 @@
 			"path" : "pages/session/session",
 			"style" : 
 			{
-				"navigationBarTitleText" : "",
+				"navigationBarTitleText" : "消息中心",
 				"enablePullDownRefresh" : false
 			}
 		},
@@ -27,7 +27,7 @@
 			"path" : "pages/community/community",
 			"style" : 
 			{
-				"navigationBarTitleText" : "",
+				"navigationBarTitleText" : "心理健康社区交流",
 				"enablePullDownRefresh" : true
 			}
 		},
@@ -35,7 +35,7 @@
 			"path" : "pages/chat/chat",
 			"style" : 
 			{
-				"navigationBarTitleText" : "",
+				"navigationBarTitleText" : "值班医生/护士",
 				"enablePullDownRefresh" : false
 			}
 		},
