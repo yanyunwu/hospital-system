@@ -10,7 +10,7 @@
 						<image v-if="item.user.sex === 0" mode="widthFix" style="width: 30rpx;" src="../../static/nan.png"></image>
 						<image v-if="item.user.sex === 1" mode="widthFix" style="width: 30rpx;" src="../../static/nv.png"></image>
 					</view>
-					<view class="time">{{new Date(item.createTime).toLocaleDateString() + ' ' + new Date(item.createTime).toLocaleTimeString()}}</view>
+					<view class="time">{{dayjs(item.createTime).format('YYYY/MM/DD HH:mm:ss')}}</view>
 				</view>
 			</view>
 			<view class="text">{{item.content}}</view>
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+	import dayjs from 'dayjs'
 	import request from '../../utils/request.js'
 	export default {
 		data() {
@@ -71,6 +72,10 @@
 						return item
 					})
 				})
+			},
+			
+			dayjs(...args) {
+				return dayjs(...args)
 			}
 		},
 		
