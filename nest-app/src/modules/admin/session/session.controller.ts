@@ -1,4 +1,5 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, Req, Post, Body } from '@nestjs/common';
+import { Request } from 'express'
 import { Public } from '../login/decorators';
 import { SessionService } from './session.service';
 import { LiveChat } from 'src/entities/liveChat.entity';
@@ -10,7 +11,6 @@ export class SessionController {
         private sessionService: SessionService
     ) {}
 
-    @Public()
     @Get('/getSessionList')
     async getSessionList(@Query() qurey: {
         skip?: number
@@ -28,9 +28,20 @@ export class SessionController {
         }
     }
     
-    @Public()
     @Get('/getSessionMessageList')
     async getSessionMessageList(@Query('id') id: string) {
         return this.sessionService.getSessionMessageList(parseInt(id))
+    }
+
+    @Post('/replySession')
+    async replySession(@Req() req: Request, @Body() body: any) {
+        const au = req['user']
+        const res = await this.sessionService.replySession(parseInt(au.adminUserId), body.sessionId)
+        return res
+    }
+
+    @Post('/setSessionStatus')
+    async setSessionStatus(@Body() body: any) {
+       return this.sessionService.setSessionStatus(body.sessionId,  body.status)
     }
 }

@@ -59,7 +59,7 @@
 			"path" : "pages/self/setting/setting",
 			"style" : 
 			{
-				"navigationBarTitleText" : "",
+				"navigationBarTitleText" : "设置",
 				"enablePullDownRefresh" : false
 			}
 		},
@@ -67,7 +67,7 @@
 			"path" : "pages/self/edit/edit",
 			"style" : 
 			{
-				"navigationBarTitleText" : "",
+				"navigationBarTitleText" : "编辑信息",
 				"enablePullDownRefresh" : false
 			}
 		},
@@ -75,7 +75,7 @@
 			"path" : "pages/booking/booking",
 			"style" : 
 			{
-				"navigationBarTitleText" : "",
+				"navigationBarTitleText" : "预约服务",
 				"enablePullDownRefresh" : false
 			}
 		},
@@ -83,7 +83,7 @@
 			"path" : "pages/introduce/introduce",
 			"style" : 
 			{
-				"navigationBarTitleText" : "",
+				"navigationBarTitleText" : "医院简介",
 				"enablePullDownRefresh" : false
 			}
 		},
@@ -91,7 +91,7 @@
 			"path" : "pages/rr/rr",
 			"style" : 
 			{
-				"navigationBarTitleText" : "",
+				"navigationBarTitleText" : "转诊报销",
 				"enablePullDownRefresh" : false
 			}
 		},
@@ -99,7 +99,7 @@
 			"path" : "pages/feedback/feedback",
 			"style" : 
 			{
-				"navigationBarTitleText" : "",
+				"navigationBarTitleText" : "意见反馈",
 				"enablePullDownRefresh" : false
 			}
 		}

@@ -23,7 +23,26 @@ export async function getSessionMessageList(id: number) {
   return request('/api/admin/session/getSessionMessageList', {
     method: 'GET',
     params: {
-      id
+      id,
+    },
+  });
+}
+
+export async function replySession(sessionId: number) {
+  return request('/api/admin/session/replySession', {
+    method: 'POST',
+    data: {
+      sessionId,
+    },
+  });
+}
+
+export async function setSessionStatus(sessionId: number, status: number) {
+  return request('/api/admin/session/setSessionStatus', {
+    method: 'POST',
+    data: {
+      sessionId,
+      status,
     },
   });
 }

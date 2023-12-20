@@ -5,25 +5,25 @@
 				:scroll-top="scrollTop"  scroll-with-animation="true">
 				<view class="official-content">
 					<view v-for="item in messageList" >
-						<view v-if="item.type === 'self'" class="chat_message_item chat_message_self">
+						<view v-if="item.speakUserType === 0" class="chat_message_item chat_message_self">
 							<image :src="selfimg"  style="width: 80rpx;height: 80rpx;"></image>
 							<view>
-								<view><text>{{item.name}}</text></view>
-								<view class="chat_message_text"><text>{{item.text}}</text></view>
+								<view><text>{{item.speakUserName}}</text></view>
+								<view class="chat_message_text"><text>{{item.content}}</text></view>
 							</view>
 						</view>
 						
-						<view v-else-if="item.type === 'other'" class="chat_message_item chat_message_other">
+						<view v-else-if="item.speakUserType === 1" class="chat_message_item chat_message_other">
 							<image :src="selfimg"  style="width: 80rpx;height: 80rpx;"></image>
 							<view>
-								<view><text>{{item.name}}</text></view>
-								<view class="chat_message_text"><text>{{item.text}}</text></view>
+								<view><text>{{item.speakUserName}}</text></view>
+								<view class="chat_message_text"><text>{{item.content}}</text></view>
 							</view>
 						</view>
 						
 						<view v-else class="message_system">
 							<view>
-								{{item.text}}
+								{{item.content}}
 							</view>
 						</view>
 					</view>
@@ -54,22 +54,7 @@
 		data() {
 			return {
 				sessionId: null,
-				messageList: [
-					// {
-					// 	type: 'system',
-					// 	text: '你们已经匹配成功，说点什么吧'
-					// },
-					{
-						type: 'self',
-						text: "hello",
-						name: 'text',
-					},
-					{
-						type: 'other',
-						text: "hello",
-						name: 'text',
-					}
-				],
+				messageList: [],
 				selfimg: "../../static/touxiang.png",
 				scrollTop: 0,
 				endId:"",
@@ -142,19 +127,23 @@
 						return 
 					}
 					
-					this.messageList.push({
-						type: 'other',
-						text: message.content,
-						name: message.speakUserName
-					})
+					this.messageList.push(message)
 				})
 				
 				socket?.on('message_ok', (message) => {
-					this.messageList.push({
-						type: 'self',
-						text: message.content,
-						name: message.speakUserName
-					})
+					this.messageList.push(message)
+				})
+			},
+			
+			getMessageList() {
+				request({
+					url: '/api/admin/session/getSessionMessageList',
+					data: {
+						id: this.sessionId
+					}
+				}).then(value => {
+					this.messageList = value.data.data
+					console.log('getMessageList', value)
 				})
 			}
 		},
@@ -166,6 +155,7 @@
 			const sessionId = parseInt(query.sessionId)
 			this.sessionId = sessionId
 			this.initSocket()
+			this.getMessageList()
 		},
 	}
 </script>

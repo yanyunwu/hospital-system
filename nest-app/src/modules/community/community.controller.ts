@@ -10,7 +10,6 @@ export class CommunityController {
 
     constructor(private communityService: CommunityService, private loginService: LoginService) {}
 
-    @Public()
     @Get('/getPostList')
     async getPostList(@Query() qurey: {
         skip?: number

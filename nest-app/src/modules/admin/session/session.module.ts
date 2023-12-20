@@ -4,9 +4,10 @@ import { SessionService } from './session.service';
 import { LiveChat } from 'src/entities/liveChat.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LiveChatMessage } from 'src/entities/liveChatMessage.entity';
+import { Admin } from 'src/entities/admin.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([LiveChat, LiveChatMessage])],
+  imports: [TypeOrmModule.forFeature([LiveChat, LiveChatMessage, Admin])],
   controllers: [SessionController],
   providers: [SessionService]
 })

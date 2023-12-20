@@ -6,7 +6,10 @@
 					<image mode="widthFix" :src="item.anonymous ? anonymousAvatar : item.avatar"></image>
 				</view>
 				<view class="title">
-					<view class="name">{{item.anonymous ? anonymousName : item.user.nickname}}</view>
+					<view class="name">{{item.anonymous ? anonymousName : item.user.nickname}}
+						<image v-if="item.user.sex === 0" mode="widthFix" style="width: 30rpx;" src="../../static/nan.png"></image>
+						<image v-if="item.user.sex === 1" mode="widthFix" style="width: 30rpx;" src="../../static/nv.png"></image>
+					</view>
 					<view class="time">{{new Date(item.createTime).toLocaleDateString() + ' ' + new Date(item.createTime).toLocaleTimeString()}}</view>
 				</view>
 			</view>

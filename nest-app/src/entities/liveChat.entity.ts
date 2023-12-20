@@ -11,6 +11,9 @@ export class LiveChat {
   @Column() // 0 等待回复 1回复中  2关闭
   status: number
 
+  @Column({nullable: true})
+  lastMessage: string
+
   @ManyToOne(() => User, user => user.liveChats)
   user: User;
 

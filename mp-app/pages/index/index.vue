@@ -44,7 +44,8 @@ export default {
 			index_nav: [
 				{
 					image: "../../static/yuyue.png",
-					text: "预约服务"
+					text: "预约服务",
+					to: "/pages/booking/booking"
 				},
 				{
 					image: "../../static/zaixianjiaoliu.png",
@@ -54,22 +55,35 @@ export default {
 				{
 					image: "../../static/zhuanzhenbaoxiao.png",
 					text: "转诊报销",
-					to: "/pages/chat/chat"
+					to: "/pages/rr/rr"
 				},
 				{
 					image: "../../static/jieshao.png",
 					text: "医院介绍",
-					to: "/pages/chat/chat"
+					to: "/pages/introduce/introduce"
 				},
 				{
 					image: "../../static/yijianfankui.png",
 					text: "意见反馈",
-					to: "/pages/chat/chat"
+					to: "/pages/feedback/feedback"
 				},
 				{
 					image: "../../static/xinlijiankang.png",
 					text: "心理健康",
-					to: "/pages/chat/chat"
+					onClick() {
+						uni.showModal({
+							title: '欢迎加入华农心理健康社区',
+							content: '随着社会的飞速发展，人们的生活节奏正在日益加快，竞争越来越强烈，人际关系也变得越来越复杂；由于科学技术的飞速进步，知识爆炸性地增加，迫使人们不断地进行知识更新；“人类进入了情绪负重年代”，人们的观念意识、情感态度复杂嬗变。作为现代社会组成部分，在大学院校生活和学习的大学生，对社会心理这块时代的“晴雨表”，十分敏感',
+							confirmText: '马上加入',
+							success: (res) => {
+								if (res.confirm) {
+									uni.switchTab({
+										url: '/pages/community/community'
+									})
+								}
+							}
+						})
+					}
 				},
 				{},{}
 			]
@@ -80,6 +94,11 @@ export default {
 			if (item.to === '/pages/chat/chat') {
 				this.handleBeforeGoToChat(item)
 				return 
+			}
+			
+			if (item.onClick) {
+				item.onClick()
+				return
 			}
 			
 			uni.navigateTo({
