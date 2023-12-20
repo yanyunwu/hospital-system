@@ -8,9 +8,7 @@ import { User } from 'src/entities/user.entity';
 export class UsersController {
     constructor(
         private usersService: UsersService
-    ) {
-
-    }
+    ) {}
 
     /**
      * 医院人员信息管理模块
