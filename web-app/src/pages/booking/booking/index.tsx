@@ -4,12 +4,19 @@ import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { ModalForm, ProFormText, ProFormRadio, ProFormDatePicker } from '@ant-design/pro-form';
+import {
+  ModalForm,
+  ProFormText,
+  ProFormRadio,
+  ProFormDatePicker,
+  ProFormTextArea,
+} from '@ant-design/pro-form';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import type { FormValueType } from './components/UpdateForm';
 import { get, add, set, del } from './service';
 import type { TableListItem, TableListPagination } from './data';
+import UpdateForm from './components/UpdateForm';
 /**
  * 添加节点
  *
@@ -91,43 +98,27 @@ const TableList: React.FC = () => {
 
   const columns: ProColumns<TableListItem>[] = [
     {
-      title: '用户名',
-      dataIndex: 'username',
+      title: '预约名',
+      dataIndex: 'title',
       valueType: 'text',
     },
     {
-      title: '性别',
-      dataIndex: 'sex',
+      title: '状态',
+      dataIndex: 'status',
       valueEnum: {
         0: {
-          text: '男'
+          text: '关闭',
+          color: 'red',
         },
         1: {
-          text: '女'
+          text: '开启',
+          color: 'green',
         },
-        2: {
-          text: '未知'
-        }
-      }
+      },
     },
     {
-      title: '年龄',
-      dataIndex: 'age',
-      valueType: 'text',
-    },
-    {
-      title: '姓名/昵称',
-      dataIndex: 'nickname',
-      valueType: 'text',
-    },
-    {
-      title: '出生年月',
-      dataIndex: 'birthday',
-      valueType: 'text',
-    },
-    {
-      title: '学号',
-      dataIndex: 'stuId',
+      title: '预约简介',
+      dataIndex: 'intro',
       valueType: 'text',
     },
     {
@@ -162,7 +153,6 @@ const TableList: React.FC = () => {
         >
           配置
         </a>,
-        <a>重置密码</a>,
         <Popconfirm
           key="subscribeAlert"
           title="确定要进行删除操作吗？"
@@ -225,7 +215,7 @@ const TableList: React.FC = () => {
           }
         >
           <Popconfirm
-            title="确定要进行删除操作吗？"
+            title="确定要进行操作吗？"
             onConfirm={async () => {
               await handleRemove(selectedRowsState);
               setSelectedRows([]);
@@ -239,10 +229,9 @@ const TableList: React.FC = () => {
         </FooterToolbar>
       )}
       <ModalForm
-        title="新建用户"
-        width="400px"
+        title="新建预约"
+        width="600px"
         visible={createModalVisible}
-        initialValues={{ sex: 2 }}
         onVisibleChange={handleModalVisible}
         onFinish={async (value) => {
           const success = await handleAdd(value as TableListItem);
@@ -255,7 +244,7 @@ const TableList: React.FC = () => {
         }}
       >
         <ProFormText
-          label="用户名"
+          label="预约名称"
           rules={[
             {
               required: true,
@@ -263,40 +252,11 @@ const TableList: React.FC = () => {
             },
           ]}
           width="md"
-          name="username"
+          name="title"
         />
-        <ProFormRadio.Group
-          name="sex"
-          label="性别"
-          options={[
-            {
-              label: '男',
-              value: 0,
-            },
-            {
-              label: '女',
-              value: 1,
-            },
-            {
-              label: '未知',
-              value: 2,
-            },
-          ]}
-        />
-        <ProFormDatePicker
-              label="出生年月"
-              rules={[
-                {
-                  required: true,
-                  message: '必填项',
-                },
-              ]}
-              width="md"
-              name="birthday"
-            />
 
-        <ProFormText
-          label="姓名/昵称"
+        <ProFormTextArea
+          label="预约介绍"
           rules={[
             {
               required: true,
@@ -304,21 +264,11 @@ const TableList: React.FC = () => {
             },
           ]}
           width="md"
-          name="nickname"
-        />
-        <ProFormText
-          label="学号"
-          width="md"
-          name="stuId"
+          name="intro"
         />
       </ModalForm>
-      <ModalForm
-        title="修改信息"
-        width="400px"
-        initialValues={{ ...currentRow }}
-        visible={updateModalVisible}
-        onVisibleChange={handleUpdateModalVisible}
-        onFinish={async (value) => {
+      <UpdateForm
+        onSubmit={async (value) => {
           const success = await handleUpdate(value, currentRow);
 
           if (success) {
@@ -327,68 +277,16 @@ const TableList: React.FC = () => {
 
             if (actionRef.current) {
               actionRef.current.reload();
-            } 
+            }
           }
         }}
-      >
-        <ProFormText
-          label="用户名"
-          rules={[
-            {
-              required: true,
-              message: '必填项',
-            },
-          ]}
-          width="md"
-          name="username"
-        />
-        <ProFormRadio.Group
-          name="sex"
-          label="性别"
-          options={[
-            {
-              label: '男',
-              value: 0,
-            },
-            {
-              label: '女',
-              value: 1,
-            },
-            {
-              label: '未知',
-              value: 2,
-            },
-          ]}
-        />
-        <ProFormDatePicker
-              label="出生年月"
-              rules={[
-                {
-                  required: true,
-                  message: '必填项',
-                },
-              ]}
-              width="md"
-              name="birthday"
-            />
-
-        <ProFormText
-          label="姓名/昵称"
-          rules={[
-            {
-              required: true,
-              message: '必填项',
-            },
-          ]}
-          width="md"
-          name="nickname"
-        />
-        <ProFormText
-          label="学号"
-          width="md"
-          name="stuId"
-        />
-      </ModalForm>
+        onCancel={() => {
+          handleUpdateModalVisible(false);
+          setCurrentRow(undefined);
+        }}
+        updateModalVisible={updateModalVisible}
+        values={currentRow || {}}
+      />
       <Drawer
         width={600}
         visible={showDetail}

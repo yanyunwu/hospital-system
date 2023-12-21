@@ -13,7 +13,7 @@ export class CommunityService {
     @InjectRepository(PostReply)
     private postReplyRepository: Repository<PostReply>
 
-    async getPostList(skip?: number, take?: number, options?: Post): Promise<[Array<Post & { key: number }>, number]> {
+    async getPostList(skip?: number, take?: number, options?: Post): Promise<[Array<Post & { key: string }>, number]> {
         const {picture, user,replies, ...rest} = options
         const [data, count] =  await this.postRepository.findAndCount({
             where: {
@@ -29,7 +29,7 @@ export class CommunityService {
 
         return [
             data.map(item => ({
-                key: item.id,
+                key: String(item.id),
                 ...item
             })),
             count

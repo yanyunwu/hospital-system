@@ -1,13 +1,23 @@
 export type TableListItem = {
   id: number;
-  openId: string;
-  username: string;
-  password: string;
-  sex: number;
-  age: number;
-  birthday: string
-  nickname: string
-  stuId: number;
+  title: string;
+  intro: string;
+  status: number;
+  createTime: string;
+};
+
+export type DateTableListItem = {
+  id: number;
+  date: string;
+  count: number;
+  bookingDateRecords: BookingDateRecord[];
+  createTime: string;
+};
+
+export type BookingDateRecord = {
+  id: number;
+  status: number;
+  code: string;
   createTime: string;
 };
 

@@ -91,44 +91,25 @@ const TableList: React.FC = () => {
 
   const columns: ProColumns<TableListItem>[] = [
     {
-      title: '用户名',
-      dataIndex: 'username',
-      valueType: 'text',
+      title: '预约名',
+      dataIndex: 'bookingDate',
+      render(dom, item) {
+        return item.bookingDate.booking.title;
+      },
     },
     {
-      title: '性别',
-      dataIndex: 'sex',
-      valueEnum: {
-        0: {
-          text: '男'
-        },
-        1: {
-          text: '女'
-        },
-        2: {
-          text: '未知'
-        }
-      }
-    },
-    {
-      title: '年龄',
-      dataIndex: 'age',
-      valueType: 'text',
+      title: '预约日期',
+      dataIndex: 'bookingDate',
+      render(dom, item) {
+        return item.bookingDate.date;
+      },
     },
     {
       title: '姓名/昵称',
-      dataIndex: 'nickname',
-      valueType: 'text',
-    },
-    {
-      title: '出生年月',
-      dataIndex: 'birthday',
-      valueType: 'text',
-    },
-    {
-      title: '学号',
-      dataIndex: 'stuId',
-      valueType: 'text',
+      dataIndex: 'user',
+      render(dom, item) {
+        return item.user.nickname;
+      },
     },
     {
       title: '创建时间',
@@ -162,7 +143,6 @@ const TableList: React.FC = () => {
         >
           配置
         </a>,
-        <a>重置密码</a>,
         <Popconfirm
           key="subscribeAlert"
           title="确定要进行删除操作吗？"
@@ -189,17 +169,6 @@ const TableList: React.FC = () => {
         search={{
           labelWidth: 120,
         }}
-        toolBarRender={() => [
-          <Button
-            type="primary"
-            key="primary"
-            onClick={() => {
-              handleModalVisible(true);
-            }}
-          >
-            <PlusOutlined /> 新建
-          </Button>,
-        ]}
         request={get}
         columns={columns}
         rowSelection={{
@@ -284,16 +253,16 @@ const TableList: React.FC = () => {
           ]}
         />
         <ProFormDatePicker
-              label="出生年月"
-              rules={[
-                {
-                  required: true,
-                  message: '必填项',
-                },
-              ]}
-              width="md"
-              name="birthday"
-            />
+          label="出生年月"
+          rules={[
+            {
+              required: true,
+              message: '必填项',
+            },
+          ]}
+          width="md"
+          name="birthday"
+        />
 
         <ProFormText
           label="姓名/昵称"
@@ -306,11 +275,7 @@ const TableList: React.FC = () => {
           width="md"
           name="nickname"
         />
-        <ProFormText
-          label="学号"
-          width="md"
-          name="stuId"
-        />
+        <ProFormText label="学号" width="md" name="stuId" />
       </ModalForm>
       <ModalForm
         title="修改信息"
@@ -327,7 +292,7 @@ const TableList: React.FC = () => {
 
             if (actionRef.current) {
               actionRef.current.reload();
-            } 
+            }
           }
         }}
       >
@@ -361,16 +326,16 @@ const TableList: React.FC = () => {
           ]}
         />
         <ProFormDatePicker
-              label="出生年月"
-              rules={[
-                {
-                  required: true,
-                  message: '必填项',
-                },
-              ]}
-              width="md"
-              name="birthday"
-            />
+          label="出生年月"
+          rules={[
+            {
+              required: true,
+              message: '必填项',
+            },
+          ]}
+          width="md"
+          name="birthday"
+        />
 
         <ProFormText
           label="姓名/昵称"
@@ -383,11 +348,7 @@ const TableList: React.FC = () => {
           width="md"
           name="nickname"
         />
-        <ProFormText
-          label="学号"
-          width="md"
-          name="stuId"
-        />
+        <ProFormText label="学号" width="md" name="stuId" />
       </ModalForm>
       <Drawer
         width={600}

@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="container">
 		预约页面
 	</view>
 </template>
@@ -14,6 +14,8 @@
 	}
 </script>
 
-<style lang="less">
-
+<style lang="less" scoped>
+	.container {
+		
+	}
 </style>

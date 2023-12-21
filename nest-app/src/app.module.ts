@@ -10,6 +10,7 @@ import { MpModule } from './modules/mp/mp.module';
 import { SessionModule } from './modules/session/session.module';
 import { FileModule } from './modules/file/file.module';
 import { CommunityModule } from './modules/community/community.module';
+import { BookingModule } from './modules/booking/booking.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { CommunityModule } from './modules/community/community.module';
     SessionModule,
     FileModule,
     CommunityModule,
+    BookingModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',

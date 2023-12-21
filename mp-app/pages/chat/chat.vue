@@ -157,6 +157,9 @@
 			this.initSocket()
 			this.getMessageList()
 		},
+		onUnload() {
+			socket?.close()
+		}
 	}
 </script>
 

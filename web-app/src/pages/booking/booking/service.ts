@@ -23,7 +23,7 @@ export async function get(
       total?: number;
       success?: boolean;
     };
-  }>('/api/admin/user/getUserList', {
+  }>('/api/booking/getBookingList', {
     method: 'GET',
     params: {
       skip: current && current - 1,
@@ -38,7 +38,7 @@ export async function get(
 
 /** 新建规则 PUT /api/rule */
 export async function set(data: { [key: string]: any }, options?: { [key: string]: any }) {
-  return request<TableListItem>('/api/admin/user/setUser', {
+  return request<TableListItem>('/api/booking/setBooking', {
     data,
     method: 'POST',
     ...(options || {}),
@@ -47,7 +47,7 @@ export async function set(data: { [key: string]: any }, options?: { [key: string
 
 /** 新建规则 POST /api/rule */
 export async function add(data: { [key: string]: any }, options?: { [key: string]: any }) {
-  return request<TableListItem>('/api/admin/user/addUser', {
+  return request<TableListItem>('/api/booking/addBooking', {
     data,
     method: 'POST',
     ...(options || {}),
@@ -56,7 +56,67 @@ export async function add(data: { [key: string]: any }, options?: { [key: string
 
 /** 删除规则 DELETE /api/rule */
 export async function del(data: { ids: number[] }, options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/admin/user/delUser', {
+  return request<Record<string, any>>('/api/booking/delBooking', {
+    data,
+    method: 'POST',
+    ...(options || {}),
+  });
+}
+
+/** 获取规则列表 GET /api/rule */
+export async function get2(
+  params: {
+    // query
+    /** 当前的页码 */
+    current?: number;
+    /** 页面的容量 */
+    pageSize?: number;
+  },
+  options?: { [key: string]: any },
+) {
+  const { current, pageSize, ...rest } = params || {};
+
+  const response = await request<{
+    data: {
+      data: TableListItem[];
+      /** 列表的内容总数 */
+      total?: number;
+      success?: boolean;
+    };
+  }>('/api/booking/getBookingDateList', {
+    method: 'GET',
+    params: {
+      skip: current && current - 1,
+      take: pageSize,
+      ...rest,
+    },
+    ...(options || {}),
+  });
+
+  return response.data;
+}
+
+/** 新建规则 PUT /api/rule */
+export async function set2(data: { [key: string]: any }, options?: { [key: string]: any }) {
+  return request<TableListItem>('/api/booking/setBookingDate', {
+    data,
+    method: 'POST',
+    ...(options || {}),
+  });
+}
+
+/** 新建规则 POST /api/rule */
+export async function add2(data: { [key: string]: any }, options?: { [key: string]: any }) {
+  return request<TableListItem>('/api/booking/addBookingDate', {
+    data,
+    method: 'POST',
+    ...(options || {}),
+  });
+}
+
+/** 删除规则 DELETE /api/rule */
+export async function del2(data: { ids: number[] }, options?: { [key: string]: any }) {
+  return request<Record<string, any>>('/api/booking/delBookingDate', {
     data,
     method: 'POST',
     ...(options || {}),

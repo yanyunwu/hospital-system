@@ -10,6 +10,12 @@ export class Booking {
   @Column()
   title: string
 
+  @Column({type: 'text'})
+  intro: string
+  // 0关闭 1开启
+  @Column({type: 'int', default: 0})
+  status: number
+
   @OneToMany(() => BookingDate, bookingDates => bookingDates.booking)
   bookingDates: BookingDate[]
 

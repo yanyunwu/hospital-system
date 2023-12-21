@@ -8,7 +8,7 @@ export class BookingDate {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({type: 'date'})
+  @Column({type: 'date', unique: true})
   date: string
 
   @Column({type: 'int'})
@@ -18,7 +18,7 @@ export class BookingDate {
   booking: Booking
 
   @OneToMany(() => BookingDateRecord, bookingDateRecords => bookingDateRecords.bookingDate)
-  bookingDateRecords: BookingDateRecord
+  bookingDateRecords: BookingDateRecord[]
 
   @CreateDateColumn()
   createTime: string;
