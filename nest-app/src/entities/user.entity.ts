@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  OneToMany,
+} from 'typeorm';
 import { Post } from './post.entity';
 import { AnonymousMailbox } from './anonymousMailbox.entity';
 import { LiveChat } from './liveChat.entity';
@@ -13,67 +19,73 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({unique: true, nullable: true})
+  @Column({ unique: true, nullable: true })
   openId: string;
 
-   // 用户名
-  @Column()
-  avatar: string;
-  
   // 用户名
-  @Column({unique: true, nullable: true})
+  @Column({ nullable: true })
+  avatar: string;
+
+  // 用户名
+  @Column({ unique: true, nullable: true })
   username: string;
-  
+
   // 密码
-  @Column({nullable: true})
+  @Column({ nullable: true })
   password: string;
 
   // 性别
-  @Column({nullable: true})
+  @Column({ nullable: true })
   sex: number;
 
   // 年龄
-  @Column({nullable: true})
+  @Column({ nullable: true })
   age: number;
 
-  @Column({type: 'date', nullable: true})
-  birthday: string
+  @Column({ type: 'date', nullable: true })
+  birthday: string;
 
   // 姓名昵称
-  @Column()
-  nickname: string
+  @Column({ nullable: true })
+  nickname: string;
 
-  @Column({nullable: true})
-  name: string
+  @Column({ nullable: true })
+  name: string;
 
   // 学号
-  @Column({nullable: true})
+  @Column({ nullable: true })
   stuId: string;
 
   @CreateDateColumn()
   createTime: string;
 
-  @OneToMany(() => LiveChat, liveChat => liveChat.user)
+  @OneToMany(() => LiveChat, (liveChat) => liveChat.user)
   liveChats: LiveChat[];
 
-  @OneToMany(() => Post, post => post.user)
+  @OneToMany(() => Post, (post) => post.user)
   posts: Post[];
 
-  @OneToMany(() => PostReply, postReply => postReply.user)
+  @OneToMany(() => PostReply, (postReply) => postReply.user)
   postReplys: PostReply[];
 
-  @OneToMany(() => BookingDateRecord, bookingDateRecords => bookingDateRecords.user)
+  @OneToMany(
+    () => BookingDateRecord,
+    (bookingDateRecords) => bookingDateRecords.user,
+  )
   bookingDateRecords: BookingDateRecord[];
 
-  @OneToMany(() => RR, rrs => rrs.user)
+  @OneToMany(() => RR, (rrs) => rrs.user)
   rrs: RR[];
 
-  @OneToMany(() => Feedback, feedbacks => feedbacks.user)
+  @OneToMany(() => Feedback, (feedbacks) => feedbacks.user)
   feedbacks: Feedback[];
 
-  @OneToMany(() => UserNotice, userNotices => userNotices.user)
+  @OneToMany(() => UserNotice, (userNotices) => userNotices.user)
   userNotices: UserNotice[];
 
-  @OneToMany(() => AnonymousMailbox, anonymousMailbox => anonymousMailbox.user)
+  @OneToMany(
+    () => AnonymousMailbox,
+    (anonymousMailbox) => anonymousMailbox.user,
+  )
   anonymousMailboxs: AnonymousMailbox[];
 }

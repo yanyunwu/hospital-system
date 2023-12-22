@@ -33,7 +33,7 @@ import { RrModule } from './modules/rr/rr.module';
       username: 'root',
       // password: '12345678',
       password: '2001',
-      database: 'hospital_system_1',
+      database: 'hospital_system',
       entities: [resolve(__dirname, './entities/**/*.entity.{js,ts}')],
       synchronize: true,
       logging: true,
