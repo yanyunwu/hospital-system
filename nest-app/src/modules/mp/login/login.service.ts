@@ -14,7 +14,7 @@ export class LoginService {
     private jwtService: JwtService,
   ) {}
 
-  async login(wxres: Record<string, any>): Promise<any> {
+  async login(wxres: Record<string, any>, body: any): Promise<any> {
     // const user = await this.usersService.findOne(username);
 
     // if(!user) {
@@ -25,6 +25,10 @@ export class LoginService {
     //   throw new UnauthorizedException();
     // }
     const user = await this.getUserByOpenId(wxres.openid)
+    user.avatar = body.avatarUrl
+    console.log('user.avatar', user.avatar)
+    user.nickname = body.nickName
+    await this.userRepository.save(user)
     const payload = { ...wxres, userId: user.id };
     return {
       access_token: await this.jwtService.signAsync(payload),

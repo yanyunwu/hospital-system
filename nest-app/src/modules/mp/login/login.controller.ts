@@ -36,7 +36,7 @@ export class LoginController {
     // })
     const res = await fetch(`https://api.weixin.qq.com/sns/jscode2session?appid=wx0cdf33e82e846b45&secret=${jwtConstants.mpsecret}&js_code=${body.code}&grant_type=authorization_code`)
     const wxres = await res.json()
-    return this.loginService.login(wxres);
+    return this.loginService.login(wxres, body.userInfo);
   }
 
 }

@@ -4,7 +4,13 @@ import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { ModalForm, ProFormText, ProFormRadio, ProFormDatePicker } from '@ant-design/pro-form';
+import {
+  ModalForm,
+  ProFormText,
+  ProFormRadio,
+  ProFormDatePicker,
+  ProFormCheckbox,
+} from '@ant-design/pro-form';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import type { FormValueType } from './components/UpdateForm';
@@ -99,16 +105,47 @@ const TableList: React.FC = () => {
     },
     {
       title: '预约日期',
-      dataIndex: 'bookingDate',
+      dataIndex: 'bookingDate2',
       render(dom, item) {
         return item.bookingDate.date;
       },
+    },
+    {
+      title: '预约码',
+      dataIndex: 'code',
+      valueType: 'text',
     },
     {
       title: '姓名/昵称',
       dataIndex: 'user',
       render(dom, item) {
         return item.user.nickname;
+      },
+    },
+    {
+      title: '当前状态',
+      dataIndex: 'status',
+      valueEnum: {
+        0: {
+          text: '已预约',
+          key: '0',
+        },
+        1: {
+          text: '已完成',
+          key: '1',
+        },
+        2: {
+          text: '未完成/过期',
+          key: '2',
+        },
+        3: {
+          text: '用户取消',
+          key: '3',
+        },
+        4: {
+          text: '系统取消',
+          key: '4',
+        },
       },
     },
     {
@@ -163,7 +200,6 @@ const TableList: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<TableListItem, TableListPagination>
-        headerTitle="用户信息管理"
         actionRef={actionRef}
         rowKey="key"
         search={{
@@ -208,79 +244,13 @@ const TableList: React.FC = () => {
         </FooterToolbar>
       )}
       <ModalForm
-        title="新建用户"
-        width="400px"
-        visible={createModalVisible}
-        initialValues={{ sex: 2 }}
-        onVisibleChange={handleModalVisible}
-        onFinish={async (value) => {
-          const success = await handleAdd(value as TableListItem);
-          if (success) {
-            handleModalVisible(false);
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
-          }
+        title="配置预约纪录"
+        width="600px"
+        initialValues={{ status: currentRow?.status }}
+        modalProps={{
+          destroyOnClose: true,
         }}
-      >
-        <ProFormText
-          label="用户名"
-          rules={[
-            {
-              required: true,
-              message: '必填项',
-            },
-          ]}
-          width="md"
-          name="username"
-        />
-        <ProFormRadio.Group
-          name="sex"
-          label="性别"
-          options={[
-            {
-              label: '男',
-              value: 0,
-            },
-            {
-              label: '女',
-              value: 1,
-            },
-            {
-              label: '未知',
-              value: 2,
-            },
-          ]}
-        />
-        <ProFormDatePicker
-          label="出生年月"
-          rules={[
-            {
-              required: true,
-              message: '必填项',
-            },
-          ]}
-          width="md"
-          name="birthday"
-        />
-
-        <ProFormText
-          label="姓名/昵称"
-          rules={[
-            {
-              required: true,
-              message: '必填项',
-            },
-          ]}
-          width="md"
-          name="nickname"
-        />
-        <ProFormText label="学号" width="md" name="stuId" />
-      </ModalForm>
-      <ModalForm
-        title="修改信息"
-        width="400px"
-        initialValues={{ ...currentRow }}
+        // initialValues={{ status: currentRow?.status }}
         visible={updateModalVisible}
         onVisibleChange={handleUpdateModalVisible}
         onFinish={async (value) => {
@@ -289,90 +259,41 @@ const TableList: React.FC = () => {
           if (success) {
             handleUpdateModalVisible(false);
             setCurrentRow(undefined);
-
             if (actionRef.current) {
               actionRef.current.reload();
             }
           }
         }}
       >
-        <ProFormText
-          label="用户名"
-          rules={[
-            {
-              required: true,
-              message: '必填项',
-            },
-          ]}
-          width="md"
-          name="username"
-        />
+        {/* 状态 0已预约 1已完成 2未完成/过期 3用户取消 4系统取消 */}
         <ProFormRadio.Group
-          name="sex"
-          label="性别"
+          name="status"
+          layout="horizontal"
+          label="设置当前预约记录的状态"
           options={[
             {
-              label: '男',
               value: 0,
+              label: '已预约',
             },
             {
-              label: '女',
               value: 1,
+              label: '已完成',
             },
             {
-              label: '未知',
               value: 2,
+              label: '未完成/过期',
             },
-          ]}
-        />
-        <ProFormDatePicker
-          label="出生年月"
-          rules={[
             {
-              required: true,
-              message: '必填项',
+              value: 3,
+              label: '用户取消',
             },
-          ]}
-          width="md"
-          name="birthday"
-        />
-
-        <ProFormText
-          label="姓名/昵称"
-          rules={[
             {
-              required: true,
-              message: '必填项',
+              value: 4,
+              label: '系统取消',
             },
           ]}
-          width="md"
-          name="nickname"
         />
-        <ProFormText label="学号" width="md" name="stuId" />
       </ModalForm>
-      <Drawer
-        width={600}
-        visible={showDetail}
-        onClose={() => {
-          setCurrentRow(undefined);
-          setShowDetail(false);
-        }}
-        closable={false}
-      >
-        {currentRow?.name && (
-          <ProDescriptions<TableListItem>
-            column={2}
-            title={currentRow?.name}
-            request={async () => ({
-              data: currentRow || {},
-            })}
-            params={{
-              id: currentRow?.name,
-            }}
-            columns={columns as ProDescriptionsItemProps<TableListItem>[]}
-          />
-        )}
-      </Drawer>
     </PageContainer>
   );
 };

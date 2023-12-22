@@ -100,15 +100,15 @@ const TableList: React.FC = () => {
       dataIndex: 'sex',
       valueEnum: {
         0: {
-          text: '男'
+          text: '男',
         },
         1: {
-          text: '女'
+          text: '女',
         },
         2: {
-          text: '未知'
-        }
-      }
+          text: '未知',
+        },
+      },
     },
     {
       title: '年龄',
@@ -116,8 +116,13 @@ const TableList: React.FC = () => {
       valueType: 'text',
     },
     {
-      title: '姓名/昵称',
+      title: '昵称',
       dataIndex: 'nickname',
+      valueType: 'text',
+    },
+    {
+      title: '姓名',
+      dataIndex: 'name',
       valueType: 'text',
     },
     {
@@ -284,19 +289,19 @@ const TableList: React.FC = () => {
           ]}
         />
         <ProFormDatePicker
-              label="出生年月"
-              rules={[
-                {
-                  required: true,
-                  message: '必填项',
-                },
-              ]}
-              width="md"
-              name="birthday"
-            />
+          label="出生年月"
+          rules={[
+            {
+              required: true,
+              message: '必填项',
+            },
+          ]}
+          width="md"
+          name="birthday"
+        />
 
         <ProFormText
-          label="姓名/昵称"
+          label="昵称"
           rules={[
             {
               required: true,
@@ -307,10 +312,17 @@ const TableList: React.FC = () => {
           name="nickname"
         />
         <ProFormText
-          label="学号"
+          label="姓名"
+          rules={[
+            {
+              required: true,
+              message: '必填项',
+            },
+          ]}
           width="md"
-          name="stuId"
+          name="name"
         />
+        <ProFormText label="学号" width="md" name="stuId" />
       </ModalForm>
       <ModalForm
         title="修改信息"
@@ -327,7 +339,7 @@ const TableList: React.FC = () => {
 
             if (actionRef.current) {
               actionRef.current.reload();
-            } 
+            }
           }
         }}
       >
@@ -361,19 +373,19 @@ const TableList: React.FC = () => {
           ]}
         />
         <ProFormDatePicker
-              label="出生年月"
-              rules={[
-                {
-                  required: true,
-                  message: '必填项',
-                },
-              ]}
-              width="md"
-              name="birthday"
-            />
+          label="出生年月"
+          rules={[
+            {
+              required: true,
+              message: '必填项',
+            },
+          ]}
+          width="md"
+          name="birthday"
+        />
 
         <ProFormText
-          label="姓名/昵称"
+          label="昵称"
           rules={[
             {
               required: true,
@@ -384,10 +396,17 @@ const TableList: React.FC = () => {
           name="nickname"
         />
         <ProFormText
-          label="学号"
+          label="姓名"
+          rules={[
+            {
+              required: true,
+              message: '必填项',
+            },
+          ]}
           width="md"
-          name="stuId"
+          name="name"
         />
+        <ProFormText label="学号" width="md" name="stuId" />
       </ModalForm>
       <Drawer
         width={600}

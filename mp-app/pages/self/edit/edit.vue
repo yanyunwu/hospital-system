@@ -8,19 +8,20 @@
 								<uni-easyinput v-model="baseFormData.name" placeholder="请输入姓名" />
 							</uni-forms-item>
 							<uni-forms-item label="年龄" required>
-								<uni-easyinput v-model="baseFormData.age" placeholder="请输入年龄" />
+								<uni-datetime-picker
+									type="date"
+									v-model="baseFormData.birthday"
+									placeholder="请选择出生日期"
+								/>
 							</uni-forms-item>
 							<uni-forms-item label="性别" required>
 								<uni-data-checkbox v-model="baseFormData.sex" :localdata="sexs" />
 							</uni-forms-item>
-							<uni-forms-item label="兴趣爱好" required>
-								<uni-data-checkbox v-model="baseFormData.hobby" multiple :localdata="hobbys" />
+							<uni-forms-item label="学号" required>
+								<uni-easyinput v-model="baseFormData.stuId" placeholder="请输入学号" />
 							</uni-forms-item>
 							<uni-forms-item label="自我介绍">
 								<uni-easyinput type="textarea" v-model="baseFormData.introduction" placeholder="请输入自我介绍" />
-							</uni-forms-item>
-							<uni-forms-item label="日期时间">
-								<uni-datetime-picker type="datetime" return-type="timestamp" v-model="baseFormData.datetimesingle"/>
 							</uni-forms-item>
 						</uni-forms>
 					</view>
@@ -30,54 +31,62 @@
 </template>
 
 <script>
+	import request from '@/utils/request.js'
 	export default {
 		data() {
 			return {
 				baseFormData: {
 					name: '',
-					age: '',
+					birthday: null,
 					introduction: '',
 					sex: 2,
-					hobby: [5],
-					datetimesingle: 1627529992399
+					stuId: null
 				},
 				sexs: [{
-									text: '男',
-									value: 0
-								}, {
-									text: '女',
-									value: 1
-								}, {
-									text: '保密',
-									value: 2
-								}],
-								// 多选数据源
-								hobbys: [{
-									text: '跑步',
-									value: 0
-								}, {
-									text: '游泳',
-									value: 1
-								}, {
-									text: '绘画',
-									value: 2
-								}, {
-									text: '足球',
-									value: 3
-								}, {
-									text: '篮球',
-									value: 4
-								}, {
-									text: '其他',
-									value: 5
-								}],
+					text: '男',
+					value: 0
+				}, {
+					text: '女',
+					value: 1
+				}, {
+					text: '保密',
+					value: 2
+				}],
 			};
 		},
 		
 		methods: {
 			submit() {
-				
+				request({
+					url: '/api/mp/user/setMyInfo',
+					method: 'post',
+					data: {
+						...this.baseFormData
+					}
+				}).then(res => {
+					console.log('保存结果', res)
+					uni.showToast({
+						icon: 'success',
+						title: '信息保存成功',
+						success() {
+							setTimeout(() => {
+								uni.switchTab({
+									url: '/pages/self/self'
+								})
+							}, 1000)
+						}
+					})
+				})
 			}
+		},
+		
+		onLoad() {
+			request({
+				url: '/api/mp/user/getMyInfo'
+			}).then(res => {
+				console.log('获取用户信息', res)
+				this.baseFormData = res.data.data
+			})
 		}
 	}
 </script>

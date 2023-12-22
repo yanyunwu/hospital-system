@@ -29,10 +29,10 @@ import { BookingModule } from './modules/booking/booking.module';
       username: 'root',
       // password: '12345678',
       password: '2001',
-      database: 'hospital_system',
+      database: 'hospital_system_1',
       entities: [resolve(__dirname, './entities/**/*.entity.{js,ts}')],
       synchronize: true,
-      logging: true
+      logging: true,
     }),
   ],
   controllers: [AppController],

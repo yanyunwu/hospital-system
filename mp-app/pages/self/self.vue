@@ -7,10 +7,10 @@
 					<image mode="widthFix" src="../../static/shezhi.png" @click="handleSetting"></image>
 				</view>
 				<view class="onwer-card-avator">
-					<image mode="widthFix" :src="avator" @click="handleLogin"></image>
+					<image mode="widthFix" :src="userData.avatar" @click="handleLogin"></image>
 				</view>
 				<view class="onwer-card-name">
-					<text>{{name}}</text>
+					<text>{{userData.nickname}}</text>
 				</view>
 			</view>
 			<view class="onwer-extend">
@@ -21,7 +21,7 @@
 		<view class="onwer-info-card">
 			<view class="onwer-info-card-item">
 				<view class="onwer-info-card-item-label">姓名</view>
-				<view class="onwer-info-card-item-value">{{userData.nickname}}</view>
+				<view class="onwer-info-card-item-value">{{userData.name || '未设置'}}</view>
 			</view>
 			<view class="onwer-info-card-item">
 				<view class="onwer-info-card-item-label">性别</view>
@@ -33,7 +33,7 @@
 			</view>
 			<view class="onwer-info-card-item">
 				<view class="onwer-info-card-item-label">出生年月</view>
-				<view class="onwer-info-card-item-value">{{userData.birthday}}</view>
+				<view class="onwer-info-card-item-value">{{userData.birthday || '未设置'}}</view>
 			</view>
 			<view class="onwer-info-card-item">
 				<view class="onwer-info-card-item-label">学号</view>
@@ -45,6 +45,20 @@
 
 <script>
 	import request from '@/utils/request.js'
+	const initData = {
+					age: null,
+					birthday: "2023-12-05",
+					createTime: "2023-12-13T10:53:19.115Z",
+					id: 2,
+					nickname: "点击头像进行登录",
+					openId: "otlQF5ACNXeJxMRzPHK2CeKSDZ3I",
+					password: null,
+					sex: 0,
+					stuId: null,
+					username: "yanyun",
+					avatar: '../../static/touxiang.png',
+					name: '真名'
+				}
 	export default {
 		data() {
 			return {
@@ -53,16 +67,15 @@
 					birthday: "2023-12-05",
 					createTime: "2023-12-13T10:53:19.115Z",
 					id: 2,
-					nickname: "测试人员",
+					nickname: "点击头像进行登录",
 					openId: "otlQF5ACNXeJxMRzPHK2CeKSDZ3I",
 					password: null,
 					sex: 0,
 					stuId: null,
 					username: "yanyun",
+					avatar: '../../static/touxiang.png',
+					name: '真名'
 				},
-				
-				name: '点击头像进行登录',
-				avator: "../../static/touxiang.png"
 			}
 		},
 		methods: {
@@ -75,53 +88,66 @@
 			},
 			handleLogin() {
 				const token = uni.getStorageSync('token')
-				const userInfo = uni.getStorageSync('userInfo')
 				
-				
-			
-				if (!userInfo) {
-					uni.getUserProfile({
-						desc: "用于完善会员资料",
-						success: (res) => {
-							console.log('getUserProfile', res)
-							uni.setStorageSync('userInfo', res.userInfo)
-							this.setInfo()
-						},
-						fail: (res) => {
-							console.log('getUserProfile err', res)
-						}
-					})
-				}
-			
-				
-				
-				if (!token) {
-					uni.showToast({
-						title: "正在登录中...",
-						icon: "loading"
-					})
-					uni.login({
-						success: (res) => {
-							console.log('login', res)
-							request({
-								url: '/api/mp/login', 
-								method: "post",
-								data: {
-									code: res.code
-								}
-							}).then((data) => {
-								console.log('data', data)
-								uni.setStorageSync('token', data.data.data.access_token)
-								this.getInfo()
-							})
-						}
-					})
-				} else {
+				if (token) {
 					uni.showToast({
 						title: "您已登录！",
 						icon: "none"
 					})
+					return 
 				}
+				
+				uni.showToast({
+					title: "正在登录中...",
+					icon: "loading"
+				})
+				
+				uni.getUserProfile({
+					desc: "用于完善会员资料",
+					success: (res) => {
+						console.log('getUserProfile', res)
+						console.log('userInfo', res.userInfo)
+						const userInfo = res.userInfo
+						uni.setStorageSync('userInfo', userInfo)
+						if (!token) {
+							uni.login({
+								success: (res) => {
+									console.log('login', res)
+									request({
+										url: '/api/mp/login', 
+										method: "post",
+										data: {
+											code: res.code,
+											userInfo: {
+												avatarUrl: userInfo.avatarUrl,
+												nickName: userInfo.nickName
+											}
+										}
+									}).then((data) => {
+										console.log('data', data)
+										uni.setStorageSync('token', data.data.data.access_token)
+										this.getInfo()
+									})
+								}
+							})
+						} else {
+							uni.showToast({
+								title: "您已登录！",
+								icon: "none"
+							})
+						}
+						
+						
+					},
+					fail: (res) => {
+						console.log('getUserProfile err', res)
+					}
+				})
+				
+			
+				
+				
+				
 			},
 			
 			setInfo() {
@@ -136,6 +162,7 @@
 			},
 			
 			getInfo() {
+				this.userData = initData
 				request({
 					url: '/api/mp/user/getMyInfo'
 				}).then(res => {
@@ -159,7 +186,7 @@
 		},
 		
 		onLoad() {
-			this.setInfo()
+			// this.setInfo()
 		},
 		
 		onShow() {

@@ -15,6 +15,10 @@ export class User {
 
   @Column({unique: true, nullable: true})
   openId: string;
+
+   // 用户名
+  @Column()
+  avatar: string;
   
   // 用户名
   @Column({unique: true, nullable: true})
@@ -36,7 +40,7 @@ export class User {
   birthday: string
 
   // 姓名昵称
-  @Column({nullable: true})
+  @Column()
   nickname: string
 
   @Column({nullable: true})

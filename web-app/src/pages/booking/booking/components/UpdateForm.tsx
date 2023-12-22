@@ -122,7 +122,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
     },
     {
       title: '剩余预约数',
-      dataIndex: 'bookingDateRecords',
+      dataIndex: 'bookingDateRecords2',
       render(dom, item) {
         return item.count - (item.bookingDateRecords?.length || 0);
       },

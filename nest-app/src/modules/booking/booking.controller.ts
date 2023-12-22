@@ -13,6 +13,12 @@ export class BookingController {
     ) {
     }
 
+    @Get('/getUserRecord')
+    getUserRecord(@Req() req: Request, @Query('bookingId') bookingId: string) {
+        const userInfo = req['user']
+        return this.bookingService.getUserRecord(parseInt(userInfo.userId), parseInt(bookingId))
+    }
+
 
     @Get('/getBookingList')
     async getBookingList(@Query() qurey: {

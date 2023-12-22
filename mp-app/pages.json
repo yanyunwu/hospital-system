@@ -102,6 +102,22 @@
 				"navigationBarTitleText" : "意见反馈",
 				"enablePullDownRefresh" : false
 			}
+		},
+		{
+			"path" : "pages/booking/bookingDate/bookingDate",
+			"style" : 
+			{
+				"navigationBarTitleText" : "选择日期",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/booking/recordList/recordList",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
 		}
 	],
 	"globalStyle": {

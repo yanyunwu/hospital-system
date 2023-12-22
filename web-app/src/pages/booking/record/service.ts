@@ -38,7 +38,7 @@ export async function get(
 
 /** 新建规则 PUT /api/rule */
 export async function set(data: { [key: string]: any }, options?: { [key: string]: any }) {
-  return request<TableListItem>('/api/admin/user/setUser', {
+  return request<TableListItem>('/api/booking/setBookingDateRecord', {
     data,
     method: 'POST',
     ...(options || {}),
@@ -56,7 +56,7 @@ export async function add(data: { [key: string]: any }, options?: { [key: string
 
 /** 删除规则 DELETE /api/rule */
 export async function del(data: { ids: number[] }, options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/admin/user/delUser', {
+  return request<Record<string, any>>('/api/booking/delBookingDateRecord', {
     data,
     method: 'POST',
     ...(options || {}),

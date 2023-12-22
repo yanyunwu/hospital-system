@@ -21,6 +21,22 @@ export class BookingService {
     @InjectRepository(User)
     private userRepository: Repository<User>
 
+    getUserRecord(userId: number, bookingId: number) {
+        return this.bookingDateRecordRepository.find({
+            where: {
+                bookingDate: {
+                    booking: {
+                        id: bookingId
+                    }
+                },
+
+                user: {
+                    id: userId
+                }
+            }
+        })
+    }
+
     async getBookingList(skip?: number, take?: number, options?: Booking): Promise<[Array<Booking & { key: number }>, number]> {
         const {bookingDates, ...rest} = options
         const [data, count] =  await this.bookingRepository.findAndCount({
@@ -81,7 +97,7 @@ export class BookingService {
             skip: skip * take,
             take,
             order: {
-                createTime: 'DESC'
+                date: 'ASC'
             },
 
             relations: ['bookingDateRecords']
