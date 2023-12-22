@@ -5,7 +5,7 @@
 				<view class="booking"  v-if="item.status === 1" @click="handleClick(item.id)">
 					<view class="title">
 						<text>{{item.title}}</text>
-						<view>预约 ></view>
+						<view>预约</view>
 					</view>
 					<view class="intro">
 						{{item.intro}}

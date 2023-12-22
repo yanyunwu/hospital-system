@@ -3,6 +3,11 @@
 		<view class="chat_message_list">
 			<scroll-view class="scroll-view" scroll-y="true" style="height: 100%" 
 				:scroll-top="scrollTop"  scroll-with-animation="true">
+				<view style="padding: 10px;">
+					<view class="intro">
+						{{intro}}
+					</view>
+				</view>
 				<view class="official-content">
 					<view v-for="item in messageList" >
 						<view v-if="item.speakUserType === 0" class="chat_message_item chat_message_self">
@@ -63,6 +68,9 @@
 				waitMsg: "",
 				 scrollTop: 0, //滚动条位置
 				scrollHeight: 0, // 滚动视图的高度
+				
+				
+				intro: `您已成功进入会话聊天，请耐心等待医生回复，退出界面会话依然有效。您可以在首页的消息页面查看，也可先留言讲述你的问题。`
 			}
 		},
 		methods: {
@@ -168,6 +176,15 @@
 	.container {
 		height: 100%;
 		position: relative;
+		
+		.intro {
+		  background-color: skyblue;
+		  color: white;
+		  word-wrap:break-word;
+		  word-break:normal; 
+		  padding: 20rpx;
+		  border-radius: 20rpx;
+		}
 	}
 	
 	.chat_message_list {

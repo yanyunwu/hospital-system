@@ -1,9 +1,12 @@
 <template>
 	<view class="container">
+		<view class="intro">
+			社区里鼓励真诚地表达、专业地讨论、友善地互动，反对不友善、低质、低俗、抄袭、侵权、虚假认证、恶意营销导流等破坏社区生态的内容与行为，禁止一切违法违规行为。
+		</view>
 		<view class="post" v-for="item in posts" @click="handleClickPost(item)">
 			<view class="info">
 				<view class="avatar">
-					<image mode="widthFix" :src="item.anonymous ? anonymousAvatar : item.avatar"></image>
+					<image mode="widthFix" :src="item.anonymous ? anonymousAvatar : item.user.avatar"></image>
 				</view>
 				<view class="title">
 					<view class="name">{{item.anonymous ? anonymousName : item.user.nickname}}
@@ -67,10 +70,7 @@
 					url: '/api/community/getPostList'
 				}).then(res => {
 					console.log('帖子列表', res)
-					this.posts = res.data.data.data.map(item => {
-						item.avatar = '../../static/touxiang.png'
-						return item
-					})
+					this.posts = res.data.data.data
 				})
 			},
 			
@@ -96,6 +96,17 @@
 	  background-color: #f8f8f8;
 	  min-height: 100vh;
 	  box-sizing: border-box;
+	  padding-top: 10px;
+	  
+	  .intro {
+		  background-color: skyblue;
+		  color: white;
+		  word-wrap:break-word;
+		  word-break:normal; 
+		  padding: 20rpx;
+		  margin-bottom: 10px;
+		  border-radius: 20rpx;
+	  }
 	
 	  .post {
 	    margin-bottom: 20px;

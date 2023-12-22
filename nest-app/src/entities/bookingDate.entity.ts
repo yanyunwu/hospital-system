@@ -8,7 +8,7 @@ export class BookingDate {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({type: 'date', unique: true})
+  @Column({type: 'date'})
   date: string
 
   @Column({type: 'int'})

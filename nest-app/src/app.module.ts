@@ -11,6 +11,8 @@ import { SessionModule } from './modules/session/session.module';
 import { FileModule } from './modules/file/file.module';
 import { CommunityModule } from './modules/community/community.module';
 import { BookingModule } from './modules/booking/booking.module';
+import { FeedbackModule } from './modules/feedback/feedback.module';
+import { RrModule } from './modules/rr/rr.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { BookingModule } from './modules/booking/booking.module';
     FileModule,
     CommunityModule,
     BookingModule,
+    FeedbackModule,
+    RrModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',

@@ -3,7 +3,7 @@
 		<view class="post">
 			<view class="info">
 				<view class="avatar">
-					<image mode="widthFix" :src="item.anonymous ? anonymousAvatar : item.avatar"></image>
+					<image mode="widthFix" :src="item.anonymous ? anonymousAvatar : item.user.avatar"></image>
 				</view>
 				<view class="title">
 					<view class="name">{{item.anonymous ? anonymousName : item.user.nickname}}
@@ -29,7 +29,7 @@
 			<view v-for="item in list">
 				<view class="info">
 					<view class="avatar">
-						<image mode="widthFix" :src="anonymousAvatar"></image>
+						<image mode="widthFix" :src="item.user.avatar"></image>
 					</view>
 					<view class="title">
 						<view class="name">{{item.user.nickname}}</view>
@@ -98,7 +98,6 @@
 					console.log('帖子', res)
 					this.item = res.data.data
 					this.list = this.item.replies
-					this.item.avatar = '../../../static/touxiang.png'
 				})
 			},
 			handSendReply() {
