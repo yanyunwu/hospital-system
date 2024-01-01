@@ -7,15 +7,15 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class RrService {
   @InjectRepository(RR)
-  private postRepository: Repository<RR>;
+  private rrRepository: Repository<RR>;
 
   async getRRList(
     skip?: number,
     take?: number,
     options?: RR,
   ): Promise<[Array<RR & { key: string }>, number]> {
-    const { ...rest } = options;
-    const [data, count] = await this.postRepository.findAndCount({
+    const { picture, user, ...rest } = options;
+    const [data, count] = await this.rrRepository.findAndCount({
       where: {
         ...rest,
       },
@@ -24,7 +24,7 @@ export class RrService {
       order: {
         createTime: 'DESC',
       },
-      relations: ['user', 'replies'],
+      relations: ['user'],
     });
 
     return [
@@ -36,32 +36,23 @@ export class RrService {
     ];
   }
 
-  async getPost(id: number): Promise<Post> {
-    const data = await this.postRepository.findOne({
+  async getRR(id: number): Promise<RR> {
+    const data = await this.rrRepository.findOne({
       where: {
         id,
       },
-      relations: ['user', 'replies', 'replies.user'],
+      relations: ['user'],
     });
 
-    data.views += 1;
-
-    await this.postRepository.save(data);
+    await this.rrRepository.save(data);
     return data;
   }
 
-  addPost(body: Post) {
-    // const post = new Post()
-    return this.postRepository.save(body);
+  async setRR(body: RR) {
+    return this.rrRepository.save(body);
   }
 
-  async addPostReply(postId: number, user: User, content: string) {
-    const post = await this.postRepository.findOne({ where: { id: postId } });
-    const reply = new PostReply();
-    reply.post = post;
-    reply.user = user;
-    reply.content = content;
-
-    return this.postReplyRepository.save(reply);
+  addRR(body: RR) {
+    return this.rrRepository.save(body);
   }
 }

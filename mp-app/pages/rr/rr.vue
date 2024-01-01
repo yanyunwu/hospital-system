@@ -44,7 +44,7 @@
 						</view>
 					</view>
 					<button @click="active = active - 1" style="margin-bottom: 40rpx;">上一步</button>
-					<button type="primary">提交审核</button>
+					<button type="primary" @click="handleSubmit">提交审核</button>
 				</view>
 			</view>
 		</view>
@@ -125,6 +125,31 @@
 					}
 				});
 			},
+			
+			handleSubmit() {
+				request({
+					url: '/api/rr/addRR',
+					method: 'post',
+					data: {
+						...this.baseFormData,
+						picture: this.picture
+					}
+				}).then(res => {
+					console.log('提交转诊报销申报', res)
+					uni.showModal({
+						showCancel: false,
+						title: '提示',
+						content: '提交成功，请耐心等待后台审批！',
+						success(res) {
+							if (res.confirm) {
+								uni.switchTab({
+									url: '/pages/index/index'
+								})
+							}
+						}
+					})
+				})
+			}
 			
 			
 		}

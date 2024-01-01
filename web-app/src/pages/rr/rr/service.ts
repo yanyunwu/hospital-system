@@ -23,7 +23,7 @@ export async function get(
       total?: number;
       success?: boolean;
     };
-  }>('/api/admin/user/getUserList', {
+  }>('/api/rr/getRRList', {
     method: 'GET',
     params: {
       skip: current && current - 1,
@@ -38,7 +38,7 @@ export async function get(
 
 /** 新建规则 PUT /api/rule */
 export async function set(data: { [key: string]: any }, options?: { [key: string]: any }) {
-  return request<TableListItem>('/api/admin/user/setUser', {
+  return request<TableListItem>('/api/rr/setRR', {
     data,
     method: 'POST',
     ...(options || {}),

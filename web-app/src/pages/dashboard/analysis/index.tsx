@@ -105,7 +105,7 @@ const Analysis: FC<AnalysisProps> = () => {
           <IntroduceRow loading={loading} visitData={data?.visitData || []} />
         </Suspense>
 
-        <Suspense fallback={null}>
+        {/* <Suspense fallback={null}>
           <SalesCard
             rangePickerValue={rangePickerValue}
             salesData={data?.salesData || []}
@@ -114,7 +114,7 @@ const Analysis: FC<AnalysisProps> = () => {
             loading={loading}
             selectDate={selectDate}
           />
-        </Suspense>
+        </Suspense> */}
 
         <Row
           gutter={24}
@@ -122,7 +122,7 @@ const Analysis: FC<AnalysisProps> = () => {
             marginTop: 24,
           }}
         >
-          <Col xl={12} lg={24} md={24} sm={24} xs={24}>
+          {/* <Col xl={12} lg={24} md={24} sm={24} xs={24}>
             <Suspense fallback={null}>
               <TopSearch
                 loading={loading}
@@ -142,10 +142,10 @@ const Analysis: FC<AnalysisProps> = () => {
                 handleChangeSalesType={handleChangeSalesType}
               />
             </Suspense>
-          </Col>
+          </Col> */}
         </Row>
 
-        <Suspense fallback={null}>
+        {/* <Suspense fallback={null}>
           <OfflineData
             activeKey={activeKey}
             loading={loading}
@@ -153,7 +153,7 @@ const Analysis: FC<AnalysisProps> = () => {
             offlineChartData={data?.offlineChartData || []}
             handleTabChange={handleTabChange}
           />
-        </Suspense>
+        </Suspense> */}
       </>
     </GridContent>
   );

@@ -93,41 +93,13 @@ const TableList: React.FC = () => {
     {
       title: '用户名',
       dataIndex: 'username',
-      valueType: 'text',
-    },
-    {
-      title: '性别',
-      dataIndex: 'sex',
-      valueEnum: {
-        0: {
-          text: '男'
-        },
-        1: {
-          text: '女'
-        },
-        2: {
-          text: '未知'
-        }
+      render(dom, item) {
+        return item.user.nickname
       }
     },
     {
-      title: '年龄',
-      dataIndex: 'age',
-      valueType: 'text',
-    },
-    {
-      title: '姓名/昵称',
-      dataIndex: 'nickname',
-      valueType: 'text',
-    },
-    {
-      title: '出生年月',
-      dataIndex: 'birthday',
-      valueType: 'text',
-    },
-    {
-      title: '学号',
-      dataIndex: 'stuId',
+      title: '内容',
+      dataIndex: 'content',
       valueType: 'text',
     },
     {
@@ -153,16 +125,16 @@ const TableList: React.FC = () => {
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => [
-        <a
-          key="config"
-          onClick={() => {
-            handleUpdateModalVisible(true);
-            setCurrentRow(record);
-          }}
-        >
-          配置
-        </a>,
-        <a>重置密码</a>,
+        // <a
+        //   key="config"
+        //   onClick={() => {
+        //     handleUpdateModalVisible(true);
+        //     setCurrentRow(record);
+        //   }}
+        // >
+        //   配置
+        // </a>,
+        // <a>重置密码</a>,
         <Popconfirm
           key="subscribeAlert"
           title="确定要进行删除操作吗？"
@@ -327,7 +299,7 @@ const TableList: React.FC = () => {
 
             if (actionRef.current) {
               actionRef.current.reload();
-            } 
+            }
           }
         }}
       >

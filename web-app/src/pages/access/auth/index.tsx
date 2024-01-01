@@ -172,7 +172,7 @@ const TableList: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<TableListItem, TableListPagination>
-        headerTitle="角色列表"
+        headerTitle="菜单列表"
         actionRef={actionRef}
         rowKey="key"
         search={{

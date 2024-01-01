@@ -1,10 +1,10 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input, Drawer, Popconfirm } from 'antd';
+import { Button, message, Input, Drawer, Popconfirm, Image } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { ModalForm, ProFormText, ProFormRadio, ProFormDatePicker } from '@ant-design/pro-form';
+import { ModalForm, ProFormText, ProFormRadio, ProFormDatePicker, ProFormDateTimePicker } from '@ant-design/pro-form';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import type { FormValueType } from './components/UpdateForm';
@@ -91,8 +91,20 @@ const TableList: React.FC = () => {
 
   const columns: ProColumns<TableListItem>[] = [
     {
-      title: '用户名',
+      title: '申请用户',
       dataIndex: 'username',
+      render(dom, item) {
+        return item.user.nickname
+      }
+    },
+    {
+      title: '姓名',
+      dataIndex: 'name',
+      valueType: 'text',
+    },
+    {
+      title: '学号',
+      dataIndex: 'stuId',
       valueType: 'text',
     },
     {
@@ -105,30 +117,35 @@ const TableList: React.FC = () => {
         1: {
           text: '女'
         },
-        2: {
-          text: '未知'
-        }
       }
     },
     {
-      title: '年龄',
-      dataIndex: 'age',
+      title: '手机号',
+      dataIndex: 'phone',
       valueType: 'text',
     },
+    // 0已提交/审核中 1审核成功 2审核失败 3已完成报销/已到款
     {
-      title: '姓名/昵称',
-      dataIndex: 'nickname',
-      valueType: 'text',
-    },
-    {
-      title: '出生年月',
-      dataIndex: 'birthday',
-      valueType: 'text',
-    },
-    {
-      title: '学号',
-      dataIndex: 'stuId',
-      valueType: 'text',
+      title: '当前状态',
+      dataIndex: 'status',
+      valueEnum: {
+        0: {
+          text: '已提交/审核中',
+          key: '0',
+        },
+        1: {
+          text: '审核成功',
+          key: '1',
+        },
+        2: {
+          text: '审核失败',
+          key: '2',
+        },
+        3: {
+          text: '已完成报销/已到款',
+          key: '3',
+        },
+      },
     },
     {
       title: '创建时间',
@@ -160,9 +177,12 @@ const TableList: React.FC = () => {
             setCurrentRow(record);
           }}
         >
-          配置
+          详情
         </a>,
-        <a>重置密码</a>,
+        <a onClick={() => {
+          handleModalVisible(true);
+          setCurrentRow(record);
+        }}>审批</a>,
         <Popconfirm
           key="subscribeAlert"
           title="确定要进行删除操作吗？"
@@ -183,23 +203,12 @@ const TableList: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<TableListItem, TableListPagination>
-        headerTitle="用户信息管理"
+        headerTitle="报销审核"
         actionRef={actionRef}
         rowKey="key"
         search={{
           labelWidth: 120,
         }}
-        toolBarRender={() => [
-          <Button
-            type="primary"
-            key="primary"
-            onClick={() => {
-              handleModalVisible(true);
-            }}
-          >
-            <PlusOutlined /> 新建
-          </Button>,
-        ]}
         request={get}
         columns={columns}
         rowSelection={{
@@ -239,15 +248,19 @@ const TableList: React.FC = () => {
         </FooterToolbar>
       )}
       <ModalForm
-        title="新建用户"
-        width="400px"
-        visible={createModalVisible}
-        initialValues={{ sex: 2 }}
-        onVisibleChange={handleModalVisible}
+        title="详情"
+        width="50%"
+        disabled
+        modalProps={{
+          'destroyOnClose': true
+        }}
+        visible={updateModalVisible}
+        initialValues={{...currentRow}}
+        onVisibleChange={handleUpdateModalVisible}
         onFinish={async (value) => {
           const success = await handleAdd(value as TableListItem);
           if (success) {
-            handleModalVisible(false);
+            handleUpdateModalVisible(false);
             if (actionRef.current) {
               actionRef.current.reload();
             }
@@ -255,15 +268,14 @@ const TableList: React.FC = () => {
         }}
       >
         <ProFormText
-          label="用户名"
-          rules={[
-            {
-              required: true,
-              message: '必填项',
-            },
-          ]}
+          label="姓名"
           width="md"
-          name="username"
+          name="name"
+        />
+         <ProFormText
+          label="学号"
+          width="md"
+          name="stuId"
         />
         <ProFormRadio.Group
           name="sex"
@@ -277,116 +289,76 @@ const TableList: React.FC = () => {
               label: '女',
               value: 1,
             },
-            {
-              label: '未知',
-              value: 2,
-            },
           ]}
         />
-        <ProFormDatePicker
-              label="出生年月"
-              rules={[
-                {
-                  required: true,
-                  message: '必填项',
-                },
-              ]}
+         <ProFormText
+          label="手机号码"
+          width="md"
+          name="phone"
+        />
+        <ProFormDateTimePicker
+              label="校外就诊时间"
               width="md"
-              name="birthday"
+              name="datetime"
             />
 
         <ProFormText
-          label="姓名/昵称"
-          rules={[
-            {
-              required: true,
-              message: '必填项',
-            },
-          ]}
+          label="备注"
           width="md"
-          name="nickname"
+          name="remark"
         />
-        <ProFormText
-          label="学号"
-          width="md"
-          name="stuId"
-        />
+        <div style={{ margin: '10px 0' }}>附带图片：</div>
+        <Image.PreviewGroup>
+          {(currentRow?.picture as string[])?.map((item) => {
+            return <Image key={item} width="33%" src={item} />;
+          })}
+        </Image.PreviewGroup>
       </ModalForm>
       <ModalForm
-        title="修改信息"
-        width="400px"
-        initialValues={{ ...currentRow }}
-        visible={updateModalVisible}
-        onVisibleChange={handleUpdateModalVisible}
+        title="审批"
+        width="600px"
+        initialValues={{ status: currentRow?.status }}
+        modalProps={{
+          destroyOnClose: true,
+        }}
+        // initialValues={{ status: currentRow?.status }}
+        visible={createModalVisible}
+        onVisibleChange={handleModalVisible}
         onFinish={async (value) => {
           const success = await handleUpdate(value, currentRow);
 
           if (success) {
-            handleUpdateModalVisible(false);
+            handleModalVisible(false);
             setCurrentRow(undefined);
-
             if (actionRef.current) {
               actionRef.current.reload();
-            } 
+            }
           }
         }}
       >
-        <ProFormText
-          label="用户名"
-          rules={[
-            {
-              required: true,
-              message: '必填项',
-            },
-          ]}
-          width="md"
-          name="username"
-        />
+        {/* 状态 0已提交/审核中 1审核成功 2审核失败 3已完成报销/已到款 */}
         <ProFormRadio.Group
-          name="sex"
-          label="性别"
+          name="status"
+          layout="horizontal"
+          label="设置当前预约记录的状态"
           options={[
             {
-              label: '男',
               value: 0,
+              label: '已提交/审核中',
             },
             {
-              label: '女',
               value: 1,
+              label: '审核成功',
             },
             {
-              label: '未知',
               value: 2,
+              label: '审核失败',
             },
-          ]}
-        />
-        <ProFormDatePicker
-              label="出生年月"
-              rules={[
-                {
-                  required: true,
-                  message: '必填项',
-                },
-              ]}
-              width="md"
-              name="birthday"
-            />
-
-        <ProFormText
-          label="姓名/昵称"
-          rules={[
             {
-              required: true,
-              message: '必填项',
+              value: 3,
+              label: '已完成报销/已到款',
             },
           ]}
-          width="md"
-          name="nickname"
-        />
-        <ProFormText
-          label="学号"
-          width="md"
-          name="stuId"
         />
       </ModalForm>
       <Drawer

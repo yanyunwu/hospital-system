@@ -1,13 +1,8 @@
 export type TableListItem = {
   id: number;
-  openId: string;
-  username: string;
-  password: string;
-  sex: number;
-  age: number;
-  birthday: string
-  nickname: string
-  stuId: number;
+  content: string;
+  picture: string[];
+  user: any;
   createTime: string;
 };
 

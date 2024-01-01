@@ -12,6 +12,7 @@
 </template>
 
 <script>
+	import request, { BASE_URL } from '@/utils/request.js'
 	export default {
 		data() {
 			return {
@@ -21,7 +22,27 @@
 		
 		methods: {
 			handleSubmit() {
-				
+				request({
+					url: '/api/feedback/addFeedback',
+					method: 'post',
+					data: {
+						content: this.content
+					}
+				}).then(res => {
+					console.log('意见反馈提交结果', res)
+					uni.showModal({
+						showCancel: false,
+						title: '提示',
+						content: '提交成功，感谢您的反馈！',
+						success(res) {
+							if (res.confirm) {
+								uni.switchTab({
+									url: '/pages/index/index'
+								})
+							}
+						}
+					})
+				})
 			}
 		}
 	}

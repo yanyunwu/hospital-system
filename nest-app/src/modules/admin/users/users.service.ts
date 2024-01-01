@@ -65,6 +65,7 @@ export class UsersService {
       data.map((item) => ({
         key: item.id,
         ...item,
+        age: mymethod(item.birthday),
       })),
       count,
     ];

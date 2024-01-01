@@ -23,15 +23,15 @@ const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: Dat
     <Col {...topColResponsiveProps}>
       <ChartCard
         bordered={false}
-        title="总销售额"
+        title="小程序用户数"
         action={
           <Tooltip title="指标说明">
             <InfoCircleOutlined />
           </Tooltip>
         }
         loading={loading}
-        total={() => <Yuan>126560</Yuan>}
-        footer={<Field label="日销售额" value={`￥${numeral(12423).format('0,0')}`} />}
+        total={() => 126560}
+        footer={<Field label="日用户增加" value={`${numeral(12423).format('0,0')}`} />}
         contentHeight={46}
       >
         <Trend flag="up" style={{ marginRight: 16 }}>
@@ -74,7 +74,7 @@ const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: Dat
       <ChartCard
         bordered={false}
         loading={loading}
-        title="支付笔数"
+        title="新增会话"
         action={
           <Tooltip title="指标说明">
             <InfoCircleOutlined />
@@ -91,7 +91,7 @@ const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: Dat
       <ChartCard
         loading={loading}
         bordered={false}
-        title="运营活动效果"
+        title="社区活跃度"
         action={
           <Tooltip title="指标说明">
             <InfoCircleOutlined />
