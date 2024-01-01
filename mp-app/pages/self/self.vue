@@ -47,17 +47,17 @@
 	import request from '@/utils/request.js'
 	const initData = {
 					age: null,
-					birthday: "2023-12-05",
+					birthday: "登录后查看",
 					createTime: "2023-12-13T10:53:19.115Z",
 					id: 2,
 					nickname: "点击头像进行登录",
 					openId: "otlQF5ACNXeJxMRzPHK2CeKSDZ3I",
 					password: null,
-					sex: 0,
+					sex: 2,
 					stuId: null,
-					username: "yanyun",
+					username: "登录后查看",
 					avatar: '../../static/touxiang.png',
-					name: '真名'
+					name: '登录后查看'
 				}
 	export default {
 		data() {

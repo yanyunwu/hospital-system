@@ -1,8 +1,8 @@
 
 export const HOST = process.env.NODE_ENV === 'production'
 	? 'xxxx'
-	: 'localhost:3000'
-	// : '192.168.1.114:3000'
+	// : 'localhost:3000'
+	: '192.168.1.3:3000'
 
 export const BASE_URL = `http://${HOST}`
 export const BASE_SOCKET_URL = `ws://${HOST}`
