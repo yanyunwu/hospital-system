@@ -1,12 +1,17 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Auth {
   @PrimaryGeneratedColumn()
   id: number;
-  
+
   // 权限标识符
-  @Column({unique: true, nullable: false})
+  @Column({ unique: true, nullable: false })
   identification: string;
 
   // 权限名称 菜单名称
@@ -20,8 +25,8 @@ export class Auth {
   @Column()
   path: string;
 
-  @Column({type: 'boolean'})
-  status: boolean
+  @Column({ type: 'boolean' })
+  status: boolean;
 
   @CreateDateColumn()
   createTime: string;

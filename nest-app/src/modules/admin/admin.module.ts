@@ -27,7 +27,7 @@ import { MessageModule } from './message/message.module';
           {
             path: '/session',
             module: SessionModule,
-          }
+          },
         ],
       },
     ]),

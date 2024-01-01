@@ -7,11 +7,8 @@ import { LoginModule } from '../mp/login/login.module';
 import { PostReply } from 'src/entities/postReply.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Post, PostReply]),
-    LoginModule,
-  ],
+  imports: [TypeOrmModule.forFeature([Post, PostReply]), LoginModule],
   providers: [CommunityService],
-  controllers: [CommunityController]
+  controllers: [CommunityController],
 })
 export class CommunityModule {}

@@ -6,10 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Auth } from 'src/entities/auth.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Role, Auth])
-  ],
+  imports: [TypeOrmModule.forFeature([Role, Auth])],
   controllers: [AccessController],
-  providers: [AccessService]
+  providers: [AccessService],
 })
 export class AccessModule {}

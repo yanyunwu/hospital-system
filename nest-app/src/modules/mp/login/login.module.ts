@@ -9,14 +9,9 @@ import { User } from 'src/entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [
-    HttpModule,
-    TypeOrmModule.forFeature([User])
-  ],
+  imports: [HttpModule, TypeOrmModule.forFeature([User])],
   controllers: [LoginController],
-  providers: [
-    LoginService,
-  ],
-  exports: [LoginService]
+  providers: [LoginService],
+  exports: [LoginService],
 })
 export class LoginModule {}

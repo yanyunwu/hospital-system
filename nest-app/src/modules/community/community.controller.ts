@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
-import { Request } from 'express'
+import { Request } from 'express';
 import { Post as PostEntity } from 'src/entities/post.entity';
 import { CommunityService } from './community.service';
 import { Public } from '../admin/login/decorators';
@@ -7,48 +7,53 @@ import { LoginService } from '../mp/login/login.service';
 
 @Controller('/api/community')
 export class CommunityController {
+  constructor(
+    private communityService: CommunityService,
+    private loginService: LoginService,
+  ) {}
 
-    constructor(private communityService: CommunityService, private loginService: LoginService) {}
+  @Get('/getPostList')
+  async getPostList(
+    @Query() qurey: { skip?: number; take?: number; [key: string]: any },
+  ) {
+    const { skip = 0, take = 20, ...options } = qurey;
+    const [data, count] = await this.communityService.getPostList(
+      skip,
+      take,
+      options as PostEntity,
+    );
 
-    @Get('/getPostList')
-    async getPostList(@Query() qurey: {
-        skip?: number
-        take?: number
-        [key: string]: any
-    }) {
+    return {
+      data,
+      total: count,
+      success: true,
+    };
+  }
 
-        const { skip = 0, take = 20, ...options } = qurey
-        const [data, count] = await this.communityService.getPostList(skip, take, options as PostEntity)
+  @Post('/addPost')
+  async addPost(@Body() body: PostEntity, @Req() req: Request) {
+    const payload = req['user'];
+    const user = await this.loginService.getUserByOpenId(payload.openid);
+    body.user = user;
+    return this.communityService.addPost(body);
+  }
 
-        return {
-            data,
-            total: count,
-            success: true
-        }
-    }
+  @Get('/getPost')
+  getPost(@Query('id') id: string) {
+    return this.communityService.getPost(parseInt(id));
+  }
 
-    @Post('/addPost')
-    async addPost(@Body() body: PostEntity, @Req() req: Request) {
-        const payload = req['user']
-        const user = await this.loginService.getUserByOpenId(payload.openid)
-        body.user = user
-        return this.communityService.addPost(body)
-    }
-
-
-
-    @Get('/getPost')
-    getPost(@Query('id') id: string) {
-        return this.communityService.getPost(parseInt(id))
-    }
-
-    @Post('/addPostReply')
-    async addPostReply(@Body() body: {
-        postId: number,
-        content: string
-    }, @Req() req: Request) {
-        const payload = req['user']
-        const user = await this.loginService.getUserByOpenId(payload.openid)
-        return this.communityService.addPostReply(body.postId, user, body.content)
-    }
+  @Post('/addPostReply')
+  async addPostReply(
+    @Body()
+    body: {
+      postId: number;
+      content: string;
+    },
+    @Req() req: Request,
+  ) {
+    const payload = req['user'];
+    const user = await this.loginService.getUserByOpenId(payload.openid);
+    return this.communityService.addPostReply(body.postId, user, body.content);
+  }
 }

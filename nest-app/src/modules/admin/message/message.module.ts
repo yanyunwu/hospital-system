@@ -7,8 +7,8 @@ import { Admin } from 'src/entities/admin.entity';
 import { User } from 'src/entities/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([LiveChatMessage, LiveChat,  Admin, User])],
+  imports: [TypeOrmModule.forFeature([LiveChatMessage, LiveChat, Admin, User])],
   providers: [MessageService],
-  exports: [MessageService]
+  exports: [MessageService],
 })
 export class MessageModule {}

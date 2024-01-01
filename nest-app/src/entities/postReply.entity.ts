@@ -1,4 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, ManyToMany, JoinTable, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+  ManyToMany,
+  JoinTable,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Post } from './post.entity';
 import { User } from './user.entity';
 
@@ -7,14 +17,14 @@ export class PostReply {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Post, post => post.replies)
+  @ManyToOne(() => Post, (post) => post.replies)
   post: Post;
 
-  @ManyToOne(() => User, user => user.postReplys)
+  @ManyToOne(() => User, (user) => user.postReplys)
   user: User;
 
-  @Column({type: 'text'})
-  content: string
+  @Column({ type: 'text' })
+  content: string;
 
   @CreateDateColumn()
   createTime: string;

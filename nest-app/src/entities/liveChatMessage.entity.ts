@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  CreateDateColumn,
+} from 'typeorm';
 import { LiveChat } from './liveChat.entity';
 
 @Entity()
@@ -6,20 +12,20 @@ export class LiveChatMessage {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => LiveChat, liveChat => liveChat.liveChatMessages)
+  @ManyToOne(() => LiveChat, (liveChat) => liveChat.liveChatMessages)
   liveChat: LiveChat;
 
   @Column()
-  speakUserId: number
+  speakUserId: number;
 
   @Column()
-  speakUserName: string
+  speakUserName: string;
 
   @Column() // 0 用户 1 系统用户
-  speakUserType: number
+  speakUserType: number;
 
-  @Column({type: 'text'})
-  content: string
+  @Column({ type: 'text' })
+  content: string;
 
   @CreateDateColumn()
   createTime: string;

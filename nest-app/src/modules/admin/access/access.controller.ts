@@ -7,91 +7,91 @@ import { Auth } from 'src/entities/auth.entity';
 
 @Controller()
 export class AccessController {
+  constructor(private accessService: AccessService) {}
 
-    constructor(
-        private accessService: AccessService,
-    ) {}
+  /**
+   * 角色管理模块
+   */
+  @Get('/getRole')
+  async getRuleList(
+    @Query() qurey: { skip?: number; take?: number; [key: string]: any },
+  ) {
+    const { skip = 0, take = 20, ...options } = qurey;
+    const [data, count] = await this.accessService.getRoleList(
+      skip,
+      take,
+      options as Role,
+    );
 
-    /**
-     * 角色管理模块
-    */
-    @Get('/getRole')
-    async getRuleList(@Query() qurey: {
-        skip?: number
-        take?: number
-        [key: string]: any
-    }) {
+    return {
+      data,
+      total: count,
+      success: true,
+    };
+  }
 
-        const { skip = 0, take = 20, ...options } = qurey
-        const [data, count] = await this.accessService.getRoleList(skip, take, options as Role)
+  @Post('/addRole')
+  async addRole(@Body() body: { identification: string; name: string }) {
+    await this.accessService.addRole(body.identification, body.name);
+  }
 
-        return {
-            data,
-            total: count,
-            success: true
-        }
-    }
+  @Post('/setRole')
+  setRole(
+    @Body()
+    body: {
+      id: number;
+      identification: string;
+      name: string;
+      auths: string;
+    },
+  ) {
+    this.accessService.setRole(body);
+  }
 
-    @Post('/addRole')
-    async addRole(@Body() body: {
-        identification: string,
-        name: string
-    }) {
-        await this.accessService.addRole(body.identification, body.name)
-    }
+  @Post('/delRole')
+  delRole(@Body() body: { ids: number[] }) {
+    this.accessService.delRole(body.ids);
+  }
 
-    @Post('/setRole')
-    setRole(@Body() body: {
-        id: number,
-        identification: string,
-        name: string,
-        auths: string
-    }) {
-        this.accessService.setRole(body)
-    }
+  /**
+   * 菜单管理模块
+   */
+  @Public()
+  @Get('/getAuth')
+  async getAuthList(
+    @Query() qurey: { skip?: number; take?: number; [key: string]: any },
+  ) {
+    const { skip = 0, take = 20, ...options } = qurey;
+    const [data, count] = await this.accessService.getAuthList(
+      skip,
+      take,
+      options as Auth,
+    );
 
-    @Post('/delRole')
-    delRole(@Body() body: {
-        ids: number[]
-    }) {
-        this.accessService.delRole(body.ids)
-    }
+    return {
+      data,
+      total: count,
+      success: true,
+    };
+  }
 
-    /**
-     * 菜单管理模块
-    */
-    @Public()
-    @Get('/getAuth')
-    async getAuthList(@Query() qurey: {
-        skip?: number
-        take?: number
-        [key: string]: any
-    }) {
+  @Post('/addAuth')
+  async addAuth(@Body() body: Auth) {
+    await this.accessService.addAuth(
+      body.identification,
+      body.name,
+      body.path,
+      body.status,
+    );
+  }
 
-        const { skip = 0, take = 20, ...options } = qurey
-        const [data, count] = await this.accessService.getAuthList(skip, take, options as Auth)
+  @Post('/setAuth')
+  setAuth(@Body() body: Auth) {
+    this.accessService.setAuth(body);
+  }
 
-        return {
-            data,
-            total: count,
-            success: true
-        }
-    }
-
-    @Post('/addAuth')
-    async addAuth(@Body() body: Auth) {
-        await this.accessService.addAuth(body.identification, body.name, body.path, body.status)
-    }
-
-    @Post('/setAuth')
-    setAuth(@Body() body: Auth) {
-        this.accessService.setAuth(body)
-    }
-
-    @Post('/delAuth')
-    delAuth(@Body() body: {
-        ids: number[]
-    }) {
-        this.accessService.delAuth(body.ids)
-    }
+  @Post('/delAuth')
+  delAuth(@Body() body: { ids: number[] }) {
+    this.accessService.delAuth(body.ids);
+  }
 }

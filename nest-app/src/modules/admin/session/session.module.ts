@@ -9,6 +9,6 @@ import { Admin } from 'src/entities/admin.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([LiveChat, LiveChatMessage, Admin])],
   controllers: [SessionController],
-  providers: [SessionService]
+  providers: [SessionService],
 })
 export class SessionModule {}

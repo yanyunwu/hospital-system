@@ -6,22 +6,22 @@ import { LoginModule } from './login/login.module';
 @Module({
   imports: [
     RouterModule.register([
-        {
-          path: '/api/mp',
-          children: [
-            {
-              path: '/',
-              module: LoginModule,
-            },
-            {
-              path: '/user',
-              module: UserModule,
-            }
-          ],
-        },
-      ]),
+      {
+        path: '/api/mp',
+        children: [
+          {
+            path: '/',
+            module: LoginModule,
+          },
+          {
+            path: '/user',
+            module: UserModule,
+          },
+        ],
+      },
+    ]),
     UserModule,
-    LoginModule
+    LoginModule,
   ],
   providers: [],
 })

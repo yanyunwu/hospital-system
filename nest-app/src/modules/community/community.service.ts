@@ -7,64 +7,65 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class CommunityService {
-    @InjectRepository(Post)
-    private postRepository: Repository<Post>
+  @InjectRepository(Post)
+  private postRepository: Repository<Post>;
 
-    @InjectRepository(PostReply)
-    private postReplyRepository: Repository<PostReply>
+  @InjectRepository(PostReply)
+  private postReplyRepository: Repository<PostReply>;
 
-    async getPostList(skip?: number, take?: number, options?: Post): Promise<[Array<Post & { key: string }>, number]> {
-        const {picture, user,replies, ...rest} = options
-        const [data, count] =  await this.postRepository.findAndCount({
-            where: {
-                ...rest
-            },
-            skip: skip * take,
-            take,
-            order: {
-                createTime: 'DESC'
-            },
-            relations: ['user', 'replies']
-        })
+  async getPostList(
+    skip?: number,
+    take?: number,
+    options?: Post,
+  ): Promise<[Array<Post & { key: string }>, number]> {
+    const { picture, user, replies, ...rest } = options;
+    const [data, count] = await this.postRepository.findAndCount({
+      where: {
+        ...rest,
+      },
+      skip: skip * take,
+      take,
+      order: {
+        createTime: 'DESC',
+      },
+      relations: ['user', 'replies'],
+    });
 
-        return [
-            data.map(item => ({
-                key: String(item.id),
-                ...item
-            })),
-            count
-        ]
-    }
+    return [
+      data.map((item) => ({
+        key: String(item.id),
+        ...item,
+      })),
+      count,
+    ];
+  }
 
-    async getPost(id: number): Promise<Post> {
-        const data = await this.postRepository.findOne({
-            where: {
-                id
-            },
-            relations: ['user', 'replies', 'replies.user']
-        })
+  async getPost(id: number): Promise<Post> {
+    const data = await this.postRepository.findOne({
+      where: {
+        id,
+      },
+      relations: ['user', 'replies', 'replies.user'],
+    });
 
-        data.views += 1
-        
-        await this.postRepository.save(data)
-        return data
-    }
+    data.views += 1;
 
-    addPost(body: Post) {
-        // const post = new Post()
-        return this.postRepository.save(body)
-    }
+    await this.postRepository.save(data);
+    return data;
+  }
 
+  addPost(body: Post) {
+    // const post = new Post()
+    return this.postRepository.save(body);
+  }
 
+  async addPostReply(postId: number, user: User, content: string) {
+    const post = await this.postRepository.findOne({ where: { id: postId } });
+    const reply = new PostReply();
+    reply.post = post;
+    reply.user = user;
+    reply.content = content;
 
-    async addPostReply(postId: number, user: User, content: string) {
-        const post = await this.postRepository.findOne({ where: { id: postId } })
-        const reply = new PostReply()
-        reply.post = post
-        reply.user = user
-        reply.content = content
-
-        return this.postReplyRepository.save(reply)
-    }
-
+    return this.postReplyRepository.save(reply);
+  }
 }

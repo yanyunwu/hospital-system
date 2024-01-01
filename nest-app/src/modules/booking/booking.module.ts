@@ -8,12 +8,10 @@ import { BookingDateRecord } from 'src/entities/bookingDateRecord.entity';
 import { User } from 'src/entities/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Booking, BookingDate, BookingDateRecord, User])],
+  imports: [
+    TypeOrmModule.forFeature([Booking, BookingDate, BookingDateRecord, User]),
+  ],
   controllers: [BookingController],
-  providers: [BookingService]
+  providers: [BookingService],
 })
-export class BookingModule {
-
-
-
-}
+export class BookingModule {}

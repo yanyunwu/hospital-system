@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  OneToMany,
+} from 'typeorm';
 import { BookingDate } from './bookingDate.entity';
 
 // 预约表
@@ -6,18 +12,18 @@ import { BookingDate } from './bookingDate.entity';
 export class Booking {
   @PrimaryGeneratedColumn()
   id: number;
-  
+
   @Column()
-  title: string
+  title: string;
 
-  @Column({type: 'text'})
-  intro: string
+  @Column({ type: 'text' })
+  intro: string;
   // 0关闭 1开启
-  @Column({type: 'int', default: 0})
-  status: number
+  @Column({ type: 'int', default: 0 })
+  status: number;
 
-  @OneToMany(() => BookingDate, bookingDates => bookingDates.booking)
-  bookingDates: BookingDate[]
+  @OneToMany(() => BookingDate, (bookingDates) => bookingDates.booking)
+  bookingDates: BookingDate[];
 
   @CreateDateColumn()
   createTime: string;

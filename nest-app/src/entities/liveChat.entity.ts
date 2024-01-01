@@ -1,4 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, ManyToMany, JoinTable, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+  ManyToMany,
+  JoinTable,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { User } from './user.entity';
 import { LiveChatMessage } from './liveChatMessage.entity';
 import { Admin } from './admin.entity';
@@ -9,18 +19,21 @@ export class LiveChat {
   id: number;
 
   @Column() // 0 等待回复 1回复中  2关闭
-  status: number
+  status: number;
 
-  @Column({nullable: true})
-  lastMessage: string
+  @Column({ nullable: true })
+  lastMessage: string;
 
-  @ManyToOne(() => User, user => user.liveChats)
+  @ManyToOne(() => User, (user) => user.liveChats)
   user: User;
 
-  @ManyToOne(() => Admin, adminUser => adminUser.liveChats)
+  @ManyToOne(() => Admin, (adminUser) => adminUser.liveChats)
   adminUser: Admin;
 
-  @OneToMany(() => LiveChatMessage, LiveChatMessage => LiveChatMessage.liveChat)
+  @OneToMany(
+    () => LiveChatMessage,
+    (LiveChatMessage) => LiveChatMessage.liveChat,
+  )
   liveChatMessages: LiveChatMessage[];
 
   @CreateDateColumn()

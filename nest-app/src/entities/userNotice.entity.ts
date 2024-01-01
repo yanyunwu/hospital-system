@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, OneToMany, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  OneToMany,
+  ManyToOne,
+} from 'typeorm';
 import { User } from './user.entity';
 
 // 用户系统通知
@@ -9,13 +16,13 @@ export class UserNotice {
 
   // 标题
   @Column()
-  title: string
+  title: string;
 
-  @Column({type: 'text'})
-  content: string
+  @Column({ type: 'text' })
+  content: string;
 
-  @ManyToOne(() => User, user => user.userNotices)
-  user: User
+  @ManyToOne(() => User, (user) => user.userNotices)
+  user: User;
 
   @CreateDateColumn()
   createTime: string;

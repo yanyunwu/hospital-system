@@ -9,8 +9,11 @@ import { LiveChatMessage } from 'src/entities/liveChatMessage.entity';
 import { LoginModule } from '../mp/login/login.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Admin, User, LiveChat, LiveChatMessage]), LoginModule],
+  imports: [
+    TypeOrmModule.forFeature([Admin, User, LiveChat, LiveChatMessage]),
+    LoginModule,
+  ],
   controllers: [SessionController],
-  providers: [SessionService]
+  providers: [SessionService],
 })
 export class SessionModule {}

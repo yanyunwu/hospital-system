@@ -6,13 +6,10 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class LoginService {
-
   @InjectRepository(User)
-  private userRepository: Repository<User>
+  private userRepository: Repository<User>;
 
-  constructor(
-    private jwtService: JwtService,
-  ) {}
+  constructor(private jwtService: JwtService) {}
 
   async login(wxres: Record<string, any>, body: any): Promise<any> {
     // const user = await this.usersService.findOne(username);
@@ -24,11 +21,11 @@ export class LoginService {
     // if (user?.password !== pass) {
     //   throw new UnauthorizedException();
     // }
-    const user = await this.getUserByOpenId(wxres.openid)
-    user.avatar = body.avatarUrl
-    console.log('user.avatar', user.avatar)
-    user.nickname = body.nickName
-    await this.userRepository.save(user)
+    const user = await this.getUserByOpenId(wxres.openid);
+    user.avatar = body.avatarUrl;
+    console.log('user.avatar', user.avatar);
+    user.nickname = body.nickName;
+    await this.userRepository.save(user);
     const payload = { ...wxres, userId: user.id };
     return {
       access_token: await this.jwtService.signAsync(payload),
@@ -38,18 +35,16 @@ export class LoginService {
   async getUserByOpenId(openId: string) {
     const res = await this.userRepository.findOne({
       where: {
-        openId: openId
-      }
-    })
+        openId: openId,
+      },
+    });
 
     if (res) {
-      return res
+      return res;
     }
 
-    const newUser = new User()
-    newUser.openId = openId
-    return this.userRepository.save(newUser)
+    const newUser = new User();
+    newUser.openId = openId;
+    return this.userRepository.save(newUser);
   }
-
-
 }
