@@ -39,6 +39,10 @@ export class UsersService {
   @InjectRepository(User)
   private userRepository: Repository<User>;
 
+  constructor() {
+    console.log('123123123', this.adminUserRepository);
+  }
+
   async findOne(username: string): Promise<Admin> {
     return this.adminUserRepository.findOne({
       where: {
@@ -72,8 +76,6 @@ export class UsersService {
   }
 
   async addAdminUser(admin: Admin) {
-    admin.password = '123456';
-
     return this.adminUserRepository.save(admin);
   }
 

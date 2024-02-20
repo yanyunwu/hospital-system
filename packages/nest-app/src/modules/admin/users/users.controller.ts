@@ -6,7 +6,16 @@ import { User } from 'src/entities/user.entity';
 
 @Controller()
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    this.addAdminUser({
+      username: process.env.ADMIN_ACCOUNT,
+      password: process.env.ADMIN_PASSWORD,
+      nickname: '超级管理员',
+      birthday: '2024-02-08',
+    }).catch((err) => err);
+  }
 
   /**
    * 医院人员信息管理模块
@@ -32,6 +41,7 @@ export class UsersController {
 
   @Post('/addAdminUser')
   async addAdminUser(@Body() body: Admin) {
+    body.password = '12345678';
     await this.usersService.addAdminUser(body);
   }
 

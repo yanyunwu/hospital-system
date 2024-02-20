@@ -16,7 +16,7 @@ import { RrModule } from './modules/rr/rr.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ envFilePath: ['.env.development.local', '.env'] }),
+    ConfigModule.forRoot({ envFilePath: ['.env.local', '.env'] }),
     AdminModule,
     MpModule,
     EventsModule,
@@ -28,12 +28,11 @@ import { RrModule } from './modules/rr/rr.module';
     RrModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      // password: '12345678',
-      password: '2001',
-      database: 'hospital_system',
+      host: process.env.MYSQL_HOST,
+      port: parseInt(process.env.MYSQL_PORT),
+      username: process.env.MYSQL_USERNAME,
+      password: process.env.MYSQL_PASSWORD,
+      database: process.env.MYSQL_DATABASE,
       entities: [resolve(__dirname, './entities/**/*.entity.{js,ts}')],
       synchronize: true,
       logging: true,
