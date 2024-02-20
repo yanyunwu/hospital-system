@@ -1,0 +1,12 @@
+{
+  "name": "hospital-system",
+  "version": "1.0.0",
+  "description": "通用高校医院系统",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "zhouyangjie",
+  "license": "ISC"
+}

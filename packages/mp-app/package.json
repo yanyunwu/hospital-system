@@ -1,4 +1,7 @@
 {
+  "name": "nest-app",
+  "version": "0.0.1",
+  "private": true,
   "dependencies": {
     "@hyoga/uni-socket.io": "^3.0.4",
     "dayjs": "^1.11.10",
