@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'antd';
-import { ModalForm, ProFormDatePicker, ProFormRadio, ProFormText } from '@ant-design/pro-components';
+import { ModalForm, ProFormDatePicker, ProFormRadio, ProFormText } from '@ant-design/pro-form';
 import { PlusOutlined } from '@ant-design/icons';
 import { handleAdd } from '../service';
 import { TableListItem } from '../type';

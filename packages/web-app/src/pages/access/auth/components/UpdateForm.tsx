@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal } from 'antd';
-import { ProFormText, StepsForm, ProFormCheckbox } from '@ant-design/pro-components';
+import { ProFormText, StepsForm, ProFormCheckbox } from '@ant-design/pro-form';
 import type { TableListItem } from '../data';
 
 export type FormValueType = {

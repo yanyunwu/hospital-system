@@ -7,7 +7,7 @@ import {
   StepsForm,
   ProFormRadio,
   ProFormDateTimePicker,
-} from '@ant-design/pro-components';
+} from '@ant-design/pro-form';
 import { useIntl, FormattedMessage } from 'umi';
 
 export type FormValueType = {

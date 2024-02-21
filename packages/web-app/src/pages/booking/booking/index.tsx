@@ -10,7 +10,7 @@ import {
   ProFormRadio,
   ProFormDatePicker,
   ProFormTextArea,
-} from '@ant-design/pro-components';
+} from '@ant-design/pro-form';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import type { FormValueType } from './components/UpdateForm';

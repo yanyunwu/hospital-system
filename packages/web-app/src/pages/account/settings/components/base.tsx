@@ -7,7 +7,7 @@ import ProForm, {
   ProFormSelect,
   ProFormText,
   ProFormTextArea,
-} from '@ant-design/pro-components';
+} from '@ant-design/pro-form';
 import { useRequest } from 'umi';
 import { queryCurrent } from '../service';
 import { queryProvince, queryCity } from '../service';

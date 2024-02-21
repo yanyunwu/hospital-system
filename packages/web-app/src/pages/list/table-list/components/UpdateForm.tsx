@@ -7,7 +7,7 @@ import {
   StepsForm,
   ProFormRadio,
   ProFormDateTimePicker,
-} from '@ant-design/pro-components';
+} from '@ant-design/pro-form';
 import type { TableListItem } from '../data';
 
 export type FormValueType = {

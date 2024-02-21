@@ -57,8 +57,14 @@ ol {
 }
 
 body {
-  .ant-modal-close-x {
-    height: auto;
-    width: auto;
+  .ant-modal-close  {
+    height: auto !important;
+    width: auto !important;
+    top: 0 !important;
+    right: 0 !important;
+  }
+
+  .ant-modal-close:active, .ant-modal-close:hover {
+    background-color: transparent !important;
   }
 }
