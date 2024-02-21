@@ -5,7 +5,7 @@ import {
   ProFormDatePicker,
   ProFormRadio,
   ProFormText
-} from '@ant-design/pro-form'
+} from '@ant-design/pro-components'
 import { useRequest } from 'ahooks';
 import { TableListItem } from '../type';
 import { useGlobalContext } from '@/templates/CommonTemplate';

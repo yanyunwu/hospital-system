@@ -8,7 +8,7 @@ import ProForm, {
   ProFormSelect,
   ProFormText,
   ProFormTimePicker,
-} from '@ant-design/pro-form';
+} from '@ant-design/pro-components';
 import type { ProColumnType } from '@ant-design/pro-table';
 import { EditableProTable } from '@ant-design/pro-table';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'antd';
-import { ModalForm, ProFormDatePicker, ProFormRadio, ProFormText } from '@ant-design/pro-form';
+import { ModalForm, ProFormDatePicker, ProFormRadio, ProFormText } from '@ant-design/pro-components';
 import { PlusOutlined } from '@ant-design/icons';
 import { handleAdd } from '../service';
 import { TableListItem } from '../type';
@@ -17,7 +17,7 @@ const CreateForm: React.FC = () => {
       }}
       trigger={
         <Button type="primary">
-          <PlusOutlined />
+          <PlusOutlined style={{color: "white"}} />
           新建
         </Button>
       }

@@ -9,7 +9,7 @@ import {
   ModalForm,
   ProFormDatePicker,
   ProFormDigit,
-} from '@ant-design/pro-form';
+} from '@ant-design/pro-components';
 import type { DateTableListItem, TableListItem, TableListPagination } from '../data';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';

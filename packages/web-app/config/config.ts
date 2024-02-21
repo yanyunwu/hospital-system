@@ -1,14 +1,23 @@
 // https://umijs.org/config/
 import { defineConfig } from 'umi';
 import { join } from 'path';
+import { theme } from 'antd'
+import { convertLegacyToken } from '@ant-design/compatible'
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
+
+const { defaultAlgorithm, defaultSeed } = theme;
+const mapV5Token = defaultAlgorithm(defaultSeed);
+const v5Vars = convertLegacyToken(mapV5Token);
 
 const { REACT_APP_ENV } = process.env;
 
 export default defineConfig({
   hash: true,
-  antd: {},
+  antd: false,
+  lessLoader: {
+    modifyVars: v5Vars
+  },
   dva: {
     hmr: true,
   },
@@ -67,7 +76,7 @@ export default defineConfig({
     },
     {
       path: '/dashboard',
-      name: 'dashboard',
+      name: '仪表盘',
       icon: 'dashboard',
       routes: [
         {
@@ -75,7 +84,7 @@ export default defineConfig({
           redirect: '/dashboard/analysis',
         },
         {
-          name: 'analysis',
+          name: '数据页',
           icon: 'smile',
           path: '/dashboard/analysis',
           component: './dashboard/analysis',
@@ -96,7 +105,7 @@ export default defineConfig({
     },
     {
       path: '/access',
-      icon: 'table',
+      icon: 'SafetyOutlined',
       name: '权限管理',
       routes: [
         {
@@ -115,7 +124,7 @@ export default defineConfig({
     },
     {
       path: '/customer',
-      icon: 'table',
+      icon: 'UserOutlined',
       name: '用户管理',
       routes: [
         {
@@ -134,7 +143,7 @@ export default defineConfig({
     },
     {
       path: '/session',
-      icon: 'table',
+      icon: 'MessageOutlined',
       name: '会话管理',
       routes: [
         {
@@ -153,7 +162,7 @@ export default defineConfig({
     },
     {
       path: '/community',
-      icon: 'table',
+      icon: 'TeamOutlined',
       name: '心理社区管理',
       routes: [
         {
@@ -166,7 +175,7 @@ export default defineConfig({
     },
     {
       path: '/booking',
-      icon: 'table',
+      icon: 'BookOutlined',
       name: '预约管理',
       routes: [
         {
@@ -185,7 +194,7 @@ export default defineConfig({
     },
     {
       path: '/rr',
-      icon: 'table',
+      icon: 'CopyOutlined',
       name: '转诊报销',
       routes: [
         {
@@ -198,7 +207,7 @@ export default defineConfig({
     },
     {
       path: '/other',
-      icon: 'table',
+      icon: 'SettingOutlined',
       name: '其他功能',
       routes: [
         {
@@ -229,7 +238,6 @@ export default defineConfig({
     // 如果不想要 configProvide 动态设置主题需要把这个设置为 default
     // 只有设置为 variable， 才能使用 configProvide 动态设置主色调
     // https://ant.design/docs/react/customize-theme-variable-cn
-    'root-entry-name': 'variable',
   },
   // esbuild is father build tools
   // https://umijs.org/plugins/plugin-esbuild
