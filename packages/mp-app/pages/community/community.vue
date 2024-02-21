@@ -66,7 +66,7 @@
 			},
 			
 			getPostList() {
-				request({
+				return request({
 					url: '/api/community/getPostList'
 				}).then(res => {
 					console.log('帖子列表', res)
@@ -84,7 +84,14 @@
 		},
 		
 		onPullDownRefresh() {
-			this.getPostList()
+			this.getPostList().then(() => {
+				uni.showToast({
+					icon: 'none',
+					title: '刷新成功！',
+					duration: 500
+				})
+				uni.stopPullDownRefresh()
+			})
 		}
 	}
 </script>

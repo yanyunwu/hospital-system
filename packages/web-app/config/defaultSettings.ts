@@ -4,7 +4,7 @@ const Settings: LayoutSettings & {
   pwa?: boolean;
   logo?: string;
 } = {
-  navTheme: 'dark',
+  navTheme: 'light',
   primaryColor: '#1890ff',
   layout: 'side',
   contentWidth: 'Fluid',
@@ -13,6 +13,6 @@ const Settings: LayoutSettings & {
   pwa: false,
   headerHeight: 48,
   splitMenus: false,
-};
+}
 
 export default Settings;

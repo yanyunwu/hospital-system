@@ -1,5 +1,5 @@
 import type { TableListItem as User } from '../../user/user/data'
-import type { TableListItem as Admin } from '../../user/admin/data'
+import type { TableListItem as Admin } from '../../user/admin/type'
 
 export type TableListItem = {
   id: number;
