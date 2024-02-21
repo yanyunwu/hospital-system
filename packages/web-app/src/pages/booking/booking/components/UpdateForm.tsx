@@ -176,24 +176,24 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
     },
   ];
   return (
-    <StepsForm
+    (<StepsForm
       stepsProps={{
         size: 'small',
       }}
       stepsFormRender={(dom, submitter) => {
         return (
-          <Modal
+          (<Modal
             width="80%"
             destroyOnClose
             title="预约配置"
-            visible={props.updateModalVisible}
+            open={props.updateModalVisible}
             footer={submitter}
             onCancel={() => {
               props.onCancel();
             }}
           >
             {dom}
-          </Modal>
+          </Modal>)
         );
       }}
       onFinish={props.onSubmit}
@@ -353,7 +353,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
           />
         </ModalForm>
       </StepsForm.StepForm>
-    </StepsForm>
+    </StepsForm>)
   );
 };
 

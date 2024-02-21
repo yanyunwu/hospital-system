@@ -251,7 +251,7 @@ const TableList: React.FC = () => {
   }, [socket, messageList, currentRow?.id]);
 
   return (
-    <PageContainer>
+    (<PageContainer>
       <ProTable<TableListItem, TableListPagination>
         headerTitle="实时会话列表"
         actionRef={actionRef}
@@ -315,7 +315,7 @@ const TableList: React.FC = () => {
       </Modal>
       <Drawer
         width={600}
-        visible={showDetail}
+        open={showDetail}
         onClose={() => {
           setCurrentRow(undefined);
           setShowDetail(false);
@@ -336,7 +336,7 @@ const TableList: React.FC = () => {
           />
         )}
       </Drawer>
-    </PageContainer>
+    </PageContainer>)
   );
 };
 
