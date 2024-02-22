@@ -11,18 +11,26 @@
 				<view class="official-content">
 					<view v-for="item in messageList" >
 						<view v-if="item.speakUserType === 0" class="chat_message_item chat_message_self">
-							<image :src="selfimg"  style="width: 80rpx;height: 80rpx;"></image>
-							<view>
+							<image :src="selfimg"  style="width: 80rpx;height: 80rpx;float: right;"></image>
+							<view style="margin-right: 100rpx;">
 								<view><text>{{item.speakUserName}}</text></view>
-								<view class="chat_message_text"><text>{{item.content}}</text></view>
+								<view style="display: flex;">
+									<view class="chat_message_text">
+										{{item.content}}
+									</view>
+								</view>
 							</view>
 						</view>
 						
 						<view v-else-if="item.speakUserType === 1" class="chat_message_item chat_message_other">
-							<image :src="selfimg"  style="width: 80rpx;height: 80rpx;"></image>
-							<view>
+							<image :src="selfimg"  style="width: 80rpx;height: 80rpx;float: left;"></image>
+							<view style="margin-left: 100rpx;">
 								<view><text>{{item.speakUserName}}</text></view>
-								<view class="chat_message_text"><text>{{item.content}}</text></view>
+								<view style="display: flex;">
+									<view class="chat_message_text" style="margin-left: 0;">
+										{{item.content}}
+									</view>
+								</view>
 							</view>
 						</view>
 						
@@ -198,18 +206,18 @@
 	}
 	
 	.chat_message_item {
-		display: flex;
 		padding: 10rpx 15rpx;
 	}
 	
 	.chat_message_item .chat_message_text {
-		height: 60rpx;
 		background-color: white;
 		border-radius: 10rpx;
 		line-height: 60rpx;
-		text-align: center;
 		padding: 5rpx 20rpx;
 		margin-top: 15rpx;
+		word-break:break-all;
+		margin-left: auto;
+		overflow: hidden;
 	}
 	
 	.chat_message_self>view {

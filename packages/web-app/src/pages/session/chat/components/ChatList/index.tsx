@@ -1,6 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import { Input, Avatar } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { Input, Avatar, Popover } from 'antd';
+import { useBoolean, useUpdateEffect } from 'ahooks';
+import emojiData from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
+import { SmileOutlined, UserOutlined } from '@ant-design/icons';
 import type { TableListItem } from '../../type';
 import './ChatList.less'
 
@@ -27,11 +30,13 @@ export type ChatListProps = {
 
 const ChatList: React.FC<ChatListProps> = (props) => {
 
+  const [show, showAction] = useBoolean()
+
   const dom = useRef<HTMLDivElement>()
-  useEffect(() => {
+  useUpdateEffect(() => {
     if (dom.current) {
       dom.current.scrollTop = dom.current?.scrollHeight
-      dom.current.style.scrollBehavior = 'smooth '
+      dom.current.style.scrollBehavior = 'smooth'
     }
   }, [props.messageList])
 
@@ -39,20 +44,28 @@ const ChatList: React.FC<ChatListProps> = (props) => {
     if (item.speakUserType === 1) {
       return (
         <div className="chat_message_item chat_message_self">
-           <Avatar size="large" style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
-          <div>
+          <Avatar size="large" style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
+          <div style={{flex: 1, overflow:'hidden'}}>
             <div>{item.speakUserName}</div>
-            <div className="chat_message_text"><span>{item.content}</span></div>
+            <div style={{display: 'flex'}}>
+              <p className="chat_message_text">
+                {item.content}
+              </p>
+            </div>
           </div>
         </div>
       )
     } else if (item.speakUserType === 0) {
       return (
         <div className="chat_message_item chat_message_other">
-           <Avatar size="large" style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
+          <Avatar size="large" style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
           <div>
             <div>{item.speakUserName}</div>
-            <div className="chat_message_text"><span>{item.content}</span></div>
+            <div style={{display: 'flex'}}>
+              <p className="chat_message_text">
+                {item.content}
+              </p>
+            </div>
           </div>
         </div>
       )
@@ -82,12 +95,32 @@ const ChatList: React.FC<ChatListProps> = (props) => {
 		</div>
 
 		<div className="chat_send" >
+      <div className='chat_send_tool'>
+        <Popover
+          arrow={false}
+          overlayInnerStyle={{padding: 0}}
+          open={show}
+          content={
+            <Picker
+              data={emojiData}
+              onEmojiSelect={(_: any) => {
+                props.onChangeText(props.waitText + _.native)
+                showAction.setFalse()
+              }}
+            />
+          }
+          trigger='click'
+          onOpenChange={showAction.toggle}
+        >
+          <SmileOutlined style={{fontSize: '20px'}} />
+        </Popover>
+      </div>
 			<Input.TextArea
         disabled={props.disabled}
         value={props.waitText}
         onChange={(t) => props.onChangeText(t.target.value)}
-        style={{height: '100%', resize: 'none'}}
-        placeholder='回车键(Enter)也可以恢复！'
+        style={{height: 160, resize: 'none'}}
+        placeholder='回车键(Enter)也可以回复！'
         onKeyDown={(e) => {
           if (e.key.toLowerCase() === 'enter') {
             props.onSend()
