@@ -1,13 +1,11 @@
 import { useMemo } from "react";
-import { Popconfirm } from "antd";
 import { ProColumns, ProColumnType } from "@ant-design/pro-table";
 import { useGlobalContext } from "@/templates/CommonTemplate";
 import { TableListItem } from "../type";
-import { handleRemove } from "../service";
 import DetailDrawer from "../components/DetailDrawer";
 
 const useAction = (): ProColumnType<TableListItem> => {
-  const { setCurrentRow, event$ } = useGlobalContext<TableListItem>()
+  const { setCurrentRow } = useGlobalContext<TableListItem>()
   return {
     title: '操作',
     dataIndex: 'option',
@@ -18,19 +16,7 @@ const useAction = (): ProColumnType<TableListItem> => {
         onTrigger={() => {
           setCurrentRow(record)
         }}
-       />,
-      <Popconfirm
-        key='Popconfirm'
-        title="确定要进行删除操作吗？"
-        onConfirm={async () => {
-          await handleRemove([record]);
-          event$.emit('reloadAndRest')
-        }}
-        okText="确定"
-        cancelText="取消"
-      >
-        <a>删除</a>
-      </Popconfirm>,
+       />
     ],
   }
 }

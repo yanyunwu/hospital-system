@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
+import { Request } from 'express';
 import { Public } from '../login/decorators';
 import { UsersService } from './users.service';
 import { Admin } from 'src/entities/admin.entity';
@@ -37,6 +38,13 @@ export class UsersController {
       total: count,
       success: true,
     };
+  }
+
+  @Get('/getOwnerAdminUser')
+  async getAdminUser(@Req() req: Request) {
+    const adminUser = req['user'];
+    console.log('adminUser', adminUser);
+    return this.usersService.getOwnerAdminUser(adminUser.adminUserId);
   }
 
   @Post('/addAdminUser')

@@ -75,6 +75,14 @@ export class UsersService {
     ];
   }
 
+  async getOwnerAdminUser(adminUserId: number) {
+    return this.adminUserRepository.findOne({
+      where: {
+        id: adminUserId,
+      },
+    });
+  }
+
   async addAdminUser(admin: Admin) {
     return this.adminUserRepository.save(admin);
   }

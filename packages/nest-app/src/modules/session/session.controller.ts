@@ -17,7 +17,7 @@ export class SessionController {
   ) {}
 
   @Post('/addNewSession')
-  async addNewSession(@Body() body: {}, @Req() req: Request) {
+  async addNewSession(@Req() req: Request) {
     const payload = req['user'];
     const user = await this.loginService.getUserByOpenId(payload.openid);
 

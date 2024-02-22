@@ -46,3 +46,12 @@ export async function setSessionStatus(sessionId: number, status: number) {
     },
   });
 }
+
+export async function currentUser(options?: { [key: string]: any }) {
+  return request<{
+    data: API.CurrentUser;
+  }>('/api/admin/user/getOwnerAdminUser', {
+    method: 'GET',
+    ...(options || {}),
+  });
+}

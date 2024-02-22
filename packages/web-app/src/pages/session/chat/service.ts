@@ -1,64 +1,57 @@
-// @ts-ignore
-/* eslint-disable */
-import { request } from 'umi';
-import { TableListItem } from './data';
+import { message } from "antd";
+import { TableListItem } from "./type";
+import { add, del, set } from "./config/request";
 
-/** 获取规则列表 GET /api/rule */
-export async function get(
-  params: {
-    // query
-    /** 当前的页码 */
-    current?: number;
-    /** 页面的容量 */
-    pageSize?: number;
-  },
-  options?: { [key: string]: any },
-) {
-  const { current, pageSize, ...rest } = params || {};
+export const handleAdd = async (fields: TableListItem) => {
+  const hide = message.loading('正在添加');
+  try {
+    await add({ ...fields });
+    hide();
+    message.success('添加成功');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('添加失败请重试！');
+    return false;
+  }
+};
 
-  const response = await request<{
-    data: {
-      data: TableListItem[];
-      /** 列表的内容总数 */
-      total?: number;
-      success?: boolean;
-    };
-  }>('/api/admin/session/getSessionList', {
-    method: 'GET',
-    params: {
-      skip: current && current - 1,
-      take: pageSize,
-      ...rest,
-    },
-    ...(options || {}),
-  });
+export const handleUpdate = async (fields: TableListItem, currentRow?: TableListItem) => {
+  const hide = message.loading('正在配置');
 
-  return response.data;
-}
+  try {
+    await set({
+      ...currentRow,
+      ...fields
+    });
+    hide();
+    message.success('配置成功');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('配置失败请重试！');
+    console.log(error)
+    return false;
+  }
+};
 
-/** 新建规则 PUT /api/rule */
-export async function set(data: { [key: string]: any }, options?: { [key: string]: any }) {
-  return request<TableListItem>('/api/admin/user/setUser', {
-    data,
-    method: 'POST',
-    ...(options || {}),
-  });
-}
+export const handleRemove = async (selectedRows: TableListItem | TableListItem[]) => {
+  if (!Array.isArray(selectedRows)) {
+    selectedRows = [selectedRows]
+  }
+  const hide = message.loading('正在删除');
 
-/** 新建规则 POST /api/rule */
-export async function add(data: { [key: string]: any }, options?: { [key: string]: any }) {
-  return request<TableListItem>('/api/admin/user/addUser', {
-    data,
-    method: 'POST',
-    ...(options || {}),
-  });
-}
+  try {
+    await del({
+      ids: selectedRows.map((row) => row.id),
+    });
+    hide();
+    message.success('删除成功，即将刷新');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('删除失败，请重试');
+    return false;
+  }
+};
 
-/** 删除规则 DELETE /api/rule */
-export async function del(data: { ids: number[] }, options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/admin/user/delUser', {
-    data,
-    method: 'POST',
-    ...(options || {}),
-  });
-}

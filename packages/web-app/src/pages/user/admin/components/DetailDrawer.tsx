@@ -9,8 +9,9 @@ import {
 import { useRequest } from 'ahooks';
 import { TableListItem } from '../type';
 import { useGlobalContext } from '@/templates/CommonTemplate';
-import { handleUpdate } from '../service';
+import { handleRemove, handleUpdate } from '../service';
 import { role } from '@/pages/access/role/service';
+import { Button, Popconfirm } from 'antd';
 
 export interface DetailDrawerProps {
   onTrigger?(): void
@@ -37,6 +38,21 @@ const DetailDrawer: React.FC<DetailDrawerProps> = (props) => {
       }
       drawerProps={{
         destroyOnClose: true,
+        extra: (
+          <Popconfirm
+            title='确定要删除该项吗？'
+            onConfirm={async () => {
+              if (currentRow) {
+                await handleRemove([currentRow]);
+                event$.emit('reloadAndRest')
+              }
+            }}
+          >
+            <Button type='primary' danger>
+              删除
+            </Button>
+          </Popconfirm>
+        )
       }}
       initialValues={{...currentRow, roles: currentRow?.roles?.split(',').map(i => parseInt(i))}}
       onFinish={async (values) => {

@@ -6,4 +6,6 @@ declare namespace API {
     name: string;
     createTime: string;
   };
+
+  type CurrentUser = any
 }

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { Input, Avatar } from 'antd';
-import type { TableListItem } from '../data';
-import './ChatList.less'
 import { UserOutlined } from '@ant-design/icons';
+import type { TableListItem } from '../../type';
+import './ChatList.less'
 
 export type FormValueType = {
   target?: string;
@@ -22,6 +22,7 @@ export type ChatListProps = {
   onSubmit?: (values: FormValueType) => Promise<void>;
   updateModalVisible?: boolean;
   values?: Partial<TableListItem>;
+  disabled?: boolean
 };
 
 const ChatList: React.FC<ChatListProps> = (props) => {
@@ -70,6 +71,7 @@ const ChatList: React.FC<ChatListProps> = (props) => {
   return (
     <div className="container">
 		<div className="chat_message_list">
+      {/* @ts-ignore */}
 			<div ref={dom} className="scroll-view" style={{height: '100%'}} >
 				<div className="official-content">
           {
@@ -78,18 +80,20 @@ const ChatList: React.FC<ChatListProps> = (props) => {
 				</div>
 			</div>
 		</div>
-		
+
 		<div className="chat_send" >
-			<Input.TextArea 
-        value={props.waitText} 
-        onChange={(t) => props.onChangeText(t.target.value)} 
-        style={{height: '100%'}}
+			<Input.TextArea
+        disabled={props.disabled}
+        value={props.waitText}
+        onChange={(t) => props.onChangeText(t.target.value)}
+        style={{height: '100%', resize: 'none'}}
+        placeholder='回车键(Enter)也可以恢复！'
         onKeyDown={(e) => {
           if (e.key.toLowerCase() === 'enter') {
             props.onSend()
           }
         }}
-      ></Input.TextArea>
+      />
 		</div>
 	</div>
   )
