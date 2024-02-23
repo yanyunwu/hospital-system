@@ -3,12 +3,12 @@
 		<view class="chat_message_list">
 			<scroll-view class="scroll-view" scroll-y="true" style="height: 100%" 
 				:scroll-top="scrollTop"  scroll-with-animation="true">
-				<view style="padding: 10px;">
-					<view class="intro">
-						{{intro}}
-					</view>
-				</view>
 				<view class="official-content">
+					<view style="padding: 10px;">
+						<view class="intro">
+							{{intro}}
+						</view>
+					</view>
 					<view v-for="item in messageList" >
 						<view v-if="item.speakUserType === 0" class="chat_message_item chat_message_self">
 							<image :src="selfimg"  style="width: 80rpx;height: 80rpx;float: right;"></image>
@@ -89,9 +89,6 @@
 				})
 				
 				this.waitMsg = ""
-				nextTick(() => {
-					this.initContentHeight()
-				})
 			},
 			initScrollHeight() {
 			            uni.createSelectorQuery()
@@ -113,6 +110,7 @@
 					.boundingClientRect(data => {
 						if (data) {
 							let top = data.height - this.scrollHeight;
+							console.log('datadatadata', top, data.height)
 							if (top > 0) {
 								this.scrollTop = top;
 							}
@@ -144,10 +142,16 @@
 					}
 					
 					this.messageList.push(message)
+					setTimeout(() => {
+						this.initContentHeight()
+					}, 1)
 				})
 				
 				socket?.on('message_ok', (message) => {
 					this.messageList.push(message)
+					setTimeout(() => {
+						this.initContentHeight()
+					}, 1)
 				})
 			},
 			

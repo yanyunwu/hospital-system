@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Input, Avatar, Popover } from 'antd';
 import { useBoolean, useUpdateEffect } from 'ahooks';
 import emojiData from '@emoji-mart/data'
@@ -85,7 +85,7 @@ const ChatList: React.FC<ChatListProps> = (props) => {
     <div className="container">
 		<div className="chat_message_list">
       {/* @ts-ignore */}
-			<div ref={dom} className="scroll-view" style={{height: '100%'}} >
+			<div ref={dom} className="scroll-view good-scrollbar" style={{height: '100%'}} >
 				<div className="official-content">
           {
             props.messageList.map(item => <React.Fragment key={item.id}>{renderMessage(item)}</React.Fragment>)
