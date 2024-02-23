@@ -119,7 +119,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
 const requestInterceptor = (url: string, options: any) => {
   const access_token = localStorage.getItem('token')
   return {
-    url: url,
+    url: `${__BASE_URL__}${url}`,
     options: {
       ...options,
       headers: {

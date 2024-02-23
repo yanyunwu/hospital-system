@@ -24,3 +24,5 @@ declare let ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION: 'site' | undefine
 declare const REACT_APP_ENV: 'test' | 'dev' | 'pre' | false;
 
 declare var __SOCKET_BASE_URL__: string
+declare var __BASE_URL__: string
+
