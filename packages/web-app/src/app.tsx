@@ -133,7 +133,7 @@ const requestInterceptor = (url: string, options: any) => {
 const responseInterceptor = (response: any) => {
   if (response.status === 401) {
     message.error('登录失效')
-    location.href = '/user/login'
+    history.push('/user/login')
   }
   return response;
 }
