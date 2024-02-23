@@ -11,5 +11,8 @@
   },
   "keywords": [],
   "author": "zhouyangjie",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "pnpm": "^8.15.3"
+  }
 }
