@@ -32,7 +32,7 @@ const DetailDrawer: React.FC<DetailDrawerProps> = (props) => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    const socket = io('ws://localhost:3000', {
+    const socket = io(__SOCKET_BASE_URL__, {
       query: { token },
       transports: ['websocket', 'polling'],
       timeout: 5000,
@@ -41,6 +41,9 @@ const DetailDrawer: React.FC<DetailDrawerProps> = (props) => {
     socket.on('connect', () => {
       console.log('连接上了');
     });
+    socket.on('error', () => {
+      message.error('服务器连接失败, 请重试！')
+    })
     return () => {
       socket?.close();
     };

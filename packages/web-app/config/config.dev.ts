@@ -11,5 +11,8 @@ export default defineConfig({
     exclude: [],
     babelPlugins: [],
     babelOptions: {},
+  },
+  define: {
+    __SOCKET_BASE_URL__: 'ws://localhost:3000'
   }
 });
