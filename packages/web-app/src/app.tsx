@@ -132,8 +132,10 @@ const requestInterceptor = (url: string, options: any) => {
 // 全局请求 封装一下身份验证的东西
 const responseInterceptor = (response: any) => {
   if (response.status === 401) {
-    message.error('登录失效')
-    history.push('/user/login')
+    if (location.pathname !== loginPath) {
+      message.error('登录失效')
+    }
+    history.push(loginPath)
   }
   return response;
 }
