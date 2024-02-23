@@ -5,6 +5,8 @@
   "private": true,
   "scripts": {
     "nest:dev": "pnpm --filter nest-app run dev",
+    "nest:build": "pnpm --filter nest-app run build",
+    "nest:prod": "pnpm --filter nest-app run start:prod",
     "web:dev": "pnpm --filter web-app run dev"
   },
   "keywords": [],
