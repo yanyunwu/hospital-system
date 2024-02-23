@@ -14,7 +14,7 @@ export class FileController {
   @Post('/upload')
   @UseInterceptors(FileInterceptor('file'))
   uploadFile(@UploadedFile() file: Express.Multer.File & { url: string }) {
-    return `${process.env.BASE_URL}${file.url}`;
+    return `${process.env.FILE_BASE_URL}${file.url}`;
   }
 
   @Public()
