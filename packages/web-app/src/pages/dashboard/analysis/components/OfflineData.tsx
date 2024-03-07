@@ -1,9 +1,9 @@
-import { Card, Col, Row, Tabs } from 'antd';
-import { RingProgress, Line } from '@ant-design/charts';
-import type { OfflineDataType, DataItem } from '../data.d';
+import { Card, Col, Row, Tabs } from 'antd'
+import { RingProgress, Line } from '@ant-design/charts'
+import type { OfflineDataType, DataItem } from '../data.d'
 
-import NumberInfo from './NumberInfo';
-import styles from '../style.less';
+import NumberInfo from './NumberInfo'
+import styles from '../style.less'
 
 const CustomTab = ({
   data,
@@ -26,9 +26,9 @@ const CustomTab = ({
       <RingProgress forceFit height={60} width={60} percent={data.cvr} />
     </Col>
   </Row>
-);
+)
 
-const { TabPane } = Tabs;
+const { TabPane } = Tabs
 
 const OfflineData = ({
   activeKey,
@@ -71,6 +71,6 @@ const OfflineData = ({
       ))}
     </Tabs>
   </Card>
-);
+)
 
-export default OfflineData;
+export default OfflineData

@@ -1,14 +1,14 @@
-import * as React from 'react';
-import { HeatmapLayer, MapboxScene, PointLayer } from '@antv/l7-react';
-import { PageLoading } from '@ant-design/pro-layout';
+import * as React from 'react'
+import { HeatmapLayer, MapboxScene, PointLayer } from '@antv/l7-react'
+import { PageLoading } from '@ant-design/pro-layout'
 
-const colors = ['#eff3ff', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#084594'];
+const colors = ['#eff3ff', '#c6dbef', '#9ecae1', '#6baed6', '#4292c6', '#2171b5', '#084594']
 export default class Map extends React.Component {
   state = {
     data: null,
     grid: null,
     loading: false,
-  };
+  }
 
   public async componentDidMount() {
     const [geoData, gridData] = await Promise.all([
@@ -18,16 +18,16 @@ export default class Map extends React.Component {
       fetch(
         'https://gw.alipayobjects.com/os/bmw-prod/8990e8b4-c58e-419b-afb9-8ea3daff2dd1.json',
       ).then((d) => d.json()),
-    ]);
+    ])
     this.setState({
       data: geoData,
       grid: gridData,
       loading: true,
-    });
+    })
   }
 
   public render() {
-    const { data, grid, loading } = this.state;
+    const { data, grid, loading } = this.state
     return loading === false ? (
       <PageLoading />
     ) : (
@@ -126,7 +126,7 @@ export default class Map extends React.Component {
             filter={{
               field: 'cum_conf',
               values: (v) => {
-                return v > 2000;
+                return v > 2000
               },
             }}
             size={{
@@ -140,6 +140,6 @@ export default class Map extends React.Component {
           />,
         ]}
       </MapboxScene>
-    );
+    )
   }
 }

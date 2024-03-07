@@ -1,14 +1,14 @@
-import type { FC } from 'react';
+import type { FC } from 'react'
 import {
   ModalForm,
   ProFormSelect,
   ProFormDateTimePicker,
   ProFormText,
   ProFormTextArea,
-} from '@ant-design/pro-form';
-import type { BasicListItemDataType } from '../data.d';
-import styles from '../style.less';
-import { Button, Result } from 'antd';
+} from '@ant-design/pro-form'
+import type { BasicListItemDataType } from '../data.d'
+import styles from '../style.less'
+import { Button, Result } from 'antd'
 
 type OperationModalProps = {
   done: boolean;
@@ -19,9 +19,9 @@ type OperationModalProps = {
 };
 
 const OperationModal: FC<OperationModalProps> = (props) => {
-  const { done, visible, current, onDone, onSubmit, children } = props;
+  const { done, visible, current, onDone, onSubmit, children } = props
   if (!visible) {
-    return null;
+    return null
   }
   return (
     <ModalForm<BasicListItemDataType>
@@ -30,7 +30,7 @@ const OperationModal: FC<OperationModalProps> = (props) => {
       className={styles.standardListForm}
       width={640}
       onFinish={async (values) => {
-        onSubmit(values);
+        onSubmit(values)
       }}
       initialValues={current}
       submitter={{
@@ -99,7 +99,7 @@ const OperationModal: FC<OperationModalProps> = (props) => {
         />
       )}
     </ModalForm>
-  );
-};
+  )
+}
 
-export default OperationModal;
+export default OperationModal

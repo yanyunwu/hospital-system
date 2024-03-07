@@ -1,7 +1,7 @@
-import { Item, ItemPanel } from 'gg-editor';
+import { Item, ItemPanel } from 'gg-editor'
 
-import { Card } from 'antd';
-import styles from './index.less';
+import { Card } from 'antd'
+import styles from './index.less'
 
 const KoniItemPanel = () => (
   <ItemPanel className={styles.itemPanel}>
@@ -44,6 +44,6 @@ const KoniItemPanel = () => (
       />
     </Card>
   </ItemPanel>
-);
+)
 
-export default KoniItemPanel;
+export default KoniItemPanel

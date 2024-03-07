@@ -1,5 +1,5 @@
-import { request } from 'umi';
-import { TableListItem } from '../type';
+import { request } from 'umi'
+import { TableListItem } from '../type'
 
 const GET_URL = '/api/admin/session/getSessionList'
 const SET_URL = '/api/admin/user/setAdminUser'
@@ -13,7 +13,7 @@ export async function get(
   },
   options?: { [key: string]: any },
 ) {
-  const { current, pageSize, ...rest } = params;
+  const { current, pageSize, ...rest } = params
   const response = await request<{
     data: {
       data: TableListItem[];
@@ -28,9 +28,9 @@ export async function get(
       ...rest,
     },
     ...options,
-  });
+  })
 
-  return response.data;
+  return response.data
 }
 
 export async function set(data: { [key: string]: any }, options?: { [key: string]: any }) {
@@ -38,7 +38,7 @@ export async function set(data: { [key: string]: any }, options?: { [key: string
     data,
     method: 'POST',
     ...options,
-  });
+  })
 }
 
 export async function add(data: { [key: string]: any }, options?: { [key: string]: any }) {
@@ -46,7 +46,7 @@ export async function add(data: { [key: string]: any }, options?: { [key: string
     data,
     method: 'POST',
     ...options,
-  });
+  })
 }
 
 export async function del(data: { ids: number[] }, options?: { [key: string]: any }) {
@@ -54,5 +54,5 @@ export async function del(data: { ids: number[] }, options?: { [key: string]: an
     data,
     method: 'POST',
     ...options,
-  });
+  })
 }

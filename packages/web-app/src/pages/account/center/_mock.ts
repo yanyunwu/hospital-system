@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import type { Request, Response } from 'express';
-import type { ListItemDataType } from './data.d';
+import type { Request, Response } from 'express'
+import type { ListItemDataType } from './data.d'
 
 const titles = [
   'Alipay',
@@ -11,7 +11,7 @@ const titles = [
   'React',
   'Vue',
   'Webpack',
-];
+]
 const avatars = [
   'https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png', // Alipay
   'https://gw.alipayobjects.com/zos/rmsportal/zOsKZmFRdUtvpqCImOVY.png', // Angular
@@ -21,21 +21,21 @@ const avatars = [
   'https://gw.alipayobjects.com/zos/rmsportal/kZzEzemZyKLKFsojXItE.png', // React
   'https://gw.alipayobjects.com/zos/rmsportal/ComBAopevLwENQdKWiIn.png', // Vue
   'https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png', // Webpack
-];
+]
 
 const covers = [
   'https://gw.alipayobjects.com/zos/rmsportal/uMfMFlvUuceEyPpotzlq.png',
   'https://gw.alipayobjects.com/zos/rmsportal/iZBVOIhGJiAnhplqjvZW.png',
   'https://gw.alipayobjects.com/zos/rmsportal/iXjVmWVHbCJAyqvDxdtx.png',
   'https://gw.alipayobjects.com/zos/rmsportal/gLaIAoVWTtLbBWZNYEMg.png',
-];
+]
 const desc = [
   '那是一种内在的东西， 他们到达不了，也无法触及的',
   '希望是一个好东西，也许是最好的，好东西是不会消亡的',
   '生命就像一盒巧克力，结果往往出人意料',
   '城镇中有那么多的酒馆，她却偏偏走进了我的酒馆',
   '那时候我只会想自己想要什么，从不想自己拥有什么',
-];
+]
 
 const user = [
   '付小小',
@@ -48,7 +48,7 @@ const user = [
   '乐哥',
   '谭小仪',
   '仲尼',
-];
+]
 
 // 当前用户信息
 const currentUseDetail = {
@@ -162,10 +162,10 @@ const currentUseDetail = {
   },
   address: '西湖区工专路 77 号',
   phone: '0752-268888888',
-};
+}
 
 function fakeList(count: number): ListItemDataType[] {
-  const list = [];
+  const list = []
   for (let i = 0; i < count; i += 1) {
     list.push({
       id: `fake-list-${i}`,
@@ -210,34 +210,34 @@ function fakeList(count: number): ListItemDataType[] {
           id: 'member3',
         },
       ],
-    });
+    })
   }
 
-  return list;
+  return list
 }
 
 function getFakeList(req: Request, res: Response) {
-  const params = req.query as any;
+  const params = req.query as any
 
-  const count = Number(params.count) * 1 || 5;
+  const count = Number(params.count) * 1 || 5
 
-  const result = fakeList(count);
+  const result = fakeList(count)
   return res.json({
     data: {
       list: result,
     },
-  });
+  })
 }
 
 // 获取用户信息
 function getCurrentUser(req: Request, res: Response) {
   return res.json({
     data: currentUseDetail,
-  });
+  })
 }
 
 export default {
   'GET  /api/fake_list_Detail': getFakeList,
   // 支持值为 Object 和 Array
   'GET  /api/currentUserDetail': getCurrentUser,
-};
+}

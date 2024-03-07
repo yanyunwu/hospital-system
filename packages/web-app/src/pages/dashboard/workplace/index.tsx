@@ -1,14 +1,14 @@
-import type { FC } from 'react';
-import { Avatar, Card, Col, List, Skeleton, Row, Statistic } from 'antd';
-import { Radar } from '@ant-design/charts';
+import type { FC } from 'react'
+import { Avatar, Card, Col, List, Skeleton, Row, Statistic } from 'antd'
+import { Radar } from '@ant-design/charts'
 
-import { Link, useRequest } from 'umi';
-import { PageContainer } from '@ant-design/pro-layout';
-import moment from 'moment';
-import EditableLinkGroup from './components/EditableLinkGroup';
-import styles from './style.less';
-import type { ActivitiesType, CurrentUser } from './data.d';
-import { queryProjectNotice, queryActivities, fakeChartData } from './service';
+import { Link, useRequest } from 'umi'
+import { PageContainer } from '@ant-design/pro-layout'
+import moment from 'moment'
+import EditableLinkGroup from './components/EditableLinkGroup'
+import styles from './style.less'
+import type { ActivitiesType, CurrentUser } from './data.d'
+import { queryProjectNotice, queryActivities, fakeChartData } from './service'
 
 const links = [
   {
@@ -35,12 +35,12 @@ const links = [
     title: '操作六',
     href: '',
   },
-];
+]
 
 const PageHeaderContent: FC<{ currentUser: Partial<CurrentUser> }> = ({ currentUser }) => {
-  const loading = currentUser && Object.keys(currentUser).length;
+  const loading = currentUser && Object.keys(currentUser).length
   if (!loading) {
-    return <Skeleton avatar paragraph={{ rows: 1 }} active />;
+    return <Skeleton avatar paragraph={{ rows: 1 }} active />
   }
   return (
     <div className={styles.pageHeaderContent}>
@@ -58,8 +58,8 @@ const PageHeaderContent: FC<{ currentUser: Partial<CurrentUser> }> = ({ currentU
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const ExtraContent: FC<Record<string, any>> = () => (
   <div className={styles.extraContent}>
@@ -73,12 +73,12 @@ const ExtraContent: FC<Record<string, any>> = () => (
       <Statistic title="项目访问" value={2223} />
     </div>
   </div>
-);
+)
 
 const Workplace: FC = () => {
-  const { loading: projectLoading, data: projectNotice = [] } = useRequest(queryProjectNotice);
-  const { loading: activitiesLoading, data: activities = [] } = useRequest(queryActivities);
-  const { data } = useRequest(fakeChartData);
+  const { loading: projectLoading, data: projectNotice = [] } = useRequest(queryProjectNotice)
+  const { loading: activitiesLoading, data: activities = [] } = useRequest(queryActivities)
+  const { data } = useRequest(fakeChartData)
 
   const renderActivities = (item: ActivitiesType) => {
     const events = item.template.split(/@\{([^{}]*)\}/gi).map((key) => {
@@ -87,10 +87,10 @@ const Workplace: FC = () => {
           <a href={item[key].link} key={item[key].name}>
             {item[key].name}
           </a>
-        );
+        )
       }
-      return key;
-    });
+      return key
+    })
     return (
       <List.Item key={item.id}>
         <List.Item.Meta
@@ -109,8 +109,8 @@ const Workplace: FC = () => {
           }
         />
       </List.Item>
-    );
-  };
+    )
+  }
 
   return (
     <PageContainer
@@ -236,7 +236,7 @@ const Workplace: FC = () => {
         </Col>
       </Row>
     </PageContainer>
-  );
-};
+  )
+}
 
-export default Workplace;
+export default Workplace

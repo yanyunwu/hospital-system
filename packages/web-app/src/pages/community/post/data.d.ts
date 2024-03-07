@@ -1,10 +1,10 @@
-import type { TableListItem as User } from '../../user/user/data';
+import type { TableListItem as User } from '../../user/user/data'
 
 export class PostReply {
-  id: number;
-  user: User;
-  content: string;
-  createTime: string;
+  id: number
+  user: User
+  content: string
+  createTime: string
 }
 
 export type TableListItem = {

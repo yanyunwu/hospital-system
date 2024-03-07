@@ -1,9 +1,9 @@
-import React from 'react';
-import { Modal } from 'antd';
-import { ProFormText, StepsForm, ProFormCheckbox } from '@ant-design/pro-form';
-import type { TableListItem } from '../data';
-import { useRequest } from 'ahooks';
-import { role } from '../../auth/service';
+import React from 'react'
+import { Modal } from 'antd'
+import { ProFormText, StepsForm, ProFormCheckbox } from '@ant-design/pro-form'
+import type { TableListItem } from '../data'
+import { useRequest } from 'ahooks'
+import { role } from '../../auth/service'
 
 export type FormValueType = {
   target?: string;
@@ -21,12 +21,12 @@ export type UpdateFormProps = {
 };
 
 const UpdateForm: React.FC<UpdateFormProps> = (props) => {
-  const { data } = useRequest(role);
+  const { data } = useRequest(role)
   const checkboxValues = (data?.data || []).map((item) => ({
     label: item.name,
     value: item.id,
     disabled: !item.status,
-  }));
+  }))
 
   return (
     (<StepsForm
@@ -45,12 +45,12 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
             open={props.updateModalVisible}
             footer={submitter}
             onCancel={() => {
-              props.onCancel();
+              props.onCancel()
             }}
           >
             {dom}
           </Modal>)
-        );
+        )
       }}
       onFinish={props.onSubmit}
     >
@@ -98,7 +98,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         />
       </StepsForm.StepForm>
     </StepsForm>)
-  );
-};
+  )
+}
 
-export default UpdateForm;
+export default UpdateForm

@@ -1,6 +1,6 @@
-import { DataItem } from '@antv/g2plot/esm/interface/config';
+import { DataItem } from '@antv/g2plot/esm/interface/config'
 
-export { DataItem };
+export { DataItem }
 
 export interface TagType {
   key: string;

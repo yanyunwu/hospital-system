@@ -3,25 +3,25 @@ import {
   EditOutlined,
   EllipsisOutlined,
   ShareAltOutlined,
-} from '@ant-design/icons';
-import { Avatar, Card, Col, Dropdown, Form, List, Menu, Row, Select, Tooltip } from 'antd';
-import numeral from 'numeral';
-import type { FC } from 'react';
-import React from 'react';
-import { useRequest } from 'umi';
-import StandardFormRow from './components/StandardFormRow';
-import TagSelect from './components/TagSelect';
-import type { ListItemDataType } from './data.d';
-import { queryFakeList } from './service';
-import styles from './style.less';
+} from '@ant-design/icons'
+import { Avatar, Card, Col, Dropdown, Form, List, Menu, Row, Select, Tooltip } from 'antd'
+import numeral from 'numeral'
+import type { FC } from 'react'
+import React from 'react'
+import { useRequest } from 'umi'
+import StandardFormRow from './components/StandardFormRow'
+import TagSelect from './components/TagSelect'
+import type { ListItemDataType } from './data.d'
+import { queryFakeList } from './service'
+import styles from './style.less'
 
-const { Option } = Select;
+const { Option } = Select
 
 export function formatWan(val: number) {
-  const v = val * 1;
-  if (!v || Number.isNaN(v)) return '';
+  const v = val * 1
+  if (!v || Number.isNaN(v)) return ''
 
-  let result: React.ReactNode = val;
+  let result: React.ReactNode = val
   if (val > 10000) {
     result = (
       <span>
@@ -38,9 +38,9 @@ export function formatWan(val: number) {
           万
         </span>
       </span>
-    );
+    )
   }
-  return result;
+  return result
 }
 
 const formItemLayout = {
@@ -48,7 +48,7 @@ const formItemLayout = {
     xs: { span: 24 },
     sm: { span: 16 },
   },
-};
+}
 
 const CardInfo: React.FC<{
   activeUser: React.ReactNode;
@@ -64,17 +64,17 @@ const CardInfo: React.FC<{
       <p>{newUser}</p>
     </div>
   </div>
-);
+)
 
 export const Applications: FC<Record<string, any>> = () => {
   const { data, loading, run } = useRequest((values: any) => {
-    console.log('form data', values);
+    console.log('form data', values)
     return queryFakeList({
       count: 8,
-    });
-  });
+    })
+  })
 
-  const list = data?.list || [];
+  const list = data?.list || []
 
   const itemMenu = (
     <Menu>
@@ -94,14 +94,14 @@ export const Applications: FC<Record<string, any>> = () => {
         </a>
       </Menu.Item>
     </Menu>
-  );
+  )
 
   return (
     <div className={styles.filterCardList}>
       <Card bordered={false}>
         <Form
           onValuesChange={(_, values) => {
-            run(values);
+            run(values)
           }}
         >
           <StandardFormRow title="所属类目" block style={{ paddingBottom: 11 }}>
@@ -189,7 +189,7 @@ export const Applications: FC<Record<string, any>> = () => {
         )}
       />
     </div>
-  );
-};
+  )
+}
 
-export default Applications;
+export default Applications

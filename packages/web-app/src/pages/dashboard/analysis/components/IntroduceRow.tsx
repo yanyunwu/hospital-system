@@ -1,13 +1,13 @@
-import { InfoCircleOutlined } from '@ant-design/icons';
-import { TinyArea, TinyColumn, Progress } from '@ant-design/charts';
-import { Col, Row, Tooltip } from 'antd';
+import { InfoCircleOutlined } from '@ant-design/icons'
+import { TinyArea, TinyColumn, Progress } from '@ant-design/charts'
+import { Col, Row, Tooltip } from 'antd'
 
-import numeral from 'numeral';
-import { ChartCard, Field } from './Charts';
-import type { DataItem } from '../data.d';
-import Trend from './Trend';
-import Yuan from '../utils/Yuan';
-import styles from '../style.less';
+import numeral from 'numeral'
+import { ChartCard, Field } from './Charts'
+import type { DataItem } from '../data.d'
+import Trend from './Trend'
+import Yuan from '../utils/Yuan'
+import styles from '../style.less'
 
 const topColResponsiveProps = {
   xs: 24,
@@ -16,7 +16,7 @@ const topColResponsiveProps = {
   lg: 12,
   xl: 6,
   style: { marginBottom: 24 },
-};
+}
 
 const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: DataItem[] }) => (
   <Row gutter={24}>
@@ -130,6 +130,6 @@ const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: Dat
       </ChartCard>
     </Col>
   </Row>
-);
+)
 
-export default IntroduceRow;
+export default IntroduceRow

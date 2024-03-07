@@ -1,36 +1,36 @@
-import moment from 'moment';
-import type { Request, Response } from 'express';
-import type { AnalysisData, RadarData, DataItem } from './data.d';
+import moment from 'moment'
+import type { Request, Response } from 'express'
+import type { AnalysisData, RadarData, DataItem } from './data.d'
 
 // mock data
-const visitData: DataItem[] = [];
-const beginDay = new Date().getTime();
+const visitData: DataItem[] = []
+const beginDay = new Date().getTime()
 
-const fakeY = [7, 5, 4, 2, 4, 7, 5, 6, 5, 9, 6, 3, 1, 5, 3, 6, 5];
+const fakeY = [7, 5, 4, 2, 4, 7, 5, 6, 5, 9, 6, 3, 1, 5, 3, 6, 5]
 for (let i = 0; i < fakeY.length; i += 1) {
   visitData.push({
     x: moment(new Date(beginDay + 1000 * 60 * 60 * 24 * i)).format('YYYY-MM-DD'),
     y: fakeY[i],
-  });
+  })
 }
 
-const visitData2 = [];
-const fakeY2 = [1, 6, 4, 8, 3, 7, 2];
+const visitData2 = []
+const fakeY2 = [1, 6, 4, 8, 3, 7, 2]
 for (let i = 0; i < fakeY2.length; i += 1) {
   visitData2.push({
     x: moment(new Date(beginDay + 1000 * 60 * 60 * 24 * i)).format('YYYY-MM-DD'),
     y: fakeY2[i],
-  });
+  })
 }
 
-const salesData = [];
+const salesData = []
 for (let i = 0; i < 12; i += 1) {
   salesData.push({
     x: `${i + 1}月`,
     y: Math.floor(Math.random() * 1000) + 200,
-  });
+  })
 }
-const searchData = [];
+const searchData = []
 for (let i = 0; i < 50; i += 1) {
   searchData.push({
     index: i + 1,
@@ -38,7 +38,7 @@ for (let i = 0; i < 50; i += 1) {
     count: Math.floor(Math.random() * 1000),
     range: Math.floor(Math.random() * 100),
     status: Math.floor((Math.random() * 10) % 2),
-  });
+  })
 }
 const salesTypeData = [
   {
@@ -65,7 +65,7 @@ const salesTypeData = [
     x: '其他',
     y: 1231,
   },
-];
+]
 
 const salesTypeDataOnline = [
   {
@@ -92,7 +92,7 @@ const salesTypeDataOnline = [
     x: '其他',
     y: 111,
   },
-];
+]
 
 const salesTypeDataOffline = [
   {
@@ -115,28 +115,28 @@ const salesTypeDataOffline = [
     x: '其他',
     y: 65,
   },
-];
+]
 
-const offlineData = [];
+const offlineData = []
 for (let i = 0; i < 10; i += 1) {
   offlineData.push({
     name: `Stores ${i}`,
     cvr: Math.ceil(Math.random() * 9) / 10,
-  });
+  })
 }
-const offlineChartData = [];
+const offlineChartData = []
 for (let i = 0; i < 20; i += 1) {
-  const date = moment(new Date().getTime() + 1000 * 60 * 30 * i).format('HH:mm');
+  const date = moment(new Date().getTime() + 1000 * 60 * 30 * i).format('HH:mm')
   offlineChartData.push({
     date,
     type: '客流量',
     value: Math.floor(Math.random() * 100) + 10,
-  });
+  })
   offlineChartData.push({
     date,
     type: '支付笔数',
     value: Math.floor(Math.random() * 100) + 10,
-  });
+  })
 }
 
 const radarOriginData = [
@@ -164,16 +164,16 @@ const radarOriginData = [
     contribute: 5,
     hot: 7,
   },
-];
+]
 
-const radarData: RadarData[] = [];
+const radarData: RadarData[] = []
 const radarTitleMap = {
   ref: '引用',
   koubei: '口碑',
   output: '产量',
   contribute: '贡献',
   hot: '热度',
-};
+}
 radarOriginData.forEach((item) => {
   Object.keys(item).forEach((key) => {
     if (key !== 'name') {
@@ -181,10 +181,10 @@ radarOriginData.forEach((item) => {
         name: item.name,
         label: radarTitleMap[key],
         value: item[key],
-      });
+      })
     }
-  });
-});
+  })
+})
 
 const getFakeChartData: AnalysisData = {
   visitData,
@@ -197,14 +197,14 @@ const getFakeChartData: AnalysisData = {
   salesTypeDataOnline,
   salesTypeDataOffline,
   radarData,
-};
+}
 
 const fakeChartData = (_: Request, res: Response) => {
   return res.json({
     data: getFakeChartData,
-  });
-};
+  })
+}
 
 export default {
   'GET  /api/fake_analysis_chart_data': fakeChartData,
-};
+}

@@ -1,15 +1,15 @@
-import { PlusOutlined, HomeOutlined, ContactsOutlined, ClusterOutlined } from '@ant-design/icons';
-import { Avatar, Card, Col, Divider, Input, Row, Tag } from 'antd';
-import React, { useState, useRef } from 'react';
-import { GridContent } from '@ant-design/pro-layout';
-import { Link, useRequest } from 'umi';
-import type { RouteChildrenProps } from 'react-router';
-import Projects from './components/Projects';
-import Articles from './components/Articles';
-import Applications from './components/Applications';
-import type { CurrentUser, TagType, tabKeyType } from './data.d';
-import { queryCurrent } from './service';
-import styles from './Center.less';
+import { PlusOutlined, HomeOutlined, ContactsOutlined, ClusterOutlined } from '@ant-design/icons'
+import { Avatar, Card, Col, Divider, Input, Row, Tag } from 'antd'
+import React, { useState, useRef } from 'react'
+import { GridContent } from '@ant-design/pro-layout'
+import { Link, useRequest } from 'umi'
+import type { RouteChildrenProps } from 'react-router'
+import Projects from './components/Projects'
+import Articles from './components/Articles'
+import Applications from './components/Applications'
+import type { CurrentUser, TagType, tabKeyType } from './data.d'
+import { queryCurrent } from './service'
+import styles from './Center.less'
 
 const operationTabList = [
   {
@@ -36,35 +36,35 @@ const operationTabList = [
       </span>
     ),
   },
-];
+]
 
 const TagList: React.FC<{ tags: CurrentUser['tags'] }> = ({ tags }) => {
-  const ref = useRef<Input | null>(null);
-  const [newTags, setNewTags] = useState<TagType[]>([]);
-  const [inputVisible, setInputVisible] = useState<boolean>(false);
-  const [inputValue, setInputValue] = useState<string>('');
+  const ref = useRef<Input | null>(null)
+  const [newTags, setNewTags] = useState<TagType[]>([])
+  const [inputVisible, setInputVisible] = useState<boolean>(false)
+  const [inputValue, setInputValue] = useState<string>('')
 
   const showInput = () => {
-    setInputVisible(true);
+    setInputVisible(true)
     if (ref.current) {
       // eslint-disable-next-line no-unused-expressions
-      ref.current?.focus();
+      ref.current?.focus()
     }
-  };
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  };
+    setInputValue(e.target.value)
+  }
 
   const handleInputConfirm = () => {
-    let tempsTags = [...newTags];
+    let tempsTags = [...newTags]
     if (inputValue && tempsTags.filter((tag) => tag.label === inputValue).length === 0) {
-      tempsTags = [...tempsTags, { key: `new-${tempsTags.length}`, label: inputValue }];
+      tempsTags = [...tempsTags, { key: `new-${tempsTags.length}`, label: inputValue }]
     }
-    setNewTags(tempsTags);
-    setInputVisible(false);
-    setInputValue('');
-  };
+    setNewTags(tempsTags)
+    setInputVisible(false)
+    setInputValue('')
+  }
 
   return (
     <div className={styles.tags}>
@@ -90,16 +90,16 @@ const TagList: React.FC<{ tags: CurrentUser['tags'] }> = ({ tags }) => {
         </Tag>
       )}
     </div>
-  );
-};
+  )
+}
 
 const Center: React.FC<RouteChildrenProps> = () => {
-  const [tabKey, setTabKey] = useState<tabKeyType>('articles');
+  const [tabKey, setTabKey] = useState<tabKeyType>('articles')
 
   //  获取用户信息
   const { data: currentUser, loading } = useRequest(() => {
-    return queryCurrent();
-  });
+    return queryCurrent()
+  })
 
   //  渲染用户信息
   const renderUserInfo = ({ title, group, geographic }: Partial<CurrentUser>) => {
@@ -139,22 +139,22 @@ const Center: React.FC<RouteChildrenProps> = () => {
           }
         </p>
       </div>
-    );
-  };
+    )
+  }
 
   // 渲染tab切换
   const renderChildrenByTabKey = (tabValue: tabKeyType) => {
     if (tabValue === 'projects') {
-      return <Projects />;
+      return <Projects />
     }
     if (tabValue === 'applications') {
-      return <Applications />;
+      return <Applications />
     }
     if (tabValue === 'articles') {
-      return <Articles />;
+      return <Articles />
     }
-    return null;
-  };
+    return null
+  }
 
   return (
     <GridContent>
@@ -197,7 +197,7 @@ const Center: React.FC<RouteChildrenProps> = () => {
             tabList={operationTabList}
             activeTabKey={tabKey}
             onTabChange={(_tabKey: string) => {
-              setTabKey(_tabKey as tabKeyType);
+              setTabKey(_tabKey as tabKeyType)
             }}
           >
             {renderChildrenByTabKey(tabKey)}
@@ -205,6 +205,6 @@ const Center: React.FC<RouteChildrenProps> = () => {
         </Col>
       </Row>
     </GridContent>
-  );
-};
-export default Center;
+  )
+}
+export default Center

@@ -1,29 +1,29 @@
-import { Card, Col, Form, List, Row, Select, Typography } from 'antd';
-import moment from 'moment';
-import type { FC } from 'react';
-import { useRequest } from 'umi';
-import AvatarList from './components/AvatarList';
-import StandardFormRow from './components/StandardFormRow';
-import TagSelect from './components/TagSelect';
-import type { ListItemDataType } from './data.d';
-import { queryFakeList } from './service';
-import styles from './style.less';
+import { Card, Col, Form, List, Row, Select, Typography } from 'antd'
+import moment from 'moment'
+import type { FC } from 'react'
+import { useRequest } from 'umi'
+import AvatarList from './components/AvatarList'
+import StandardFormRow from './components/StandardFormRow'
+import TagSelect from './components/TagSelect'
+import type { ListItemDataType } from './data.d'
+import { queryFakeList } from './service'
+import styles from './style.less'
 
-const { Option } = Select;
-const FormItem = Form.Item;
-const { Paragraph } = Typography;
+const { Option } = Select
+const FormItem = Form.Item
+const { Paragraph } = Typography
 
-const getKey = (id: string, index: number) => `${id}-${index}`;
+const getKey = (id: string, index: number) => `${id}-${index}`
 
 const Projects: FC = () => {
   const { data, loading, run } = useRequest((values: any) => {
-    console.log('form data', values);
+    console.log('form data', values)
     return queryFakeList({
       count: 8,
-    });
-  });
+    })
+  })
 
-  const list = data?.list || [];
+  const list = data?.list || []
 
   const cardList = list && (
     <List<ListItemDataType>
@@ -68,14 +68,14 @@ const Projects: FC = () => {
         </List.Item>
       )}
     />
-  );
+  )
 
   const formItemLayout = {
     wrapperCol: {
       xs: { span: 24 },
       sm: { span: 16 },
     },
-  };
+  }
 
   return (
     <div className={styles.coverCardList}>
@@ -85,7 +85,7 @@ const Projects: FC = () => {
           onValuesChange={(_, values) => {
             // 表单项变化时请求数据
             // 模拟查询表单生效
-            run(values);
+            run(values)
           }}
         >
           <StandardFormRow title="所属类目" block style={{ paddingBottom: 11 }}>
@@ -129,7 +129,7 @@ const Projects: FC = () => {
       </Card>
       <div className={styles.cardList}>{cardList}</div>
     </div>
-  );
-};
+  )
+}
 
-export default Projects;
+export default Projects

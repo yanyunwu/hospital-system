@@ -1,9 +1,9 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, Divider, Input, Popconfirm, Table, message } from 'antd';
-import type { FC } from 'react';
-import React, { useState } from 'react';
+import { PlusOutlined } from '@ant-design/icons'
+import { Button, Divider, Input, Popconfirm, Table, message } from 'antd'
+import type { FC } from 'react'
+import React, { useState } from 'react'
 
-import styles from '../style.less';
+import styles from '../style.less'
 
 type TableFormDateType = {
   key: string;
@@ -19,31 +19,31 @@ type TableFormProps = {
 };
 
 const TableForm: FC<TableFormProps> = ({ value, onChange }) => {
-  const [clickedCancel, setClickedCancel] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [index, setIndex] = useState(0);
-  const [cacheOriginData, setCacheOriginData] = useState({});
-  const [data, setData] = useState(value);
+  const [clickedCancel, setClickedCancel] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [index, setIndex] = useState(0)
+  const [cacheOriginData, setCacheOriginData] = useState({})
+  const [data, setData] = useState(value)
 
   const getRowByKey = (key: string, newData?: TableFormDateType[]) =>
-    (newData || data)?.filter((item) => item.key === key)[0];
+    (newData || data)?.filter((item) => item.key === key)[0]
 
   const toggleEditable = (e: React.MouseEvent | React.KeyboardEvent, key: string) => {
-    e.preventDefault();
-    const newData = data?.map((item) => ({ ...item }));
-    const target = getRowByKey(key, newData);
+    e.preventDefault()
+    const newData = data?.map((item) => ({ ...item }))
+    const target = getRowByKey(key, newData)
     if (target) {
       // 进入编辑状态时保存原始数据
       if (!target.editable) {
-        cacheOriginData[key] = { ...target };
-        setCacheOriginData(cacheOriginData);
+        cacheOriginData[key] = { ...target }
+        setCacheOriginData(cacheOriginData)
       }
-      target.editable = !target.editable;
-      setData(newData);
+      target.editable = !target.editable
+      setData(newData)
     }
-  };
+  }
   const newMember = () => {
-    const newData = data?.map((item) => ({ ...item })) || [];
+    const newData = data?.map((item) => ({ ...item })) || []
 
     newData.push({
       key: `NEW_TEMP_ID_${index}`,
@@ -52,69 +52,69 @@ const TableForm: FC<TableFormProps> = ({ value, onChange }) => {
       department: '',
       editable: true,
       isNew: true,
-    });
+    })
 
-    setIndex(index + 1);
-    setData(newData);
-  };
+    setIndex(index + 1)
+    setData(newData)
+  }
 
   const remove = (key: string) => {
-    const newData = data?.filter((item) => item.key !== key) as TableFormDateType[];
-    setData(newData);
+    const newData = data?.filter((item) => item.key !== key) as TableFormDateType[]
+    setData(newData)
     if (onChange) {
-      onChange(newData);
+      onChange(newData)
     }
-  };
+  }
 
   const handleFieldChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     fieldName: string,
     key: string,
   ) => {
-    const newData = [...(data as TableFormDateType[])];
-    const target = getRowByKey(key, newData);
+    const newData = [...(data as TableFormDateType[])]
+    const target = getRowByKey(key, newData)
     if (target) {
-      target[fieldName] = e.target.value;
-      setData(newData);
+      target[fieldName] = e.target.value
+      setData(newData)
     }
-  };
+  }
 
   const saveRow = (e: React.MouseEvent | React.KeyboardEvent, key: string) => {
-    e.persist();
-    setLoading(true);
+    e.persist()
+    setLoading(true)
     setTimeout(() => {
       if (clickedCancel) {
-        setClickedCancel(false);
-        return;
+        setClickedCancel(false)
+        return
       }
-      const target = getRowByKey(key) || ({} as any);
+      const target = getRowByKey(key) || ({} as any)
       if (!target.workId || !target.name || !target.department) {
         message.error('请填写完整成员信息。');
-        (e.target as HTMLInputElement).focus();
-        setLoading(false);
-        return;
+        (e.target as HTMLInputElement).focus()
+        setLoading(false)
+        return
       }
-      delete target.isNew;
-      toggleEditable(e, key);
+      delete target.isNew
+      toggleEditable(e, key)
       if (onChange) {
-        onChange(data as TableFormDateType[]);
+        onChange(data as TableFormDateType[])
       }
-      setLoading(false);
-    }, 500);
-  };
+      setLoading(false)
+    }, 500)
+  }
 
   const handleKeyPress = (e: React.KeyboardEvent, key: string) => {
     if (e.key === 'Enter') {
-      saveRow(e, key);
+      saveRow(e, key)
     }
-  };
+  }
 
   const cancel = (e: React.MouseEvent, key: string) => {
-    setClickedCancel(true);
-    e.preventDefault();
-    const newData = [...(data as TableFormDateType[])];
+    setClickedCancel(true)
+    e.preventDefault()
+    const newData = [...(data as TableFormDateType[])]
     // 编辑前的原始数据
-    let cacheData = [];
+    let cacheData = []
     cacheData = newData.map((item) => {
       if (item.key === key) {
         if (cacheOriginData[key]) {
@@ -122,17 +122,17 @@ const TableForm: FC<TableFormProps> = ({ value, onChange }) => {
             ...item,
             ...cacheOriginData[key],
             editable: false,
-          };
-          delete cacheOriginData[key];
-          setCacheOriginData(cacheOriginData);
-          return originItem;
+          }
+          delete cacheOriginData[key]
+          setCacheOriginData(cacheOriginData)
+          return originItem
         }
       }
-      return item;
-    });
-    setData(cacheData);
-    setClickedCancel(false);
-  };
+      return item
+    })
+    setData(cacheData)
+    setClickedCancel(false)
+  }
 
   const columns = [
     {
@@ -150,9 +150,9 @@ const TableForm: FC<TableFormProps> = ({ value, onChange }) => {
               onKeyPress={(e) => handleKeyPress(e, record.key)}
               placeholder="成员姓名"
             />
-          );
+          )
         }
-        return text;
+        return text
       },
     },
     {
@@ -169,9 +169,9 @@ const TableForm: FC<TableFormProps> = ({ value, onChange }) => {
               onKeyPress={(e) => handleKeyPress(e, record.key)}
               placeholder="工号"
             />
-          );
+          )
         }
-        return text;
+        return text
       },
     },
     {
@@ -188,9 +188,9 @@ const TableForm: FC<TableFormProps> = ({ value, onChange }) => {
               onKeyPress={(e) => handleKeyPress(e, record.key)}
               placeholder="所属部门"
             />
-          );
+          )
         }
-        return text;
+        return text
       },
     },
     {
@@ -198,7 +198,7 @@ const TableForm: FC<TableFormProps> = ({ value, onChange }) => {
       key: 'action',
       render: (text: string, record: TableFormDateType) => {
         if (!!record.editable && loading) {
-          return null;
+          return null
         }
         if (record.editable) {
           if (record.isNew) {
@@ -210,7 +210,7 @@ const TableForm: FC<TableFormProps> = ({ value, onChange }) => {
                   <a>删除</a>
                 </Popconfirm>
               </span>
-            );
+            )
           }
           return (
             <span>
@@ -218,7 +218,7 @@ const TableForm: FC<TableFormProps> = ({ value, onChange }) => {
               <Divider type="vertical" />
               <a onClick={(e) => cancel(e, record.key)}>取消</a>
             </span>
-          );
+          )
         }
         return (
           <span>
@@ -228,10 +228,10 @@ const TableForm: FC<TableFormProps> = ({ value, onChange }) => {
               <a>删除</a>
             </Popconfirm>
           </span>
-        );
+        )
       },
     },
-  ];
+  ]
 
   return (
     <>
@@ -251,7 +251,7 @@ const TableForm: FC<TableFormProps> = ({ value, onChange }) => {
         新增成员
       </Button>
     </>
-  );
-};
+  )
+}
 
-export default TableForm;
+export default TableForm

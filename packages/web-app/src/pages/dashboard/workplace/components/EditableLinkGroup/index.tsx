@@ -1,8 +1,8 @@
-import React, { createElement } from 'react';
-import { PlusOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import React, { createElement } from 'react'
+import { PlusOutlined } from '@ant-design/icons'
+import { Button } from 'antd'
 
-import styles from './index.less';
+import styles from './index.less'
 
 export type EditableLink = {
   title: string;
@@ -17,7 +17,7 @@ type EditableLinkGroupProps = {
 };
 
 const EditableLinkGroup: React.FC<EditableLinkGroupProps> = (props) => {
-  const { links, linkElement, onAdd } = props;
+  const { links, linkElement, onAdd } = props
   return (
     <div className={styles.linkGroup}>
       {links.map((link) =>
@@ -35,13 +35,13 @@ const EditableLinkGroup: React.FC<EditableLinkGroupProps> = (props) => {
         <PlusOutlined /> 添加
       </Button>
     </div>
-  );
-};
+  )
+}
 
 EditableLinkGroup.defaultProps = {
   links: [],
   onAdd: () => {},
   linkElement: 'a',
-};
+}
 
-export default EditableLinkGroup;
+export default EditableLinkGroup

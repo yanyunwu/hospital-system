@@ -1,11 +1,11 @@
-import { Command } from 'gg-editor';
-import React from 'react';
-import { Tooltip } from 'antd';
-import IconFont from '../../common/IconFont';
-import styles from './index.less';
+import { Command } from 'gg-editor'
+import React from 'react'
+import { Tooltip } from 'antd'
+import IconFont from '../../common/IconFont'
+import styles from './index.less'
 
 const upperFirst = (str: string) =>
-  str.toLowerCase().replace(/( |^)[a-z]/g, (l: string) => l.toUpperCase());
+  str.toLowerCase().replace(/( |^)[a-z]/g, (l: string) => l.toUpperCase())
 
 type ToolbarButtonProps = {
   command: string;
@@ -13,7 +13,7 @@ type ToolbarButtonProps = {
   text?: string;
 };
 const ToolbarButton: React.FC<ToolbarButtonProps> = (props) => {
-  const { command, icon, text } = props;
+  const { command, icon, text } = props
 
   return (
     <Command name={command}>
@@ -25,7 +25,7 @@ const ToolbarButton: React.FC<ToolbarButtonProps> = (props) => {
         <IconFont type={`icon-${icon || command}`} />
       </Tooltip>
     </Command>
-  );
-};
+  )
+}
 
-export default ToolbarButton;
+export default ToolbarButton

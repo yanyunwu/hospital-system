@@ -1,7 +1,7 @@
-import React from 'react';
-import { Modal } from 'antd';
-import { ProFormText, StepsForm, ProFormCheckbox } from '@ant-design/pro-form';
-import type { TableListItem } from '../data';
+import React from 'react'
+import { Modal } from 'antd'
+import { ProFormText, StepsForm, ProFormCheckbox } from '@ant-design/pro-form'
+import type { TableListItem } from '../data'
 
 export type FormValueType = {
   target?: string;
@@ -36,12 +36,12 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
             open={props.updateModalVisible}
             footer={submitter}
             onCancel={() => {
-              props.onCancel();
+              props.onCancel()
             }}
           >
             {dom}
           </Modal>)
-        );
+        )
       }}
       onFinish={props.onSubmit}
     >
@@ -90,7 +90,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         />
       </StepsForm.StepForm>
     </StepsForm>)
-  );
-};
+  )
+}
 
-export default UpdateForm;
+export default UpdateForm

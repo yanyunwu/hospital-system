@@ -6,11 +6,11 @@ import React, {
   MutableRefObject,
   createContext,
   useContext
-} from "react";
-import { Button, Popconfirm } from "antd";
-import { PageContainer, FooterToolbar } from "@ant-design/pro-layout"
-import ProTable, { ProTableProps } from "@ant-design/pro-table"
-import type { ActionType } from '@ant-design/pro-table';
+} from 'react'
+import { Button, Popconfirm } from 'antd'
+import { PageContainer, FooterToolbar } from '@ant-design/pro-layout'
+import ProTable, { ProTableProps } from '@ant-design/pro-table'
+import type { ActionType } from '@ant-design/pro-table'
 
 type TableListPagination = {
   total: number;
@@ -59,8 +59,8 @@ function CommonTemplate<T extends Record<string, any>>(props: CommonTemplateProp
     onMultipleMove,
   } = props
 
-  const [currentRow, setCurrentRow] = useState<T>();
-  const actionRef = useRef<ActionType>();
+  const [currentRow, setCurrentRow] = useState<T>()
+  const actionRef = useRef<ActionType>()
 
   useImperativeHandle(ref, () => ({
     tableActionType: actionRef.current,
@@ -73,7 +73,7 @@ function CommonTemplate<T extends Record<string, any>>(props: CommonTemplateProp
     currentRow,
   ])
 
-  const [selectedRowsState, setSelectedRows] = useState<T[]>([]);
+  const [selectedRowsState, setSelectedRows] = useState<T[]>([])
 
   return (
     <PageContainer>
@@ -85,7 +85,7 @@ function CommonTemplate<T extends Record<string, any>>(props: CommonTemplateProp
         toolBarRender={toolBarRender}
         rowSelection={{
           onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows);
+            setSelectedRows(selectedRows)
           },
         }}
       />
@@ -109,8 +109,8 @@ function CommonTemplate<T extends Record<string, any>>(props: CommonTemplateProp
             title="确定要进行批量删除操作吗？"
             onConfirm={async () => {
               await onMultipleMove?.(selectedRowsState)
-              setSelectedRows([]);
-              actionRef.current?.reloadAndRest?.();
+              setSelectedRows([])
+              actionRef.current?.reloadAndRest?.()
             }}
             okText="确定"
             cancelText="取消"

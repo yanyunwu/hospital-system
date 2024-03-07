@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { Button, Input, Modal, Popconfirm, message } from 'antd';
+import React, { useRef, useState } from 'react'
+import { Button, Input, Modal, Popconfirm, message } from 'antd'
 import {
   ProFormText,
   StepsForm,
@@ -9,12 +9,12 @@ import {
   ModalForm,
   ProFormDatePicker,
   ProFormDigit,
-} from '@ant-design/pro-form';
-import type { DateTableListItem, TableListItem, TableListPagination } from '../data';
-import type { ActionType, ProColumns } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
-import { PlusOutlined } from '@ant-design/icons';
-import { add2, get2, del2, set2 } from '../service';
+} from '@ant-design/pro-form'
+import type { DateTableListItem, TableListItem, TableListPagination } from '../data'
+import type { ActionType, ProColumns } from '@ant-design/pro-table'
+import ProTable from '@ant-design/pro-table'
+import { PlusOutlined } from '@ant-design/icons'
+import { add2, get2, del2, set2 } from '../service'
 
 export type FormValueType = {
   target?: string;
@@ -32,19 +32,19 @@ export type UpdateFormProps = {
 };
 
 const handleAdd = async (fields: DateTableListItem) => {
-  const hide = message.loading('正在添加');
+  const hide = message.loading('正在添加')
 
   try {
-    await add2({ ...fields });
-    hide();
-    message.success('添加成功');
-    return true;
+    await add2({ ...fields })
+    hide()
+    message.success('添加成功')
+    return true
   } catch (error) {
-    hide();
-    message.error('添加失败请重试！');
-    return false;
+    hide()
+    message.error('添加失败请重试！')
+    return false
   }
-};
+}
 /**
  * 更新节点
  *
@@ -52,22 +52,22 @@ const handleAdd = async (fields: DateTableListItem) => {
  */
 
 const handleUpdate = async (fields: FormValueType, currentRow?: DateTableListItem) => {
-  const hide = message.loading('正在配置');
+  const hide = message.loading('正在配置')
 
   try {
     await set2({
       ...currentRow,
       ...fields,
-    });
-    hide();
-    message.success('配置成功');
-    return true;
+    })
+    hide()
+    message.success('配置成功')
+    return true
   } catch (error) {
-    hide();
-    message.error('配置失败请重试！');
-    return false;
+    hide()
+    message.error('配置失败请重试！')
+    return false
   }
-};
+}
 /**
  * 删除节点
  *
@@ -75,33 +75,33 @@ const handleUpdate = async (fields: FormValueType, currentRow?: DateTableListIte
  */
 
 const handleRemove = async (selectedRows: DateTableListItem[]) => {
-  const hide = message.loading('正在删除');
-  if (!selectedRows) return true;
+  const hide = message.loading('正在删除')
+  if (!selectedRows) return true
 
   try {
     await del2({
       ids: selectedRows.map((row) => row.id),
-    });
-    hide();
-    message.success('删除成功，即将刷新');
-    return true;
+    })
+    hide()
+    message.success('删除成功，即将刷新')
+    return true
   } catch (error) {
-    hide();
-    message.error('删除失败，请重试');
-    return false;
+    hide()
+    message.error('删除失败，请重试')
+    return false
   }
-};
+}
 
 const UpdateForm: React.FC<UpdateFormProps> = (props) => {
   /** 新建窗口的弹窗 */
-  const [createModalVisible, handleModalVisible] = useState<boolean>(false);
+  const [createModalVisible, handleModalVisible] = useState<boolean>(false)
   /** 分布更新窗口的弹窗 */
 
-  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
-  const [showDetail, setShowDetail] = useState<boolean>(false);
-  const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<DateTableListItem>();
-  const [selectedRowsState, setSelectedRows] = useState<DateTableListItem[]>([]);
+  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false)
+  const [showDetail, setShowDetail] = useState<boolean>(false)
+  const actionRef = useRef<ActionType>()
+  const [currentRow, setCurrentRow] = useState<DateTableListItem>()
+  const [selectedRowsState, setSelectedRows] = useState<DateTableListItem[]>([])
   const columns: ProColumns<DateTableListItem>[] = [
     {
       title: '预约日期',
@@ -117,14 +117,14 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
       title: '已经预约数',
       dataIndex: 'bookingDateRecords',
       render(dom, item) {
-        return item.bookingDateRecords?.length || 0;
+        return item.bookingDateRecords?.length || 0
       },
     },
     {
       title: '剩余预约数',
       dataIndex: 'bookingDateRecords2',
       render(dom, item) {
-        return item.count - (item.bookingDateRecords?.length || 0);
+        return item.count - (item.bookingDateRecords?.length || 0)
       },
     },
     {
@@ -132,17 +132,17 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
       dataIndex: 'createTime',
       valueType: 'dateTime',
       renderFormItem: (item, { defaultRender, ...rest }, form) => {
-        const status = form.getFieldValue('status');
+        const status = form.getFieldValue('status')
 
         if (`${status}` === '0') {
-          return false;
+          return false
         }
 
         if (`${status}` === '3') {
-          return <Input {...rest} placeholder="请输入异常原因！" />;
+          return <Input {...rest} placeholder="请输入异常原因！" />
         }
 
-        return defaultRender(item);
+        return defaultRender(item)
       },
     },
     {
@@ -153,8 +153,8 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         <a
           key="config"
           onClick={() => {
-            setCurrentRow(record);
-            handleUpdateModalVisible(true);
+            setCurrentRow(record)
+            handleUpdateModalVisible(true)
           }}
         >
           配置
@@ -163,9 +163,9 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
           key="subscribeAlert"
           title="确定要进行删除操作吗？"
           onConfirm={async () => {
-            await handleRemove([record]);
-            setSelectedRows([]);
-            actionRef.current?.reloadAndRest?.();
+            await handleRemove([record])
+            setSelectedRows([])
+            actionRef.current?.reloadAndRest?.()
           }}
           okText="确定"
           cancelText="取消"
@@ -174,7 +174,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         </Popconfirm>,
       ],
     },
-  ];
+  ]
   return (
     (<StepsForm
       stepsProps={{
@@ -189,12 +189,12 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
             open={props.updateModalVisible}
             footer={submitter}
             onCancel={() => {
-              props.onCancel();
+              props.onCancel()
             }}
           >
             {dom}
           </Modal>)
-        );
+        )
       }}
       onFinish={props.onSubmit}
     >
@@ -252,7 +252,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
               type="primary"
               key="primary"
               onClick={() => {
-                handleModalVisible(true);
+                handleModalVisible(true)
               }}
             >
               <PlusOutlined /> 新建
@@ -270,11 +270,11 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
             const success = await handleAdd({
               ...value,
               bookingId: props.values.id,
-            } as unknown as DateTableListItem);
+            } as unknown as DateTableListItem)
             if (success) {
-              handleModalVisible(false);
+              handleModalVisible(false)
               if (actionRef.current) {
-                actionRef.current.reload();
+                actionRef.current.reload()
               }
             }
           }}
@@ -313,17 +313,17 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
           }}
           initialValues={currentRow}
           onVisibleChange={(value) => {
-            handleUpdateModalVisible(value);
+            handleUpdateModalVisible(value)
             if (!value) {
-              setCurrentRow(undefined);
+              setCurrentRow(undefined)
             }
           }}
           onFinish={async (value) => {
-            const success = await handleUpdate(value, currentRow);
+            const success = await handleUpdate(value, currentRow)
             if (success) {
-              handleUpdateModalVisible(false);
+              handleUpdateModalVisible(false)
               if (actionRef.current) {
-                actionRef.current.reload();
+                actionRef.current.reload()
               }
             }
           }}
@@ -354,7 +354,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         </ModalForm>
       </StepsForm.StepForm>
     </StepsForm>)
-  );
-};
+  )
+}
 
-export default UpdateForm;
+export default UpdateForm

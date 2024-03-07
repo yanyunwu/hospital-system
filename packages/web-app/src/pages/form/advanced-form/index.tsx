@@ -1,19 +1,19 @@
-import { CloseCircleOutlined } from '@ant-design/icons';
-import { Card, Col, Popover, Row, message } from 'antd';
+import { CloseCircleOutlined } from '@ant-design/icons'
+import { Card, Col, Popover, Row, message } from 'antd'
 
-import type { FC } from 'react';
-import { useState } from 'react';
+import type { FC } from 'react'
+import { useState } from 'react'
 import ProForm, {
   ProFormDateRangePicker,
   ProFormSelect,
   ProFormText,
   ProFormTimePicker,
-} from '@ant-design/pro-form';
-import type { ProColumnType } from '@ant-design/pro-table';
-import { EditableProTable } from '@ant-design/pro-table';
-import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
-import { fakeSubmitForm } from './service';
-import styles from './style.less';
+} from '@ant-design/pro-form'
+import type { ProColumnType } from '@ant-design/pro-table'
+import { EditableProTable } from '@ant-design/pro-table'
+import { PageContainer, FooterToolbar } from '@ant-design/pro-layout'
+import { fakeSubmitForm } from './service'
+import styles from './style.less'
 
 interface TableFormDateType {
   key: string;
@@ -38,7 +38,7 @@ const fieldLabels = {
   approver2: '责任人',
   dateRange2: '生效日期',
   type2: '任务类型',
-};
+}
 
 const tableData = [
   {
@@ -59,7 +59,7 @@ const tableData = [
     name: 'Joe Black',
     department: 'Sidney No. 1 Lake Park',
   },
-];
+]
 
 interface ErrorField {
   name: InternalNamePath;
@@ -67,31 +67,31 @@ interface ErrorField {
 }
 
 const AdvancedForm: FC<Record<string, any>> = () => {
-  const [error, setError] = useState<ErrorField[]>([]);
+  const [error, setError] = useState<ErrorField[]>([])
   const getErrorInfo = (errors: ErrorField[]) => {
-    const errorCount = errors.filter((item) => item.errors.length > 0).length;
+    const errorCount = errors.filter((item) => item.errors.length > 0).length
     if (!errors || errorCount === 0) {
-      return null;
+      return null
     }
     const scrollToField = (fieldKey: string) => {
-      const labelNode = document.querySelector(`label[for="${fieldKey}"]`);
+      const labelNode = document.querySelector(`label[for="${fieldKey}"]`)
       if (labelNode) {
-        labelNode.scrollIntoView(true);
+        labelNode.scrollIntoView(true)
       }
-    };
+    }
     const errorList = errors.map((err) => {
       if (!err || err.errors.length === 0) {
-        return null;
+        return null
       }
-      const key = err.name[0] as string;
+      const key = err.name[0] as string
       return (
         <li key={key} className={styles.errorListItem} onClick={() => scrollToField(key)}>
           <CloseCircleOutlined className={styles.errorIcon} />
           <div className={styles.errorMessage}>{err.errors[0]}</div>
           <div className={styles.errorField}>{fieldLabels[key]}</div>
         </li>
-      );
-    });
+      )
+    })
     return (
       <span className={styles.errorIcon}>
         <Popover
@@ -101,31 +101,31 @@ const AdvancedForm: FC<Record<string, any>> = () => {
           trigger="click"
           getPopupContainer={(trigger: HTMLElement) => {
             if (trigger && trigger.parentNode) {
-              return trigger.parentNode as HTMLElement;
+              return trigger.parentNode as HTMLElement
             }
-            return trigger;
+            return trigger
           }}
         >
           <CloseCircleOutlined />
         </Popover>
         {errorCount}
       </span>
-    );
-  };
+    )
+  }
 
   const onFinish = async (values: Record<string, any>) => {
-    setError([]);
+    setError([])
     try {
-      await fakeSubmitForm(values);
-      message.success('提交成功');
+      await fakeSubmitForm(values)
+      message.success('提交成功')
     } catch {
       // console.log
     }
-  };
+  }
 
   const onFinishFailed = (errorInfo: any) => {
-    setError(errorInfo.errorFields);
-  };
+    setError(errorInfo.errorFields)
+  }
 
   const columns: ProColumnType<TableFormDateType>[] = [
     {
@@ -155,15 +155,15 @@ const AdvancedForm: FC<Record<string, any>> = () => {
           <a
             key="eidit"
             onClick={() => {
-              action?.startEditable(record.key);
+              action?.startEditable(record.key)
             }}
           >
             编辑
           </a>,
-        ];
+        ]
       },
     },
-  ];
+  ]
 
   return (
     <ProForm
@@ -176,7 +176,7 @@ const AdvancedForm: FC<Record<string, any>> = () => {
               {getErrorInfo(error)}
               {dom}
             </FooterToolbar>
-          );
+          )
         },
       }}
       initialValues={{ members: tableData }}
@@ -370,7 +370,7 @@ const AdvancedForm: FC<Record<string, any>> = () => {
                 record: () => {
                   return {
                     key: `0${Date.now()}`,
-                  };
+                  }
                 },
               }}
               columns={columns}
@@ -380,7 +380,7 @@ const AdvancedForm: FC<Record<string, any>> = () => {
         </Card>
       </PageContainer>
     </ProForm>
-  );
-};
+  )
+}
 
-export default AdvancedForm;
+export default AdvancedForm

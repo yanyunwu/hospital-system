@@ -1,24 +1,24 @@
-import type { FC } from 'react';
-import { Suspense, useState } from 'react';
-import { EllipsisOutlined } from '@ant-design/icons';
-import { Col, Dropdown, Menu, Row } from 'antd';
-import { GridContent } from '@ant-design/pro-layout';
-import type { RadioChangeEvent } from 'antd/es/radio';
-import type { RangePickerProps } from 'antd/es/date-picker/generatePicker';
-import type moment from 'moment';
-import IntroduceRow from './components/IntroduceRow';
-import SalesCard from './components/SalesCard';
-import TopSearch from './components/TopSearch';
-import ProportionSales from './components/ProportionSales';
-import OfflineData from './components/OfflineData';
-import { useRequest } from 'umi';
+import type { FC } from 'react'
+import { Suspense, useState } from 'react'
+import { EllipsisOutlined } from '@ant-design/icons'
+import { Col, Dropdown, Menu, Row } from 'antd'
+import { GridContent } from '@ant-design/pro-layout'
+import type { RadioChangeEvent } from 'antd/es/radio'
+import type { RangePickerProps } from 'antd/es/date-picker/generatePicker'
+import type moment from 'moment'
+import IntroduceRow from './components/IntroduceRow'
+import SalesCard from './components/SalesCard'
+import TopSearch from './components/TopSearch'
+import ProportionSales from './components/ProportionSales'
+import OfflineData from './components/OfflineData'
+import { useRequest } from 'umi'
 
-import { fakeChartData } from './service';
-import PageLoading from './components/PageLoading';
-import type { TimeType } from './components/SalesCard';
-import { getTimeDistance } from './utils/utils';
-import type { AnalysisData } from './data.d';
-import styles from './style.less';
+import { fakeChartData } from './service'
+import PageLoading from './components/PageLoading'
+import type { TimeType } from './components/SalesCard'
+import { getTimeDistance } from './utils/utils'
+import type { AnalysisData } from './data.d'
+import styles from './style.less'
 
 type RangePickerValue = RangePickerProps<moment.Moment>['value'];
 
@@ -30,47 +30,47 @@ type AnalysisProps = {
 type SalesType = 'all' | 'online' | 'stores';
 
 const Analysis: FC<AnalysisProps> = () => {
-  const [salesType, setSalesType] = useState<SalesType>('all');
-  const [currentTabKey, setCurrentTabKey] = useState<string>('');
+  const [salesType, setSalesType] = useState<SalesType>('all')
+  const [currentTabKey, setCurrentTabKey] = useState<string>('')
   const [rangePickerValue, setRangePickerValue] = useState<RangePickerValue>(
     getTimeDistance('year'),
-  );
+  )
 
-  const { loading, data } = useRequest(fakeChartData);
+  const { loading, data } = useRequest(fakeChartData)
 
   const selectDate = (type: TimeType) => {
-    setRangePickerValue(getTimeDistance(type));
-  };
+    setRangePickerValue(getTimeDistance(type))
+  }
 
   const handleRangePickerChange = (value: RangePickerValue) => {
-    setRangePickerValue(value);
-  };
+    setRangePickerValue(value)
+  }
 
   const isActive = (type: TimeType) => {
     if (!rangePickerValue) {
-      return '';
+      return ''
     }
-    const value = getTimeDistance(type);
+    const value = getTimeDistance(type)
     if (!value) {
-      return '';
+      return ''
     }
     if (!rangePickerValue[0] || !rangePickerValue[1]) {
-      return '';
+      return ''
     }
     if (
       rangePickerValue[0].isSame(value[0] as moment.Moment, 'day') &&
       rangePickerValue[1].isSame(value[1] as moment.Moment, 'day')
     ) {
-      return styles.currentDate;
+      return styles.currentDate
     }
-    return '';
-  };
+    return ''
+  }
 
-  let salesPieData;
+  let salesPieData
   if (salesType === 'all') {
-    salesPieData = data?.salesTypeData;
+    salesPieData = data?.salesTypeData
   } else {
-    salesPieData = salesType === 'online' ? data?.salesTypeDataOnline : data?.salesTypeDataOffline;
+    salesPieData = salesType === 'online' ? data?.salesTypeDataOnline : data?.salesTypeDataOffline
   }
 
   const menu = (
@@ -78,7 +78,7 @@ const Analysis: FC<AnalysisProps> = () => {
       <Menu.Item>操作一</Menu.Item>
       <Menu.Item>操作二</Menu.Item>
     </Menu>
-  );
+  )
 
   const dropdownGroup = (
     <span className={styles.iconGroup}>
@@ -86,17 +86,17 @@ const Analysis: FC<AnalysisProps> = () => {
         <EllipsisOutlined />
       </Dropdown>
     </span>
-  );
+  )
 
   const handleChangeSalesType = (e: RadioChangeEvent) => {
-    setSalesType(e.target.value);
-  };
+    setSalesType(e.target.value)
+  }
 
   const handleTabChange = (key: string) => {
-    setCurrentTabKey(key);
-  };
+    setCurrentTabKey(key)
+  }
 
-  const activeKey = currentTabKey || (data?.offlineData[0] && data?.offlineData[0].name) || '';
+  const activeKey = currentTabKey || (data?.offlineData[0] && data?.offlineData[0].name) || ''
 
   return (
     <GridContent>
@@ -156,7 +156,7 @@ const Analysis: FC<AnalysisProps> = () => {
         </Suspense> */}
       </>
     </GridContent>
-  );
-};
+  )
+}
 
-export default Analysis;
+export default Analysis

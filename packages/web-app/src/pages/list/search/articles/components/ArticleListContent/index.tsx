@@ -1,7 +1,7 @@
-import { Avatar } from 'antd';
-import React from 'react';
-import moment from 'moment';
-import styles from './index.less';
+import { Avatar } from 'antd'
+import React from 'react'
+import moment from 'moment'
+import styles from './index.less'
 
 type ArticleListContentProps = {
   data: {
@@ -24,6 +24,6 @@ const ArticleListContent: React.FC<ArticleListContentProps> = ({
       <em>{moment(updatedAt).format('YYYY-MM-DD HH:mm')}</em>
     </div>
   </div>
-);
+)
 
-export default ArticleListContent;
+export default ArticleListContent

@@ -1,16 +1,16 @@
-import type { FC } from 'react';
-import { useState, useEffect } from 'react';
-import { Form, Button, Col, Input, Popover, Progress, Row, Select, message } from 'antd';
-import type { Store } from 'antd/es/form/interface';
-import { Link, useRequest, history } from 'umi';
-import type { StateType } from './service';
-import { fakeRegister } from './service';
+import type { FC } from 'react'
+import { useState, useEffect } from 'react'
+import { Form, Button, Col, Input, Popover, Progress, Row, Select, message } from 'antd'
+import type { Store } from 'antd/es/form/interface'
+import { Link, useRequest, history } from 'umi'
+import type { StateType } from './service'
+import { fakeRegister } from './service'
 
-import styles from './style.less';
+import styles from './style.less'
 
-const FormItem = Form.Item;
-const { Option } = Select;
-const InputGroup = Input.Group;
+const FormItem = Form.Item
+const { Option } = Select
+const InputGroup = Input.Group
 
 const passwordStatusMap = {
   ok: (
@@ -28,7 +28,7 @@ const passwordStatusMap = {
       <span>强度：太短</span>
     </div>
   ),
-};
+}
 
 const passwordProgressMap: {
   ok: 'success';
@@ -38,101 +38,101 @@ const passwordProgressMap: {
   ok: 'success',
   pass: 'normal',
   poor: 'exception',
-};
+}
 
 const Register: FC = () => {
-  const [count, setCount]: [number, any] = useState(0);
-  const [visible, setVisible]: [boolean, any] = useState(false);
-  const [prefix, setPrefix]: [string, any] = useState('86');
-  const [popover, setPopover]: [boolean, any] = useState(false);
-  const confirmDirty = false;
-  let interval: number | undefined;
-  const [form] = Form.useForm();
+  const [count, setCount]: [number, any] = useState(0)
+  const [visible, setVisible]: [boolean, any] = useState(false)
+  const [prefix, setPrefix]: [string, any] = useState('86')
+  const [popover, setPopover]: [boolean, any] = useState(false)
+  const confirmDirty = false
+  let interval: number | undefined
+  const [form] = Form.useForm()
 
   useEffect(
     () => () => {
-      clearInterval(interval);
+      clearInterval(interval)
     },
     [interval],
-  );
+  )
 
   const onGetCaptcha = () => {
-    let counts = 59;
-    setCount(counts);
+    let counts = 59
+    setCount(counts)
     interval = window.setInterval(() => {
-      counts -= 1;
-      setCount(counts);
+      counts -= 1
+      setCount(counts)
       if (counts === 0) {
-        clearInterval(interval);
+        clearInterval(interval)
       }
-    }, 1000);
-  };
+    }, 1000)
+  }
 
   const getPasswordStatus = () => {
-    const value = form.getFieldValue('password');
+    const value = form.getFieldValue('password')
     if (value && value.length > 9) {
-      return 'ok';
+      return 'ok'
     }
     if (value && value.length > 5) {
-      return 'pass';
+      return 'pass'
     }
-    return 'poor';
-  };
+    return 'poor'
+  }
 
   const { loading: submitting, run: register } = useRequest<{ data: StateType }>(fakeRegister, {
     manual: true,
     onSuccess: (data, params) => {
       if (data.status === 'ok') {
-        message.success('注册成功！');
+        message.success('注册成功！')
         history.push({
           pathname: '/user/register-result',
           state: {
             account: params.email,
           },
-        });
+        })
       }
     },
-  });
+  })
   const onFinish = (values: Store) => {
-    register(values);
-  };
+    register(values)
+  }
 
   const checkConfirm = (_: any, value: string) => {
-    const promise = Promise;
+    const promise = Promise
     if (value && value !== form.getFieldValue('password')) {
-      return promise.reject('两次输入的密码不匹配!');
+      return promise.reject('两次输入的密码不匹配!')
     }
-    return promise.resolve();
-  };
+    return promise.resolve()
+  }
 
   const checkPassword = (_: any, value: string) => {
-    const promise = Promise;
+    const promise = Promise
     // 没有值的情况
     if (!value) {
-      setVisible(!!value);
-      return promise.reject('请输入密码!');
+      setVisible(!!value)
+      return promise.reject('请输入密码!')
     }
     // 有值的情况
     if (!visible) {
-      setVisible(!!value);
+      setVisible(!!value)
     }
-    setPopover(!popover);
+    setPopover(!popover)
     if (value.length < 6) {
-      return promise.reject('');
+      return promise.reject('')
     }
     if (value && confirmDirty) {
-      form.validateFields(['confirm']);
+      form.validateFields(['confirm'])
     }
-    return promise.resolve();
-  };
+    return promise.resolve()
+  }
 
   const changePrefix = (value: string) => {
-    setPrefix(value);
-  };
+    setPrefix(value)
+  }
 
   const renderPasswordProgress = () => {
-    const value = form.getFieldValue('password');
-    const passwordStatus = getPasswordStatus();
+    const value = form.getFieldValue('password')
+    const passwordStatus = getPasswordStatus()
     return value && value.length ? (
       <div className={styles[`progress-${passwordStatus}`]}>
         <Progress
@@ -143,8 +143,8 @@ const Register: FC = () => {
           showInfo={false}
         />
       </div>
-    ) : null;
-  };
+    ) : null
+  }
 
   return (
     <div className={styles.main}>
@@ -168,9 +168,9 @@ const Register: FC = () => {
         <Popover
           getPopupContainer={(node) => {
             if (node && node.parentNode) {
-              return node.parentNode as HTMLElement;
+              return node.parentNode as HTMLElement
             }
-            return node;
+            return node
           }}
           content={
             visible && (
@@ -280,6 +280,6 @@ const Register: FC = () => {
         </FormItem>
       </Form>
     </div>
-  );
-};
-export default Register;
+  )
+}
+export default Register

@@ -1,10 +1,10 @@
-import React, { useRef } from 'react';
-import { Input, Avatar, Popover } from 'antd';
-import { useBoolean, useUpdateEffect } from 'ahooks';
+import React, { useRef } from 'react'
+import { Input, Avatar, Popover } from 'antd'
+import { useBoolean, useUpdateEffect } from 'ahooks'
 import emojiData from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
-import { SmileOutlined, UserOutlined } from '@ant-design/icons';
-import type { TableListItem } from '../../type';
+import { SmileOutlined, UserOutlined } from '@ant-design/icons'
+import type { TableListItem } from '../../type'
 import './ChatList.less'
 
 export type FormValueType = {
@@ -83,53 +83,53 @@ const ChatList: React.FC<ChatListProps> = (props) => {
 
   return (
     <div className="container">
-		<div className="chat_message_list">
-      {/* @ts-ignore */}
-			<div ref={dom} className="scroll-view good-scrollbar" style={{height: '100%'}} >
-				<div className="official-content">
-          {
-            props.messageList.map(item => <React.Fragment key={item.id}>{renderMessage(item)}</React.Fragment>)
-          }
-				</div>
-			</div>
-		</div>
-
-		<div className="chat_send" >
-      <div className='chat_send_tool'>
-        <Popover
-          arrow={false}
-          overlayInnerStyle={{padding: 0}}
-          open={show}
-          content={
-            <Picker
-              data={emojiData}
-              onEmojiSelect={(_: any) => {
-                props.onChangeText(props.waitText + _.native)
-                showAction.setFalse()
-              }}
-            />
-          }
-          trigger='click'
-          onOpenChange={showAction.toggle}
-        >
-          <SmileOutlined style={{fontSize: '20px'}} />
-        </Popover>
+      <div className="chat_message_list">
+        {/* @ts-ignore */}
+        <div ref={dom} className="scroll-view good-scrollbar" style={{height: '100%'}} >
+          <div className="official-content">
+            {
+              props.messageList.map(item => <React.Fragment key={item.id}>{renderMessage(item)}</React.Fragment>)
+            }
+          </div>
+        </div>
       </div>
-			<Input.TextArea
-        disabled={props.disabled}
-        value={props.waitText}
-        onChange={(t) => props.onChangeText(t.target.value)}
-        style={{height: 160, resize: 'none'}}
-        placeholder='回车键(Enter)也可以回复！'
-        onKeyDown={(e) => {
-          if (e.key.toLowerCase() === 'enter') {
-            props.onSend()
-          }
-        }}
-      />
-		</div>
-	</div>
-  )
-};
 
-export default ChatList;
+      <div className="chat_send" >
+        <div className='chat_send_tool'>
+          <Popover
+            arrow={false}
+            overlayInnerStyle={{padding: 0}}
+            open={show}
+            content={
+              <Picker
+                data={emojiData}
+                onEmojiSelect={(_: any) => {
+                  props.onChangeText(props.waitText + _.native)
+                  showAction.setFalse()
+                }}
+              />
+            }
+            trigger='click'
+            onOpenChange={showAction.toggle}
+          >
+            <SmileOutlined style={{fontSize: '20px'}} />
+          </Popover>
+        </div>
+        <Input.TextArea
+          disabled={props.disabled}
+          value={props.waitText}
+          onChange={(t) => props.onChangeText(t.target.value)}
+          style={{height: 160, resize: 'none'}}
+          placeholder='回车键(Enter)也可以回复！'
+          onKeyDown={(e) => {
+            if (e.key.toLowerCase() === 'enter') {
+              props.onSend()
+            }
+          }}
+        />
+      </div>
+    </div>
+  )
+}
+
+export default ChatList

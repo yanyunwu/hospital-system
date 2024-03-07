@@ -6,12 +6,12 @@ import {
   ProFormRadio,
   ProFormText
 } from '@ant-design/pro-form'
-import { useRequest } from 'ahooks';
-import { TableListItem } from '../type';
-import { useGlobalContext } from '@/templates/CommonTemplate';
-import { handleRemove, handleUpdate } from '../service';
-import { role } from '@/pages/access/role/service';
-import { Button, Popconfirm } from 'antd';
+import { useRequest } from 'ahooks'
+import { TableListItem } from '../type'
+import { useGlobalContext } from '@/templates/CommonTemplate'
+import { handleRemove, handleUpdate } from '../service'
+import { role } from '@/pages/access/role/service'
+import { Button, Popconfirm } from 'antd'
 
 export interface DetailDrawerProps {
   onTrigger?(): void
@@ -19,11 +19,11 @@ export interface DetailDrawerProps {
 
 const DetailDrawer: React.FC<DetailDrawerProps> = (props) => {
   const { currentRow, setCurrentRow, event$ } = useGlobalContext<TableListItem>()
-  const { data } = useRequest(role);
+  const { data } = useRequest(role)
   const checkboxValues = (data?.data || []).map((item) => ({
     label: item.name,
     value: item.id,
-  }));
+  }))
 
   return (
     <DrawerForm<TableListItem>
@@ -43,7 +43,7 @@ const DetailDrawer: React.FC<DetailDrawerProps> = (props) => {
             title='确定要删除该项吗？'
             onConfirm={async () => {
               if (currentRow) {
-                await handleRemove([currentRow]);
+                await handleRemove([currentRow])
                 event$.emit('reloadAndRest')
               }
             }}
@@ -58,10 +58,10 @@ const DetailDrawer: React.FC<DetailDrawerProps> = (props) => {
       onFinish={async (values) => {
         // @ts-ignore
         values.roles = values.roles?.join(',')
-        const success = await handleUpdate(values, currentRow);
+        const success = await handleUpdate(values, currentRow)
 
         if (success) {
-          setCurrentRow(undefined);
+          setCurrentRow(undefined)
           event$.emit('reload')
           return true
         }

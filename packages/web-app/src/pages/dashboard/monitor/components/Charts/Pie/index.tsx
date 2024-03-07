@@ -1,13 +1,13 @@
-import { Chart, Coord, Geom, Tooltip } from 'bizcharts';
-import React, { Component } from 'react';
+import { Chart, Coord, Geom, Tooltip } from 'bizcharts'
+import React, { Component } from 'react'
 
-import { DataView } from '@antv/data-set';
-import Debounce from 'lodash.debounce';
-import { Divider } from 'antd';
-import ReactFitText from 'react-fittext';
-import classNames from 'classnames';
-import autoHeight from '../autoHeight';
-import styles from './index.less';
+import { DataView } from '@antv/data-set'
+import Debounce from 'lodash.debounce'
+import { Divider } from 'antd'
+import ReactFitText from 'react-fittext'
+import classNames from 'classnames'
+import autoHeight from '../autoHeight'
+import styles from './index.less'
 
 export type PieProps = {
   animate?: boolean;
@@ -42,21 +42,21 @@ class Pie extends Component<PieProps, PieState> {
   state: PieState = {
     legendData: [],
     legendBlock: false,
-  };
+  }
 
-  chart: G2.Chart | undefined = undefined;
+  chart: G2.Chart | undefined = undefined
 
-  root: HTMLDivElement | undefined = undefined;
+  root: HTMLDivElement | undefined = undefined
 
-  requestRef: number | undefined = 0;
+  requestRef: number | undefined = 0
 
   // for window resize auto responsive legend
   resize = Debounce(() => {
-    const { hasLegend } = this.props;
-    const { legendBlock } = this.state;
+    const { hasLegend } = this.props
+    const { legendBlock } = this.state
     if (!hasLegend || !this.root) {
-      window.removeEventListener('resize', this.resize);
-      return;
+      window.removeEventListener('resize', this.resize)
+      return
     }
     if (
       this.root &&
@@ -66,94 +66,94 @@ class Pie extends Component<PieProps, PieState> {
       if (!legendBlock) {
         this.setState({
           legendBlock: true,
-        });
+        })
       }
     } else if (legendBlock) {
       this.setState({
         legendBlock: false,
-      });
+      })
     }
-  }, 300);
+  }, 300)
 
   componentDidMount() {
     window.addEventListener(
       'resize',
       () => {
-        this.requestRef = requestAnimationFrame(() => this.resize());
+        this.requestRef = requestAnimationFrame(() => this.resize())
       },
       { passive: true },
-    );
+    )
   }
 
   componentDidUpdate(preProps: PieProps) {
-    const { data } = this.props;
+    const { data } = this.props
     if (data !== preProps.data) {
       // because of charts data create when rendered
       // so there is a trick for get rendered time
-      this.getLegendData();
+      this.getLegendData()
     }
   }
 
   componentWillUnmount() {
     if (this.requestRef) {
-      window.cancelAnimationFrame(this.requestRef);
+      window.cancelAnimationFrame(this.requestRef)
     }
-    window.removeEventListener('resize', this.resize);
+    window.removeEventListener('resize', this.resize)
     if (this.resize) {
-      (this.resize as any).cancel();
+      (this.resize as any).cancel()
     }
   }
 
   getG2Instance = (chart: G2.Chart) => {
-    this.chart = chart;
+    this.chart = chart
     requestAnimationFrame(() => {
-      this.getLegendData();
-      this.resize();
-    });
-  };
+      this.getLegendData()
+      this.resize()
+    })
+  }
 
   // for custom lengend view
   getLegendData = () => {
-    if (!this.chart) return;
-    const geom = this.chart.getAllGeoms()[0]; // 获取所有的图形
-    if (!geom) return;
+    if (!this.chart) return
+    const geom = this.chart.getAllGeoms()[0] // 获取所有的图形
+    if (!geom) return
     // g2 的类型有问题
-    const items = (geom as any).get('dataArray') || []; // 获取图形对应的
+    const items = (geom as any).get('dataArray') || [] // 获取图形对应的
 
     const legendData = items.map((item: { color: any; _origin: any }[]) => {
       /* eslint no-underscore-dangle:0 */
-      const origin = item[0]._origin;
-      origin.color = item[0].color;
-      origin.checked = true;
-      return origin;
-    });
+      const origin = item[0]._origin
+      origin.color = item[0].color
+      origin.checked = true
+      return origin
+    })
 
     this.setState({
       legendData,
-    });
-  };
+    })
+  }
 
   handleRoot = (n: HTMLDivElement) => {
-    this.root = n;
-  };
+    this.root = n
+  }
 
   handleLegendClick = (item: { checked: boolean }, i: string | number) => {
-    const newItem = item;
-    newItem.checked = !newItem.checked;
+    const newItem = item
+    newItem.checked = !newItem.checked
 
-    const { legendData } = this.state;
-    legendData[i] = newItem;
+    const { legendData } = this.state
+    legendData[i] = newItem
 
-    const filteredLegendData = legendData.filter((l) => l.checked).map((l) => l.x);
+    const filteredLegendData = legendData.filter((l) => l.checked).map((l) => l.x)
 
     if (this.chart) {
-      this.chart.filter('x', (val) => filteredLegendData.indexOf(`${val}`) > -1);
+      this.chart.filter('x', (val) => filteredLegendData.indexOf(`${val}`) > -1)
     }
 
     this.setState({
       legendData,
-    });
-  };
+    })
+  }
 
   render() {
     const {
@@ -171,29 +171,29 @@ class Pie extends Component<PieProps, PieState> {
       animate = true,
       colors,
       lineWidth = 1,
-    } = this.props;
+    } = this.props
 
-    const { legendData, legendBlock } = this.state;
+    const { legendData, legendBlock } = this.state
     const pieClassName = classNames(styles.pie, className, {
       [styles.hasLegend]: !!hasLegend,
       [styles.legendBlock]: legendBlock,
-    });
+    })
 
     const {
       data: propsData,
       selected: propsSelected = true,
       tooltip: propsTooltip = true,
-    } = this.props;
+    } = this.props
 
-    let data = propsData || [];
-    let selected = propsSelected;
-    let tooltip = propsTooltip;
+    let data = propsData || []
+    let selected = propsSelected
+    let tooltip = propsTooltip
 
-    const defaultColors = colors;
-    data = data || [];
-    selected = selected || true;
-    tooltip = tooltip || true;
-    let formatColor;
+    const defaultColors = colors
+    data = data || []
+    selected = selected || true
+    tooltip = tooltip || true
+    let formatColor
 
     const scale = {
       x: {
@@ -203,17 +203,17 @@ class Pie extends Component<PieProps, PieState> {
       y: {
         min: 0,
       },
-    };
+    }
 
     if (percent || percent === 0) {
-      selected = false;
-      tooltip = false;
+      selected = false
+      tooltip = false
       formatColor = (value: string) => {
         if (value === '占比') {
-          return color || 'rgba(24, 144, 255, 0.85)';
+          return color || 'rgba(24, 144, 255, 0.85)'
         }
-        return '#F0F2F5';
-      };
+        return '#F0F2F5'
+      }
 
       data = [
         {
@@ -224,7 +224,7 @@ class Pie extends Component<PieProps, PieState> {
           x: '反比',
           y: 100 - parseFloat(`${percent}`),
         },
-      ];
+      ]
     }
 
     const tooltipFormat: [string, (...args: any[]) => { name?: string; value: string }] = [
@@ -233,17 +233,17 @@ class Pie extends Component<PieProps, PieState> {
         name: x,
         value: `${(p * 100).toFixed(2)}%`,
       }),
-    ];
+    ]
 
-    const padding = [12, 0, 12, 0] as [number, number, number, number];
+    const padding = [12, 0, 12, 0] as [number, number, number, number]
 
-    const dv = new DataView();
+    const dv = new DataView()
     dv.source(data).transform({
       type: 'percent',
       field: 'y',
       dimension: 'x',
       as: 'percent',
-    });
+    })
 
     return (
       <div ref={this.handleRoot} className={pieClassName} style={style}>
@@ -303,8 +303,8 @@ class Pie extends Component<PieProps, PieState> {
           </ul>
         )}
       </div>
-    );
+    )
   }
 }
 
-export default autoHeight()(Pie);
+export default autoHeight()(Pie)

@@ -1,12 +1,12 @@
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
-import { useBoolean, useControllableValue } from 'ahooks';
-import { Tag } from 'antd';
-import classNames from 'classnames';
-import type { FC } from 'react';
-import React from 'react';
-import styles from './index.less';
+import { DownOutlined, UpOutlined } from '@ant-design/icons'
+import { useBoolean, useControllableValue } from 'ahooks'
+import { Tag } from 'antd'
+import classNames from 'classnames'
+import type { FC } from 'react'
+import React from 'react'
+import styles from './index.less'
 
-const { CheckableTag } = Tag;
+const { CheckableTag } = Tag
 
 export interface TagSelectOptionProps {
   value: string | number;
@@ -25,9 +25,9 @@ const TagSelectOption: React.FC<TagSelectOptionProps> & {
   >
     {children}
   </CheckableTag>
-);
+)
 
-TagSelectOption.isTagSelectOption = true;
+TagSelectOption.isTagSelectOption = true
 
 type TagSelectOptionElement = React.ReactElement<TagSelectOptionProps, typeof TagSelectOption>;
 export interface TagSelectProps {
@@ -48,52 +48,52 @@ export interface TagSelectProps {
 }
 
 const TagSelect: FC<TagSelectProps> & { Option: typeof TagSelectOption } = (props) => {
-  const { children, hideCheckAll = false, className, style, expandable, actionsText = {} } = props;
+  const { children, hideCheckAll = false, className, style, expandable, actionsText = {} } = props
 
-  const [expand, { toggle }] = useBoolean();
+  const [expand, { toggle }] = useBoolean()
 
-  const [value, setValue] = useControllableValue<(string | number)[]>(props);
+  const [value, setValue] = useControllableValue<(string | number)[]>(props)
 
   const isTagSelectOption = (node: TagSelectOptionElement) =>
     node &&
     node.type &&
-    (node.type.isTagSelectOption || node.type.displayName === 'TagSelectOption');
+    (node.type.isTagSelectOption || node.type.displayName === 'TagSelectOption')
 
   const getAllTags = () => {
-    const childrenArray = React.Children.toArray(children) as TagSelectOptionElement[];
+    const childrenArray = React.Children.toArray(children) as TagSelectOptionElement[]
     const checkedTags = childrenArray
       .filter((child) => isTagSelectOption(child))
-      .map((child) => child.props.value);
-    return checkedTags || [];
-  };
+      .map((child) => child.props.value)
+    return checkedTags || []
+  }
 
   const onSelectAll = (checked: boolean) => {
-    let checkedTags: (string | number)[] = [];
+    let checkedTags: (string | number)[] = []
     if (checked) {
-      checkedTags = getAllTags();
+      checkedTags = getAllTags()
     }
-    setValue(checkedTags);
-  };
+    setValue(checkedTags)
+  }
 
   const handleTagChange = (tag: string | number, checked: boolean) => {
-    const checkedTags: (string | number)[] = [...(value || [])];
+    const checkedTags: (string | number)[] = [...(value || [])]
 
-    const index = checkedTags.indexOf(tag);
+    const index = checkedTags.indexOf(tag)
     if (checked && index === -1) {
-      checkedTags.push(tag);
+      checkedTags.push(tag)
     } else if (!checked && index > -1) {
-      checkedTags.splice(index, 1);
+      checkedTags.splice(index, 1)
     }
-    setValue(checkedTags);
-  };
+    setValue(checkedTags)
+  }
 
-  const checkedAll = getAllTags().length === value?.length;
-  const { expandText = '展开', collapseText = '收起', selectAllText = '全部' } = actionsText;
+  const checkedAll = getAllTags().length === value?.length
+  const { expandText = '展开', collapseText = '收起', selectAllText = '全部' } = actionsText
 
   const cls = classNames(styles.tagSelect, className, {
     [styles.hasExpandTag]: expandable,
     [styles.expanded]: expand,
-  });
+  })
 
   return (
     <div className={cls} style={style}>
@@ -110,15 +110,15 @@ const TagSelect: FC<TagSelectProps> & { Option: typeof TagSelectOption } = (prop
               value: child.props.value,
               checked: value && value.indexOf(child.props.value) > -1,
               onChange: handleTagChange,
-            });
+            })
           }
-          return child;
+          return child
         })}
       {expandable && (
         <a
           className={styles.trigger}
           onClick={() => {
-            toggle();
+            toggle()
           }}
         >
           {expand ? (
@@ -134,9 +134,9 @@ const TagSelect: FC<TagSelectProps> & { Option: typeof TagSelectOption } = (prop
         </a>
       )}
     </div>
-  );
-};
+  )
+}
 
-TagSelect.Option = TagSelectOption;
+TagSelect.Option = TagSelectOption
 
-export default TagSelect;
+export default TagSelect

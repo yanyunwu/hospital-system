@@ -1,4 +1,4 @@
-import { request } from 'umi';
+import { request } from 'umi'
 
 export async function getRoleList(
   params: {
@@ -16,7 +16,7 @@ export async function getRoleList(
       ...params,
     },
     ...(options || {}),
-  });
+  })
 }
 
 export async function getSessionMessageList(id: number) {
@@ -25,7 +25,7 @@ export async function getSessionMessageList(id: number) {
     params: {
       id,
     },
-  });
+  })
 }
 
 export async function replySession(sessionId: number) {
@@ -34,7 +34,7 @@ export async function replySession(sessionId: number) {
     data: {
       sessionId,
     },
-  });
+  })
 }
 
 export async function setSessionStatus(sessionId: number, status: number) {
@@ -44,7 +44,7 @@ export async function setSessionStatus(sessionId: number, status: number) {
       sessionId,
       status,
     },
-  });
+  })
 }
 
 export async function currentUser(options?: { [key: string]: any }) {
@@ -53,5 +53,5 @@ export async function currentUser(options?: { [key: string]: any }) {
   }>('/api/admin/user/getOwnerAdminUser', {
     method: 'GET',
     ...(options || {}),
-  });
+  })
 }

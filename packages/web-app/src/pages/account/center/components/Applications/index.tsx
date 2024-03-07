@@ -3,20 +3,20 @@ import {
   EditOutlined,
   EllipsisOutlined,
   ShareAltOutlined,
-} from '@ant-design/icons';
-import { useRequest } from 'umi';
-import { Avatar, Card, Dropdown, List, Menu, Tooltip } from 'antd';
-import React from 'react';
-import numeral from 'numeral';
-import type { ListItemDataType } from '../../data.d';
-import { queryFakeList } from '../../service';
-import stylesApplications from './index.less';
+} from '@ant-design/icons'
+import { useRequest } from 'umi'
+import { Avatar, Card, Dropdown, List, Menu, Tooltip } from 'antd'
+import React from 'react'
+import numeral from 'numeral'
+import type { ListItemDataType } from '../../data.d'
+import { queryFakeList } from '../../service'
+import stylesApplications from './index.less'
 
 export function formatWan(val: number) {
-  const v = val * 1;
-  if (!v || Number.isNaN(v)) return '';
+  const v = val * 1
+  if (!v || Number.isNaN(v)) return ''
 
-  let result: React.ReactNode = val;
+  let result: React.ReactNode = val
   if (val > 10000) {
     result = (
       <span>
@@ -33,9 +33,9 @@ export function formatWan(val: number) {
           万
         </span>
       </span>
-    );
+    )
   }
-  return result;
+  return result
 }
 
 const Applications: React.FC = () => {
@@ -43,8 +43,8 @@ const Applications: React.FC = () => {
   const { data: listData } = useRequest(() => {
     return queryFakeList({
       count: 30,
-    });
-  });
+    })
+  })
 
   const itemMenu = (
     <Menu>
@@ -64,7 +64,7 @@ const Applications: React.FC = () => {
         </a>
       </Menu.Item>
     </Menu>
-  );
+  )
   const CardInfo: React.FC<{
     activeUser: React.ReactNode;
     newUser: React.ReactNode;
@@ -79,7 +79,7 @@ const Applications: React.FC = () => {
         <p>{newUser}</p>
       </div>
     </div>
-  );
+  )
   return (
     <List<ListItemDataType>
       rowKey="id"
@@ -117,7 +117,7 @@ const Applications: React.FC = () => {
         </List.Item>
       )}
     />
-  );
-};
+  )
+}
 
-export default Applications;
+export default Applications

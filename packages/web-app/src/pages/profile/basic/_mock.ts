@@ -1,4 +1,4 @@
-import type { Request, Response } from 'express';
+import type { Request, Response } from 'express'
 
 const basicGoods = [
   {
@@ -33,7 +33,7 @@ const basicGoods = [
     num: '3',
     amount: '25.50',
   },
-];
+]
 
 const basicProgress = [
   {
@@ -76,7 +76,7 @@ const basicProgress = [
     operator: '用户',
     cost: '5mins',
   },
-];
+]
 
 function getProfileBasic(_: Request, res: Response) {
   return res.json({
@@ -84,9 +84,9 @@ function getProfileBasic(_: Request, res: Response) {
       basicProgress,
       basicGoods,
     },
-  });
+  })
 }
 
 export default {
   'GET  /api/profile/basic': getProfileBasic,
-};
+}

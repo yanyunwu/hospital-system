@@ -1,13 +1,13 @@
-import { Card, Radio, Typography } from 'antd';
-import numeral from 'numeral';
-import type { RadioChangeEvent } from 'antd/es/radio';
-import { Donut } from '@ant-design/charts';
-import type { DonutConfig } from '@ant-design/charts/es/donut';
-import React from 'react';
-import type { DataItem } from '../data.d';
-import styles from '../style.less';
+import { Card, Radio, Typography } from 'antd'
+import numeral from 'numeral'
+import type { RadioChangeEvent } from 'antd/es/radio'
+import { Donut } from '@ant-design/charts'
+import type { DonutConfig } from '@ant-design/charts/es/donut'
+import React from 'react'
+import type { DataItem } from '../data.d'
+import styles from '../style.less'
 
-const { Text } = Typography;
+const { Text } = Typography
 
 const ProportionSales = ({
   dropdownGroup,
@@ -60,7 +60,7 @@ const ProportionSales = ({
           type: 'spider',
           formatter: (text, item) => {
             // eslint-disable-next-line no-underscore-dangle
-            return `${item._origin.x}: ${numeral(item._origin.y).format('0,0')}`;
+            return `${item._origin.x}: ${numeral(item._origin.y).format('0,0')}`
           },
         }}
         statistic={
@@ -71,6 +71,6 @@ const ProportionSales = ({
       />
     </div>
   </Card>
-);
+)
 
-export default ProportionSales;
+export default ProportionSales

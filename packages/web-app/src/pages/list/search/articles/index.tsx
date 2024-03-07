@@ -1,41 +1,41 @@
-import { LikeOutlined, LoadingOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
-import { Button, Card, Col, Form, List, Row, Select, Tag } from 'antd';
-import type { FC } from 'react';
-import React from 'react';
-import { useRequest } from 'umi';
-import ArticleListContent from './components/ArticleListContent';
-import StandardFormRow from './components/StandardFormRow';
-import TagSelect from './components/TagSelect';
-import type { ListItemDataType } from './data.d';
-import { queryFakeList } from './service';
-import styles from './style.less';
+import { LikeOutlined, LoadingOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Form, List, Row, Select, Tag } from 'antd'
+import type { FC } from 'react'
+import React from 'react'
+import { useRequest } from 'umi'
+import ArticleListContent from './components/ArticleListContent'
+import StandardFormRow from './components/StandardFormRow'
+import TagSelect from './components/TagSelect'
+import type { ListItemDataType } from './data.d'
+import { queryFakeList } from './service'
+import styles from './style.less'
 
-const { Option } = Select;
-const FormItem = Form.Item;
+const { Option } = Select
+const FormItem = Form.Item
 
-const pageSize = 5;
+const pageSize = 5
 
 const Articles: FC = () => {
-  const [form] = Form.useForm();
+  const [form] = Form.useForm()
 
   const { data, reload, loading, loadMore, loadingMore } = useRequest(
     () => {
       return queryFakeList({
         count: pageSize,
-      });
+      })
     },
     {
       loadMore: true,
     },
-  );
+  )
 
-  const list = data?.list || [];
+  const list = data?.list || []
 
   const setOwner = () => {
     form.setFieldsValue({
       owner: ['wzj'],
-    });
-  };
+    })
+  }
 
   const owners = [
     {
@@ -58,38 +58,38 @@ const Articles: FC = () => {
       id: 'ym',
       name: '姚明',
     },
-  ];
+  ]
 
   const IconText: React.FC<{
     type: string;
     text: React.ReactNode;
   }> = ({ type, text }) => {
     switch (type) {
-      case 'star-o':
-        return (
-          <span>
-            <StarOutlined style={{ marginRight: 8 }} />
-            {text}
-          </span>
-        );
-      case 'like-o':
-        return (
-          <span>
-            <LikeOutlined style={{ marginRight: 8 }} />
-            {text}
-          </span>
-        );
-      case 'message':
-        return (
-          <span>
-            <MessageOutlined style={{ marginRight: 8 }} />
-            {text}
-          </span>
-        );
-      default:
-        return null;
+    case 'star-o':
+      return (
+        <span>
+          <StarOutlined style={{ marginRight: 8 }} />
+          {text}
+        </span>
+      )
+    case 'like-o':
+      return (
+        <span>
+          <LikeOutlined style={{ marginRight: 8 }} />
+          {text}
+        </span>
+      )
+    case 'message':
+      return (
+        <span>
+          <MessageOutlined style={{ marginRight: 8 }} />
+          {text}
+        </span>
+      )
+    default:
+      return null
     }
-  };
+  }
 
   const formItemLayout = {
     wrapperCol: {
@@ -97,7 +97,7 @@ const Articles: FC = () => {
       sm: { span: 24 },
       md: { span: 12 },
     },
-  };
+  }
 
   const loadMoreDom = list.length > 0 && (
     <div style={{ textAlign: 'center', marginTop: 16 }}>
@@ -111,7 +111,7 @@ const Articles: FC = () => {
         )}
       </Button>
     </div>
-  );
+  )
 
   return (
     <>
@@ -218,7 +218,7 @@ const Articles: FC = () => {
         />
       </Card>
     </>
-  );
-};
+  )
+}
 
-export default Articles;
+export default Articles

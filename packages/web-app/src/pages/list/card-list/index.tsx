@@ -1,21 +1,21 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, Card, List, Typography } from 'antd';
-import { PageContainer } from '@ant-design/pro-layout';
-import { useRequest } from 'umi';
-import { queryFakeList } from './service';
-import type { CardListItemDataType } from './data.d';
-import styles from './style.less';
+import { PlusOutlined } from '@ant-design/icons'
+import { Button, Card, List, Typography } from 'antd'
+import { PageContainer } from '@ant-design/pro-layout'
+import { useRequest } from 'umi'
+import { queryFakeList } from './service'
+import type { CardListItemDataType } from './data.d'
+import styles from './style.less'
 
-const { Paragraph } = Typography;
+const { Paragraph } = Typography
 
 const CardList = () => {
   const { data, loading } = useRequest(() => {
     return queryFakeList({
       count: 8,
-    });
-  });
+    })
+  })
 
-  const list = data?.list || [];
+  const list = data?.list || []
 
   const content = (
     <div className={styles.pageHeaderContent}>
@@ -38,7 +38,7 @@ const CardList = () => {
         </a>
       </div>
     </div>
-  );
+  )
 
   const extraContent = (
     <div className={styles.extraImg}>
@@ -47,8 +47,8 @@ const CardList = () => {
         src="https://gw.alipayobjects.com/zos/rmsportal/RzwpdLnhmvDJToTdfDPe.png"
       />
     </div>
-  );
-  const nullData: Partial<CardListItemDataType> = {};
+  )
+  const nullData: Partial<CardListItemDataType> = {}
   return (
     <PageContainer content={content} extraContent={extraContent}>
       <div className={styles.cardList}>
@@ -85,7 +85,7 @@ const CardList = () => {
                     />
                   </Card>
                 </List.Item>
-              );
+              )
             }
             return (
               <List.Item>
@@ -93,12 +93,12 @@ const CardList = () => {
                   <PlusOutlined /> 新增产品
                 </Button>
               </List.Item>
-            );
+            )
           }}
         />
       </div>
     </PageContainer>
-  );
-};
+  )
+}
 
-export default CardList;
+export default CardList

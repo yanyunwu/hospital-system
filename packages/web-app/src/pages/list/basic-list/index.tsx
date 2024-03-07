@@ -1,6 +1,6 @@
-import type { FC } from 'react';
-import React, { useState } from 'react';
-import { DownOutlined, PlusOutlined } from '@ant-design/icons';
+import type { FC } from 'react'
+import React, { useState } from 'react'
+import { DownOutlined, PlusOutlined } from '@ant-design/icons'
 import {
   Avatar,
   Button,
@@ -14,19 +14,19 @@ import {
   Progress,
   Radio,
   Row,
-} from 'antd';
+} from 'antd'
 
-import { PageContainer } from '@ant-design/pro-layout';
-import { useRequest } from 'umi';
-import moment from 'moment';
-import OperationModal from './components/OperationModal';
-import { addFakeList, queryFakeList, removeFakeList, updateFakeList } from './service';
-import type { BasicListItemDataType } from './data.d';
-import styles from './style.less';
+import { PageContainer } from '@ant-design/pro-layout'
+import { useRequest } from 'umi'
+import moment from 'moment'
+import OperationModal from './components/OperationModal'
+import { addFakeList, queryFakeList, removeFakeList, updateFakeList } from './service'
+import type { BasicListItemDataType } from './data.d'
+import styles from './style.less'
 
-const RadioButton = Radio.Button;
-const RadioGroup = Radio.Group;
-const { Search } = Input;
+const RadioButton = Radio.Button
+const RadioGroup = Radio.Group
+const { Search } = Input
 
 const Info: FC<{
   title: React.ReactNode;
@@ -38,7 +38,7 @@ const Info: FC<{
     <p>{value}</p>
     {bordered && <em />}
   </div>
-);
+)
 
 const ListContent = ({
   data: { owner, createdAt, percent, status },
@@ -58,12 +58,12 @@ const ListContent = ({
       <Progress percent={percent} status={status} strokeWidth={6} style={{ width: 180 }} />
     </div>
   </div>
-);
+)
 
 export const BasicList: FC = () => {
-  const [done, setDone] = useState<boolean>(false);
-  const [visible, setVisible] = useState<boolean>(false);
-  const [current, setCurrent] = useState<Partial<BasicListItemDataType> | undefined>(undefined);
+  const [done, setDone] = useState<boolean>(false)
+  const [visible, setVisible] = useState<boolean>(false)
+  const [current, setCurrent] = useState<Partial<BasicListItemDataType> | undefined>(undefined)
 
   const {
     data: listData,
@@ -72,46 +72,46 @@ export const BasicList: FC = () => {
   } = useRequest(() => {
     return queryFakeList({
       count: 50,
-    });
-  });
+    })
+  })
   const { run: postRun } = useRequest(
     (method, params) => {
       if (method === 'remove') {
-        return removeFakeList(params);
+        return removeFakeList(params)
       }
       if (method === 'update') {
-        return updateFakeList(params);
+        return updateFakeList(params)
       }
-      return addFakeList(params);
+      return addFakeList(params)
     },
     {
       manual: true,
       onSuccess: (result) => {
-        mutate(result);
+        mutate(result)
       },
     },
-  );
+  )
 
-  const list = listData?.list || [];
+  const list = listData?.list || []
 
   const paginationProps = {
     showSizeChanger: true,
     showQuickJumper: true,
     pageSize: 5,
     total: list.length,
-  };
+  }
 
   const showEditModal = (item: BasicListItemDataType) => {
-    setVisible(true);
-    setCurrent(item);
-  };
+    setVisible(true)
+    setCurrent(item)
+  }
 
   const deleteItem = (id: string) => {
-    postRun('remove', { id });
-  };
+    postRun('remove', { id })
+  }
 
   const editAndDelete = (key: string | number, currentItem: BasicListItemDataType) => {
-    if (key === 'edit') showEditModal(currentItem);
+    if (key === 'edit') showEditModal(currentItem)
     else if (key === 'delete') {
       Modal.confirm({
         title: '删除任务',
@@ -119,9 +119,9 @@ export const BasicList: FC = () => {
         okText: '确认',
         cancelText: '取消',
         onOk: () => deleteItem(currentItem.id),
-      });
+      })
     }
-  };
+  }
 
   const extraContent = (
     <div className={styles.extraContent}>
@@ -132,7 +132,7 @@ export const BasicList: FC = () => {
       </RadioGroup>
       <Search className={styles.extraContentSearch} placeholder="请输入" onSearch={() => ({})} />
     </div>
-  );
+  )
 
   const MoreBtn: React.FC<{
     item: BasicListItemDataType;
@@ -149,19 +149,19 @@ export const BasicList: FC = () => {
         更多 <DownOutlined />
       </a>
     </Dropdown>
-  );
+  )
 
   const handleDone = () => {
-    setDone(false);
-    setVisible(false);
-    setCurrent({});
-  };
+    setDone(false)
+    setVisible(false)
+    setCurrent({})
+  }
 
   const handleSubmit = (values: BasicListItemDataType) => {
-    setDone(true);
-    const method = values?.id ? 'update' : 'add';
-    postRun(method, values);
-  };
+    setDone(true)
+    const method = values?.id ? 'update' : 'add'
+    postRun(method, values)
+  }
 
   return (
     <div>
@@ -201,8 +201,8 @@ export const BasicList: FC = () => {
                     <a
                       key="edit"
                       onClick={(e) => {
-                        e.preventDefault();
-                        showEditModal(item);
+                        e.preventDefault()
+                        showEditModal(item)
                       }}
                     >
                       编辑
@@ -225,7 +225,7 @@ export const BasicList: FC = () => {
       <Button
         type="dashed"
         onClick={() => {
-          setVisible(true);
+          setVisible(true)
         }}
         style={{ width: '100%', marginBottom: 8 }}
       >
@@ -240,7 +240,7 @@ export const BasicList: FC = () => {
         onSubmit={handleSubmit}
       />
     </div>
-  );
-};
+  )
+}
 
-export default BasicList;
+export default BasicList

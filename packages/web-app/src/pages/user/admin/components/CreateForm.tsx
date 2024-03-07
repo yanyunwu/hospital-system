@@ -1,10 +1,10 @@
-import React from 'react';
-import { Button } from 'antd';
-import { ModalForm, ProFormDatePicker, ProFormRadio, ProFormText } from '@ant-design/pro-form';
-import { PlusOutlined } from '@ant-design/icons';
-import { handleAdd } from '../service';
-import { TableListItem } from '../type';
-import { useGlobalContext } from '@/templates/CommonTemplate';
+import React from 'react'
+import { Button } from 'antd'
+import { ModalForm, ProFormDatePicker, ProFormRadio, ProFormText } from '@ant-design/pro-form'
+import { PlusOutlined } from '@ant-design/icons'
+import { handleAdd } from '../service'
+import { TableListItem } from '../type'
+import { useGlobalContext } from '@/templates/CommonTemplate'
 
 
 const CreateForm: React.FC = () => {
@@ -17,7 +17,7 @@ const CreateForm: React.FC = () => {
       }}
       trigger={
         <Button type="primary">
-          <PlusOutlined style={{color: "white"}} />
+          <PlusOutlined style={{color: 'white'}} />
           新建
         </Button>
       }
@@ -88,7 +88,7 @@ const CreateForm: React.FC = () => {
         name="doctorId"
       />
     </ModalForm>
-  );
-};
+  )
+}
 
-export default CreateForm;
+export default CreateForm

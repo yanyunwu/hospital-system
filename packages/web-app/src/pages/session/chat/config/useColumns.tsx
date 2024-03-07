@@ -1,10 +1,10 @@
-import { useMemo } from "react";
-import { ProColumns, ProColumnType } from "@ant-design/pro-table";
-import { useGlobalContext } from "@/templates/CommonTemplate";
-import { TableListItem } from "../type";
-import ChatDetailDrawer from "../components/ChatDetailDrawer";
-import { message } from "antd";
-import { replySession } from '@/services/hospital-app/api';
+import { useMemo } from 'react'
+import { ProColumns, ProColumnType } from '@ant-design/pro-table'
+import { useGlobalContext } from '@/templates/CommonTemplate'
+import { TableListItem } from '../type'
+import ChatDetailDrawer from '../components/ChatDetailDrawer'
+import { message } from 'antd'
+import { replySession } from '@/services/hospital-app/api'
 
 const useAction = (): ProColumnType<TableListItem> => {
   const { setCurrentRow } = useGlobalContext<TableListItem>()
@@ -18,16 +18,16 @@ const useAction = (): ProColumnType<TableListItem> => {
         trigger={
           <a
             onClick={async () => {
-              setCurrentRow(record);
+              setCurrentRow(record)
               if (record.status === 2) {
-                message.error('该会话已被关闭！');
-                return;
+                message.error('该会话已被关闭！')
+                return
               }
-              const res = await replySession(record.id);
-              console.log('res', res);
+              const res = await replySession(record.id)
+              console.log('res', res)
               if (!res.data) {
-                message.error('当前会话正在被别人处理！');
-                return;
+                message.error('当前会话正在被别人处理！')
+                return
               }
             }}
           >
@@ -47,14 +47,14 @@ export default () => {
       title: '昵称/姓名',
       dataIndex: 'user',
       render(dom, item) {
-        return item.user?.nickname;
+        return item.user?.nickname
       },
     },
     {
       title: '处理者',
       dataIndex: 'adminUser',
       render(dom, item) {
-        return item.adminUser?.nickname;
+        return item.adminUser?.nickname
       },
     },
     {

@@ -1,16 +1,16 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input, Drawer } from 'antd';
-import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage } from 'umi';
-import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
-import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
-import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
-import ProDescriptions from '@ant-design/pro-descriptions';
-import type { FormValueType } from './components/UpdateForm';
-import UpdateForm from './components/UpdateForm';
-import { rule, addRule, updateRule, removeRule } from '@/services/ant-design-pro/api';
+import { PlusOutlined } from '@ant-design/icons'
+import { Button, message, Input, Drawer } from 'antd'
+import React, { useState, useRef } from 'react'
+import { useIntl, FormattedMessage } from 'umi'
+import { PageContainer, FooterToolbar } from '@ant-design/pro-layout'
+import type { ProColumns, ActionType } from '@ant-design/pro-table'
+import ProTable from '@ant-design/pro-table'
+import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form'
+import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions'
+import ProDescriptions from '@ant-design/pro-descriptions'
+import type { FormValueType } from './components/UpdateForm'
+import UpdateForm from './components/UpdateForm'
+import { rule, addRule, updateRule, removeRule } from '@/services/ant-design-pro/api'
 
 /**
  * @en-US Add node
@@ -18,18 +18,18 @@ import { rule, addRule, updateRule, removeRule } from '@/services/ant-design-pro
  * @param fields
  */
 const handleAdd = async (fields: API.RuleListItem) => {
-  const hide = message.loading('正在添加');
+  const hide = message.loading('正在添加')
   try {
-    await addRule({ ...fields });
-    hide();
-    message.success('Added successfully');
-    return true;
+    await addRule({ ...fields })
+    hide()
+    message.success('Added successfully')
+    return true
   } catch (error) {
-    hide();
-    message.error('Adding failed, please try again!');
-    return false;
+    hide()
+    message.error('Adding failed, please try again!')
+    return false
   }
-};
+}
 
 /**
  * @en-US Update node
@@ -38,23 +38,23 @@ const handleAdd = async (fields: API.RuleListItem) => {
  * @param fields
  */
 const handleUpdate = async (fields: FormValueType) => {
-  const hide = message.loading('Configuring');
+  const hide = message.loading('Configuring')
   try {
     await updateRule({
       name: fields.name,
       desc: fields.desc,
       key: fields.key,
-    });
-    hide();
+    })
+    hide()
 
-    message.success('Configuration is successful');
-    return true;
+    message.success('Configuration is successful')
+    return true
   } catch (error) {
-    hide();
-    message.error('Configuration failed, please try again!');
-    return false;
+    hide()
+    message.error('Configuration failed, please try again!')
+    return false
   }
-};
+}
 
 /**
  *  Delete node
@@ -63,45 +63,45 @@ const handleUpdate = async (fields: FormValueType) => {
  * @param selectedRows
  */
 const handleRemove = async (selectedRows: API.RuleListItem[]) => {
-  const hide = message.loading('正在删除');
-  if (!selectedRows) return true;
+  const hide = message.loading('正在删除')
+  if (!selectedRows) return true
   try {
     await removeRule({
       key: selectedRows.map((row) => row.key),
-    });
-    hide();
-    message.success('Deleted successfully and will refresh soon');
-    return true;
+    })
+    hide()
+    message.success('Deleted successfully and will refresh soon')
+    return true
   } catch (error) {
-    hide();
-    message.error('Delete failed, please try again');
-    return false;
+    hide()
+    message.error('Delete failed, please try again')
+    return false
   }
-};
+}
 
 const TableList: React.FC = () => {
   /**
    * @en-US Pop-up window of new window
    * @zh-CN 新建窗口的弹窗
    *  */
-  const [createModalVisible, handleModalVisible] = useState<boolean>(false);
+  const [createModalVisible, handleModalVisible] = useState<boolean>(false)
   /**
    * @en-US The pop-up window of the distribution update window
    * @zh-CN 分布更新窗口的弹窗
    * */
-  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
+  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false)
 
-  const [showDetail, setShowDetail] = useState<boolean>(false);
+  const [showDetail, setShowDetail] = useState<boolean>(false)
 
-  const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<API.RuleListItem>();
-  const [selectedRowsState, setSelectedRows] = useState<API.RuleListItem[]>([]);
+  const actionRef = useRef<ActionType>()
+  const [currentRow, setCurrentRow] = useState<API.RuleListItem>()
+  const [selectedRowsState, setSelectedRows] = useState<API.RuleListItem[]>([])
 
   /**
    * @en-US International configuration
    * @zh-CN 国际化配置
    * */
-  const intl = useIntl();
+  const intl = useIntl()
 
   const columns: ProColumns<API.RuleListItem>[] = [
     {
@@ -117,13 +117,13 @@ const TableList: React.FC = () => {
         return (
           <a
             onClick={() => {
-              setCurrentRow(entity);
-              setShowDetail(true);
+              setCurrentRow(entity)
+              setShowDetail(true)
             }}
           >
             {dom}
           </a>
-        );
+        )
       },
     },
     {
@@ -195,9 +195,9 @@ const TableList: React.FC = () => {
       dataIndex: 'updatedAt',
       valueType: 'dateTime',
       renderFormItem: (item, { defaultRender, ...rest }, form) => {
-        const status = form.getFieldValue('status');
+        const status = form.getFieldValue('status')
         if (`${status}` === '0') {
-          return false;
+          return false
         }
         if (`${status}` === '3') {
           return (
@@ -208,9 +208,9 @@ const TableList: React.FC = () => {
                 defaultMessage: 'Please enter the reason for the exception!',
               })}
             />
-          );
+          )
         }
-        return defaultRender(item);
+        return defaultRender(item)
       },
     },
     {
@@ -221,8 +221,8 @@ const TableList: React.FC = () => {
         <a
           key="config"
           onClick={() => {
-            handleUpdateModalVisible(true);
-            setCurrentRow(record);
+            handleUpdateModalVisible(true)
+            setCurrentRow(record)
           }}
         >
           <FormattedMessage id="pages.searchTable.config" defaultMessage="Configuration" />
@@ -235,7 +235,7 @@ const TableList: React.FC = () => {
         </a>,
       ],
     },
-  ];
+  ]
 
   return (
     (<PageContainer>
@@ -254,7 +254,7 @@ const TableList: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              handleModalVisible(true);
+              handleModalVisible(true)
             }}
           >
             <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
@@ -264,7 +264,7 @@ const TableList: React.FC = () => {
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows);
+            setSelectedRows(selectedRows)
           },
         }}
       />
@@ -289,9 +289,9 @@ const TableList: React.FC = () => {
         >
           <Button
             onClick={async () => {
-              await handleRemove(selectedRowsState);
-              setSelectedRows([]);
-              actionRef.current?.reloadAndRest?.();
+              await handleRemove(selectedRowsState)
+              setSelectedRows([])
+              actionRef.current?.reloadAndRest?.()
             }}
           >
             <FormattedMessage
@@ -316,11 +316,11 @@ const TableList: React.FC = () => {
         visible={createModalVisible}
         onVisibleChange={handleModalVisible}
         onFinish={async (value) => {
-          const success = await handleAdd(value as API.RuleListItem);
+          const success = await handleAdd(value as API.RuleListItem)
           if (success) {
-            handleModalVisible(false);
+            handleModalVisible(false)
             if (actionRef.current) {
-              actionRef.current.reload();
+              actionRef.current.reload()
             }
           }
         }}
@@ -344,19 +344,19 @@ const TableList: React.FC = () => {
       </ModalForm>
       <UpdateForm
         onSubmit={async (value) => {
-          const success = await handleUpdate(value);
+          const success = await handleUpdate(value)
           if (success) {
-            handleUpdateModalVisible(false);
-            setCurrentRow(undefined);
+            handleUpdateModalVisible(false)
+            setCurrentRow(undefined)
             if (actionRef.current) {
-              actionRef.current.reload();
+              actionRef.current.reload()
             }
           }
         }}
         onCancel={() => {
-          handleUpdateModalVisible(false);
+          handleUpdateModalVisible(false)
           if (!showDetail) {
-            setCurrentRow(undefined);
+            setCurrentRow(undefined)
           }
         }}
         updateModalVisible={updateModalVisible}
@@ -366,8 +366,8 @@ const TableList: React.FC = () => {
         width={600}
         open={showDetail}
         onClose={() => {
-          setCurrentRow(undefined);
-          setShowDetail(false);
+          setCurrentRow(undefined)
+          setShowDetail(false)
         }}
         closable={false}
       >
@@ -386,7 +386,7 @@ const TableList: React.FC = () => {
         )}
       </Drawer>
     </PageContainer>)
-  );
-};
+  )
+}
 
-export default TableList;
+export default TableList

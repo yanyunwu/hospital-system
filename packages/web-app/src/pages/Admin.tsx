@@ -1,11 +1,11 @@
-import React from 'react';
-import { HeartTwoTone, SmileTwoTone } from '@ant-design/icons';
-import { Card, Typography, Alert } from 'antd';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { useIntl } from 'umi';
+import React from 'react'
+import { HeartTwoTone, SmileTwoTone } from '@ant-design/icons'
+import { Card, Typography, Alert } from 'antd'
+import { PageHeaderWrapper } from '@ant-design/pro-layout'
+import { useIntl } from 'umi'
 
 const Admin: React.FC = () => {
-  const intl = useIntl();
+  const intl = useIntl()
   return (
     <PageHeaderWrapper
       content={intl.formatMessage({
@@ -39,7 +39,7 @@ const Admin: React.FC = () => {
         。
       </p>
     </PageHeaderWrapper>
-  );
-};
+  )
+}
 
-export default Admin;
+export default Admin

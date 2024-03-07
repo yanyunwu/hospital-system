@@ -1,16 +1,16 @@
-import { useMemo, useRef } from "react"
-import useColumns from "./useColumns";
+import { useMemo, useRef } from 'react'
+import useColumns from './useColumns'
 import { get } from './request'
-import { TableListItem } from "../type";
-import { ActionRefType, CommonTemplateProps } from "@/templates/CommonTemplate";
-import { handleRemove } from "../service";
+import { TableListItem } from '../type'
+import { ActionRefType, CommonTemplateProps } from '@/templates/CommonTemplate'
+import { handleRemove } from '../service'
 
 export const useConfig = () => {
-  const actionRef = useRef<ActionRefType>();
+  const actionRef = useRef<ActionRefType>()
   const columns = useColumns()
   return useMemo<CommonTemplateProps<TableListItem>>(() => ({
     ref: actionRef,
-    rowKey: "key",
+    rowKey: 'key',
     request: get,
     columns: columns,
     onMultipleMove: async (items) => {

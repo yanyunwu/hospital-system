@@ -1,4 +1,4 @@
-import { request } from 'umi';
+import { request } from 'umi'
 
 export interface StateType {
   status?: 'ok' | 'error';
@@ -18,5 +18,5 @@ export async function fakeRegister(params: UserRegisterParams) {
   return request('/api/register', {
     method: 'POST',
     data: params,
-  });
+  })
 }

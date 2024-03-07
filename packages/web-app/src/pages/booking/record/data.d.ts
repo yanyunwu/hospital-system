@@ -1,4 +1,4 @@
-import type { TableListItem as User } from '@/pages/user/user/data';
+import type { TableListItem as User } from '@/pages/user/user/data'
 
 export type Booking = {
   id: number;

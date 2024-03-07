@@ -1,8 +1,8 @@
-import { useMemo } from "react";
-import { ProColumns, ProColumnType } from "@ant-design/pro-table";
-import { useGlobalContext } from "@/templates/CommonTemplate";
-import { TableListItem } from "../type";
-import DetailDrawer from "../components/DetailDrawer";
+import { useMemo } from 'react'
+import { ProColumns, ProColumnType } from '@ant-design/pro-table'
+import { useGlobalContext } from '@/templates/CommonTemplate'
+import { TableListItem } from '../type'
+import DetailDrawer from '../components/DetailDrawer'
 
 const useAction = (): ProColumnType<TableListItem> => {
   const { setCurrentRow } = useGlobalContext<TableListItem>()
@@ -16,7 +16,7 @@ const useAction = (): ProColumnType<TableListItem> => {
         onTrigger={() => {
           setCurrentRow(record)
         }}
-       />
+      />
     ],
   }
 }

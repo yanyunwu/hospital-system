@@ -1,12 +1,12 @@
-import React from 'react';
-import { Card, Input, Select, Form } from 'antd';
-import { withPropsAPI } from 'gg-editor';
+import React from 'react'
+import { Card, Input, Select, Form } from 'antd'
+import { withPropsAPI } from 'gg-editor'
 
 const upperFirst = (str: string) =>
-  str.toLowerCase().replace(/( |^)[a-z]/g, (l: string) => l.toUpperCase());
+  str.toLowerCase().replace(/( |^)[a-z]/g, (l: string) => l.toUpperCase())
 
-const { Item } = Form;
-const { Option } = Select;
+const { Item } = Form
+const { Option } = Select
 
 const inlineFormItemLayout = {
   labelCol: {
@@ -15,7 +15,7 @@ const inlineFormItemLayout = {
   wrapperCol: {
     sm: { span: 16 },
   },
-};
+}
 
 type DetailFormProps = {
   type: string;
@@ -24,36 +24,36 @@ type DetailFormProps = {
 
 class DetailForm extends React.Component<DetailFormProps> {
   get item() {
-    const { propsAPI } = this.props;
-    return propsAPI.getSelected()[0];
+    const { propsAPI } = this.props
+    return propsAPI.getSelected()[0]
   }
 
   handleFieldChange = (values: any) => {
-    const { propsAPI } = this.props;
-    const { getSelected, executeCommand, update } = propsAPI;
+    const { propsAPI } = this.props
+    const { getSelected, executeCommand, update } = propsAPI
 
     setTimeout(() => {
-      const item = getSelected()[0];
+      const item = getSelected()[0]
       if (!item) {
-        return;
+        return
       }
       executeCommand(() => {
         update(item, {
           ...values,
-        });
-      });
-    }, 0);
-  };
+        })
+      })
+    }, 0)
+  }
 
   handleInputBlur = (type: string) => (e: React.FormEvent<HTMLInputElement>) => {
-    e.preventDefault();
+    e.preventDefault()
     this.handleFieldChange({
       [type]: e.currentTarget.value,
-    });
-  };
+    })
+  }
 
   renderNodeDetail = () => {
-    const { label } = this.item.getModel();
+    const { label } = this.item.getModel()
 
     return (
       <Form initialValues={{ label }}>
@@ -61,11 +61,11 @@ class DetailForm extends React.Component<DetailFormProps> {
           <Input onBlur={this.handleInputBlur('label')} />
         </Item>
       </Form>
-    );
-  };
+    )
+  }
 
   renderEdgeDetail = () => {
-    const { label = '', shape = 'flow-smooth' } = this.item.getModel();
+    const { label = '', shape = 'flow-smooth' } = this.item.getModel()
 
     return (
       <Form initialValues={{ label, shape }}>
@@ -80,11 +80,11 @@ class DetailForm extends React.Component<DetailFormProps> {
           </Select>
         </Item>
       </Form>
-    );
-  };
+    )
+  }
 
   renderGroupDetail = () => {
-    const { label = '新建分组' } = this.item.getModel();
+    const { label = '新建分组' } = this.item.getModel()
 
     return (
       <Form initialValues={{ label }}>
@@ -92,13 +92,13 @@ class DetailForm extends React.Component<DetailFormProps> {
           <Input onBlur={this.handleInputBlur('label')} />
         </Item>
       </Form>
-    );
-  };
+    )
+  }
 
   render() {
-    const { type } = this.props;
+    const { type } = this.props
     if (!this.item) {
-      return null;
+      return null
     }
 
     return (
@@ -107,8 +107,8 @@ class DetailForm extends React.Component<DetailFormProps> {
         {type === 'edge' && this.renderEdgeDetail()}
         {type === 'group' && this.renderGroupDetail()}
       </Card>
-    );
+    )
   }
 }
 
-export default withPropsAPI(DetailForm as any);
+export default withPropsAPI(DetailForm as any)

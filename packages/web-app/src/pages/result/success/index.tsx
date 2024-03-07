@@ -1,11 +1,11 @@
-import { DingdingOutlined } from '@ant-design/icons';
-import { Button, Card, Steps, Result, Descriptions } from 'antd';
-import { Fragment } from 'react';
-import { GridContent } from '@ant-design/pro-layout';
+import { DingdingOutlined } from '@ant-design/icons'
+import { Button, Card, Steps, Result, Descriptions } from 'antd'
+import { Fragment } from 'react'
+import { GridContent } from '@ant-design/pro-layout'
 
-import styles from './index.less';
+import styles from './index.less'
 
-const { Step } = Steps;
+const { Step } = Steps
 
 const desc1 = (
   <div className={styles.title}>
@@ -15,7 +15,7 @@ const desc1 = (
     </div>
     <div>2016-12-12 12:32</div>
   </div>
-);
+)
 
 const desc2 = (
   <div style={{ fontSize: 12 }} className={styles.title}>
@@ -27,7 +27,7 @@ const desc2 = (
       </a>
     </div>
   </div>
-);
+)
 
 const content = (
   <>
@@ -44,7 +44,7 @@ const content = (
       <Step title={<span style={{ fontSize: 14 }}>完成</span>} />
     </Steps>
   </>
-);
+)
 
 const extra = (
   <Fragment>
@@ -52,7 +52,7 @@ const extra = (
     <Button>查看项目</Button>
     <Button>打印</Button>
   </Fragment>
-);
+)
 
 export default () => (
   <GridContent>
@@ -68,4 +68,4 @@ export default () => (
       </Result>
     </Card>
   </GridContent>
-);
+)

@@ -1,7 +1,7 @@
-import { PageContainer } from '@ant-design/pro-layout';
-import { Input } from 'antd';
-import type { FC } from 'react';
-import { history } from 'umi';
+import { PageContainer } from '@ant-design/pro-layout'
+import { Input } from 'antd'
+import type { FC } from 'react'
+import { history } from 'umi'
 
 type SearchProps = {
   match: {
@@ -26,41 +26,41 @@ const tabList = [
     key: 'applications',
     tab: '应用',
   },
-];
+]
 
 const Search: FC<SearchProps> = (props) => {
   const handleTabChange = (key: string) => {
-    const { match } = props;
-    const url = match.url === '/' ? '' : match.url;
+    const { match } = props
+    const url = match.url === '/' ? '' : match.url
     switch (key) {
-      case 'articles':
-        history.push(`${url}/articles`);
-        break;
-      case 'applications':
-        history.push(`${url}/applications`);
-        break;
-      case 'projects':
-        history.push(`${url}/projects`);
-        break;
-      default:
-        break;
+    case 'articles':
+      history.push(`${url}/articles`)
+      break
+    case 'applications':
+      history.push(`${url}/applications`)
+      break
+    case 'projects':
+      history.push(`${url}/projects`)
+      break
+    default:
+      break
     }
-  };
+  }
 
   const handleFormSubmit = (value: string) => {
     // eslint-disable-next-line no-console
-    console.log(value);
-  };
+    console.log(value)
+  }
 
   const getTabKey = () => {
-    const { match, location } = props;
-    const url = match.path === '/' ? '' : match.path;
-    const tabKey = location.pathname.replace(`${url}/`, '');
+    const { match, location } = props
+    const url = match.path === '/' ? '' : match.path
+    const tabKey = location.pathname.replace(`${url}/`, '')
     if (tabKey && tabKey !== '/') {
-      return tabKey;
+      return tabKey
     }
-    return 'articles';
-  };
+    return 'articles'
+  }
 
   return (
     <PageContainer
@@ -81,7 +81,7 @@ const Search: FC<SearchProps> = (props) => {
     >
       {props.children}
     </PageContainer>
-  );
-};
+  )
+}
 
-export default Search;
+export default Search

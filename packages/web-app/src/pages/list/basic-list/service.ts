@@ -1,6 +1,6 @@
-import { request } from 'umi';
-import type { BasicListItemDataType } from './data.d';
-import { getFakeList } from './_mock';
+import { request } from 'umi'
+import type { BasicListItemDataType } from './data.d'
+import { getFakeList } from './_mock'
 
 type ParamsType = {
   count?: number;
@@ -21,7 +21,7 @@ export async function removeFakeList(
       ...params,
       method: 'delete',
     },
-  });
+  })
 }
 
 export async function addFakeList(
@@ -33,7 +33,7 @@ export async function addFakeList(
       ...params,
       method: 'post',
     },
-  });
+  })
 }
 
 export async function updateFakeList(
@@ -45,5 +45,5 @@ export async function updateFakeList(
       ...params,
       method: 'update',
     },
-  });
+  })
 }

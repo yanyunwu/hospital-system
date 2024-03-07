@@ -1,24 +1,24 @@
-import { Card, Col, DatePicker, Row, Tabs } from 'antd';
-import type { RangePickerProps } from 'antd/es/date-picker/generatePicker';
-import type moment from 'moment';
-import { Column } from '@ant-design/charts';
+import { Card, Col, DatePicker, Row, Tabs } from 'antd'
+import type { RangePickerProps } from 'antd/es/date-picker/generatePicker'
+import type moment from 'moment'
+import { Column } from '@ant-design/charts'
 
-import numeral from 'numeral';
-import type { DataItem } from '../data.d';
-import styles from '../style.less';
+import numeral from 'numeral'
+import type { DataItem } from '../data.d'
+import styles from '../style.less'
 
 type RangePickerValue = RangePickerProps<moment.Moment>['value'];
 export type TimeType = 'today' | 'week' | 'month' | 'year';
 
-const { RangePicker } = DatePicker;
-const { TabPane } = Tabs;
+const { RangePicker } = DatePicker
+const { TabPane } = Tabs
 
-const rankingListData: { title: string; total: number }[] = [];
+const rankingListData: { title: string; total: number }[] = []
 for (let i = 0; i < 7; i += 1) {
   rankingListData.push({
     title: `工专路 ${i} 号店`,
     total: 323234,
-  });
+  })
 }
 
 const SalesCard = ({
@@ -184,6 +184,6 @@ const SalesCard = ({
       </Tabs>
     </div>
   </Card>
-);
+)
 
-export default SalesCard;
+export default SalesCard

@@ -1,8 +1,8 @@
-import { Avatar, Tooltip } from 'antd';
+import { Avatar, Tooltip } from 'antd'
 
-import React from 'react';
-import classNames from 'classnames';
-import styles from './index.less';
+import React from 'react'
+import classNames from 'classnames'
+import styles from './index.less'
 
 export declare type SizeType = number | 'small' | 'default' | 'large';
 
@@ -28,10 +28,10 @@ const avatarSizeToClassName = (size?: SizeType | 'mini') =>
     [styles.avatarItemLarge]: size === 'large',
     [styles.avatarItemSmall]: size === 'small',
     [styles.avatarItemMini]: size === 'mini',
-  });
+  })
 
 const Item: React.FC<AvatarItemProps> = ({ src, size, tips, onClick = () => {} }) => {
-  const cls = avatarSizeToClassName(size);
+  const cls = avatarSizeToClassName(size)
 
   return (
     <li className={cls} onClick={onClick}>
@@ -43,8 +43,8 @@ const Item: React.FC<AvatarItemProps> = ({ src, size, tips, onClick = () => {} }
         <Avatar src={src} size={size} />
       )}
     </li>
-  );
-};
+  )
+}
 
 const AvatarList: React.FC<AvatarListProps> & { Item: typeof Item } = ({
   children,
@@ -53,32 +53,32 @@ const AvatarList: React.FC<AvatarListProps> & { Item: typeof Item } = ({
   excessItemsStyle,
   ...other
 }) => {
-  const numOfChildren = React.Children.count(children);
-  const numToShow = maxLength >= numOfChildren ? numOfChildren : maxLength;
-  const childrenArray = React.Children.toArray(children) as React.ReactElement<AvatarItemProps>[];
+  const numOfChildren = React.Children.count(children)
+  const numToShow = maxLength >= numOfChildren ? numOfChildren : maxLength
+  const childrenArray = React.Children.toArray(children) as React.ReactElement<AvatarItemProps>[]
   const childrenWithProps = childrenArray.slice(0, numToShow).map((child) =>
     React.cloneElement(child, {
       size,
     }),
-  );
+  )
 
   if (numToShow < numOfChildren) {
-    const cls = avatarSizeToClassName(size);
+    const cls = avatarSizeToClassName(size)
 
     childrenWithProps.push(
       <li key="exceed" className={cls}>
         <Avatar size={size} style={excessItemsStyle}>{`+${numOfChildren - maxLength}`}</Avatar>
       </li>,
-    );
+    )
   }
 
   return (
     <div {...other} className={styles.avatarList}>
       <ul> {childrenWithProps} </ul>
     </div>
-  );
-};
+  )
+}
 
-AvatarList.Item = Item;
+AvatarList.Item = Item
 
-export default AvatarList;
+export default AvatarList

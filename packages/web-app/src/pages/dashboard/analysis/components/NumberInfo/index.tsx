@@ -1,7 +1,7 @@
-import { CaretUpOutlined, CaretDownOutlined } from '@ant-design/icons';
-import React from 'react';
-import classNames from 'classnames';
-import styles from './index.less';
+import { CaretUpOutlined, CaretDownOutlined } from '@ant-design/icons'
+import React from 'react'
+import classNames from 'classnames'
+import styles from './index.less'
 
 export type NumberInfoProps = {
   title?: React.ReactNode | string;
@@ -57,6 +57,6 @@ const NumberInfo: React.FC<NumberInfoProps> = ({
       )}
     </div>
   </div>
-);
+)
 
-export default NumberInfo;
+export default NumberInfo

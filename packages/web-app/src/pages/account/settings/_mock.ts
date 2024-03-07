@@ -1,19 +1,19 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import type { Request, Response } from 'express';
+import type { Request, Response } from 'express'
 
-const city = require('./geographic/city.json');
-const province = require('./geographic/province.json');
+const city = require('./geographic/city.json')
+const province = require('./geographic/province.json')
 
 function getProvince(_: Request, res: Response) {
   return res.json({
     data: province,
-  });
+  })
 }
 
 function getCity(req: Request, res: Response) {
   return res.json({
     data: city[req.params.province],
-  });
+  })
 }
 
 function getCurrentUse(req: Request, res: Response) {
@@ -68,7 +68,7 @@ function getCurrentUse(req: Request, res: Response) {
       address: '西湖区工专路 77 号',
       phone: '0752-268888888',
     },
-  });
+  })
 }
 // 代码中会兼容本地 service mock 以及部署站点的静态数据
 export default {
@@ -76,4 +76,4 @@ export default {
   'GET  /api/accountSettingCurrentUser': getCurrentUse,
   'GET  /api/geographic/province': getProvince,
   'GET  /api/geographic/city/:province': getCity,
-};
+}

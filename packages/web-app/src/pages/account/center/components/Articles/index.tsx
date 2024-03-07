@@ -1,11 +1,11 @@
-import React from 'react';
-import { StarTwoTone, LikeOutlined, MessageFilled } from '@ant-design/icons';
-import { useRequest } from 'umi';
-import { List, Tag } from 'antd';
-import ArticleListContent from '../ArticleListContent';
-import type { ListItemDataType } from '../../data.d';
-import { queryFakeList } from '../../service';
-import styles from './index.less';
+import React from 'react'
+import { StarTwoTone, LikeOutlined, MessageFilled } from '@ant-design/icons'
+import { useRequest } from 'umi'
+import { List, Tag } from 'antd'
+import ArticleListContent from '../ArticleListContent'
+import type { ListItemDataType } from '../../data.d'
+import { queryFakeList } from '../../service'
+import styles from './index.less'
 
 const Articles: React.FC = () => {
   const IconText: React.FC<{
@@ -15,14 +15,14 @@ const Articles: React.FC = () => {
     <span>
       {icon} {text}
     </span>
-  );
+  )
 
   // 获取tab列表数据
   const { data: listData } = useRequest(() => {
     return queryFakeList({
       count: 30,
-    });
-  });
+    })
+  })
   return (
     <List<ListItemDataType>
       size="large"
@@ -57,7 +57,7 @@ const Articles: React.FC = () => {
         </List.Item>
       )}
     />
-  );
-};
+  )
+}
 
-export default Articles;
+export default Articles

@@ -1,5 +1,5 @@
-import { Link } from 'umi';
-import { Result, Button } from 'antd';
+import { Link } from 'umi'
+import { Result, Button } from 'antd'
 
 export default () => (
   <Result
@@ -15,4 +15,4 @@ export default () => (
       </Link>
     }
   />
-);
+)

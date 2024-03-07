@@ -1,4 +1,4 @@
-import { Card, message } from 'antd';
+import { Card, message } from 'antd'
 import ProForm, {
   ProFormDateRangePicker,
   ProFormDependency,
@@ -7,24 +7,24 @@ import ProForm, {
   ProFormSelect,
   ProFormText,
   ProFormTextArea,
-} from '@ant-design/pro-form';
-import { useRequest } from 'umi';
-import type { FC } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import { fakeSubmitForm } from './service';
-import styles from './style.less';
+} from '@ant-design/pro-form'
+import { useRequest } from 'umi'
+import type { FC } from 'react'
+import { PageContainer } from '@ant-design/pro-layout'
+import { fakeSubmitForm } from './service'
+import styles from './style.less'
 
 const BasicForm: FC<Record<string, any>> = () => {
   const { run } = useRequest(fakeSubmitForm, {
     manual: true,
     onSuccess: () => {
-      message.success('提交成功');
+      message.success('提交成功')
     },
-  });
+  })
 
   const onFinish = async (values: Record<string, any>) => {
-    run(values);
-  };
+    run(values)
+  }
 
   return (
     <PageContainer content="表单页用于向用户收集或验证信息，基础表单常见于数据项较少的表单场景。">
@@ -176,13 +176,13 @@ const BasicForm: FC<Record<string, any>> = () => {
                     },
                   ]}
                 />
-              );
+              )
             }}
           </ProFormDependency>
         </ProForm>
       </Card>
     </PageContainer>
-  );
-};
+  )
+}
 
-export default BasicForm;
+export default BasicForm

@@ -1,13 +1,13 @@
-import { InfoCircleOutlined } from '@ant-design/icons';
-import { Card, Col, Row, Table, Tooltip } from 'antd';
-import { TinyArea } from '@ant-design/charts';
-import React from 'react';
-import numeral from 'numeral';
-import type { DataItem } from '../data.d';
+import { InfoCircleOutlined } from '@ant-design/icons'
+import { Card, Col, Row, Table, Tooltip } from 'antd'
+import { TinyArea } from '@ant-design/charts'
+import React from 'react'
+import numeral from 'numeral'
+import type { DataItem } from '../data.d'
 
-import NumberInfo from './NumberInfo';
-import Trend from './Trend';
-import styles from '../style.less';
+import NumberInfo from './NumberInfo'
+import Trend from './Trend'
+import styles from '../style.less'
 
 const columns = [
   {
@@ -39,7 +39,7 @@ const columns = [
       </Trend>
     ),
   },
-];
+]
 
 const TopSearch = ({
   loading,
@@ -108,6 +108,6 @@ const TopSearch = ({
       }}
     />
   </Card>
-);
+)
 
-export default TopSearch;
+export default TopSearch

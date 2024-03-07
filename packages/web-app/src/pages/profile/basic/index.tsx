@@ -1,13 +1,13 @@
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
-import { Badge, Card, Descriptions, Divider } from 'antd';
-import type { FC } from 'react';
-import React from 'react';
-import { useRequest } from 'umi';
-import type { BasicGood, BasicProgress } from './data.d';
-import { queryBasicProfile } from './service';
-import styles from './style.less';
+import { PageContainer } from '@ant-design/pro-layout'
+import type { ProColumns } from '@ant-design/pro-table'
+import ProTable from '@ant-design/pro-table'
+import { Badge, Card, Descriptions, Divider } from 'antd'
+import type { FC } from 'react'
+import React from 'react'
+import { useRequest } from 'umi'
+import type { BasicGood, BasicProgress } from './data.d'
+import { queryBasicProfile } from './service'
+import styles from './style.less'
 
 const progressColumns: ProColumns<BasicProgress>[] = [
   {
@@ -26,9 +26,9 @@ const progressColumns: ProColumns<BasicProgress>[] = [
     key: 'status',
     render: (text: React.ReactNode) => {
       if (text === 'success') {
-        return <Badge status="success" text="成功" />;
+        return <Badge status="success" text="成功" />
       }
-      return <Badge status="processing" text="进行中" />;
+      return <Badge status="processing" text="进行中" />
     },
   },
 
@@ -42,30 +42,30 @@ const progressColumns: ProColumns<BasicProgress>[] = [
     dataIndex: 'cost',
     key: 'cost',
   },
-];
+]
 
 const Basic: FC = () => {
   const { data, loading } = useRequest(() => {
-    return queryBasicProfile();
-  });
+    return queryBasicProfile()
+  })
 
   const { basicGoods, basicProgress } = data || {
     basicGoods: [],
     basicProgress: [],
-  };
-  let goodsData: typeof basicGoods = [];
+  }
+  let goodsData: typeof basicGoods = []
   if (basicGoods.length) {
-    let num = 0;
-    let amount = 0;
+    let num = 0
+    let amount = 0
     basicGoods.forEach((item) => {
-      num += Number(item.num);
-      amount += Number(item.amount);
-    });
+      num += Number(item.num)
+      amount += Number(item.amount)
+    })
     goodsData = basicGoods.concat({
       id: '总计',
       num,
       amount,
-    });
+    })
   }
 
   const renderContent = (value: any, _: any, index: any) => {
@@ -75,12 +75,12 @@ const Basic: FC = () => {
     } = {
       children: value,
       props: {},
-    };
-    if (index === basicGoods.length) {
-      obj.props.colSpan = 0;
     }
-    return obj;
-  };
+    if (index === basicGoods.length) {
+      obj.props.colSpan = 0
+    }
+    return obj
+  }
 
   const goodsColumns: ProColumns<BasicGood>[] = [
     {
@@ -89,14 +89,14 @@ const Basic: FC = () => {
       key: 'id',
       render: (text: React.ReactNode, _: any, index: number) => {
         if (index < basicGoods.length) {
-          return <span>{text}</span>;
+          return <span>{text}</span>
         }
         return {
           children: <span style={{ fontWeight: 600 }}>总计</span>,
           props: {
             colSpan: 4,
           },
-        };
+        }
       },
     },
     {
@@ -125,9 +125,9 @@ const Basic: FC = () => {
       align: 'right' as 'left' | 'right' | 'center',
       render: (text: React.ReactNode, _: any, index: number) => {
         if (index < basicGoods.length) {
-          return text;
+          return text
         }
-        return <span style={{ fontWeight: 600 }}>{text}</span>;
+        return <span style={{ fontWeight: 600 }}>{text}</span>
       },
     },
     {
@@ -137,12 +137,12 @@ const Basic: FC = () => {
       align: 'right' as 'left' | 'right' | 'center',
       render: (text: React.ReactNode, _: any, index: number) => {
         if (index < basicGoods.length) {
-          return text;
+          return text
         }
-        return <span style={{ fontWeight: 600 }}>{text}</span>;
+        return <span style={{ fontWeight: 600 }}>{text}</span>
       },
     },
-  ];
+  ]
 
   return (
     <PageContainer>
@@ -187,7 +187,7 @@ const Basic: FC = () => {
         />
       </Card>
     </PageContainer>
-  );
-};
+  )
+}
 
-export default Basic;
+export default Basic

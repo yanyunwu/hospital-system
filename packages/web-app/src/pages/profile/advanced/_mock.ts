@@ -1,4 +1,4 @@
-import type { Request, Response } from 'express';
+import type { Request, Response } from 'express'
 
 const advancedOperation1 = [
   {
@@ -41,7 +41,7 @@ const advancedOperation1 = [
     updatedAt: '2017-10-03  19:23:12',
     memo: '-',
   },
-];
+]
 
 const advancedOperation2 = [
   {
@@ -52,7 +52,7 @@ const advancedOperation2 = [
     updatedAt: '2017-10-03  19:23:12',
     memo: '-',
   },
-];
+]
 
 const advancedOperation3 = [
   {
@@ -63,7 +63,7 @@ const advancedOperation3 = [
     updatedAt: '2017-10-03  19:23:12',
     memo: '-',
   },
-];
+]
 
 function getProfileAdvancedData(req: Request, res: Response) {
   const result = {
@@ -72,10 +72,10 @@ function getProfileAdvancedData(req: Request, res: Response) {
       advancedOperation2,
       advancedOperation3,
     },
-  };
-  return res.json(result);
+  }
+  return res.json(result)
 }
 
 export default {
   'GET  /api/profile/advanced': getProfileAdvancedData,
-};
+}

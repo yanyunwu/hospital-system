@@ -3,7 +3,7 @@ import {
   DownOutlined,
   EllipsisOutlined,
   InfoCircleOutlined,
-} from '@ant-design/icons';
+} from '@ant-design/icons'
 import {
   Badge,
   Button,
@@ -18,19 +18,19 @@ import {
   Table,
   Tooltip,
   Empty,
-} from 'antd';
-import { GridContent, PageContainer, RouteContext } from '@ant-design/pro-layout';
-import type { FC } from 'react';
-import React, { Fragment, useState } from 'react';
+} from 'antd'
+import { GridContent, PageContainer, RouteContext } from '@ant-design/pro-layout'
+import type { FC } from 'react'
+import React, { Fragment, useState } from 'react'
 
-import classNames from 'classnames';
-import { useRequest } from 'umi';
-import type { AdvancedProfileData } from './data.d';
-import { queryAdvancedProfile } from './service';
-import styles from './style.less';
+import classNames from 'classnames'
+import { useRequest } from 'umi'
+import type { AdvancedProfileData } from './data.d'
+import { queryAdvancedProfile } from './service'
+import styles from './style.less'
 
-const { Step } = Steps;
-const ButtonGroup = Button.Group;
+const { Step } = Steps
+const ButtonGroup = Button.Group
 
 const menu = (
   <Menu>
@@ -38,7 +38,7 @@ const menu = (
     <Menu.Item key="2">选项二</Menu.Item>
     <Menu.Item key="3">选项三</Menu.Item>
   </Menu>
-);
+)
 
 const mobileMenu = (
   <Menu>
@@ -48,7 +48,7 @@ const mobileMenu = (
     <Menu.Item key="4">选项二</Menu.Item>
     <Menu.Item key="">选项三</Menu.Item>
   </Menu>
-);
+)
 
 const action = (
   <RouteContext.Consumer>
@@ -63,7 +63,7 @@ const action = (
           >
             主操作
           </Dropdown.Button>
-        );
+        )
       }
       return (
         <Fragment>
@@ -78,17 +78,17 @@ const action = (
           </ButtonGroup>
           <Button type="primary">主操作</Button>
         </Fragment>
-      );
+      )
     }}
   </RouteContext.Consumer>
-);
+)
 
 const extra = (
   <div className={styles.moreInfo}>
     <Statistic title="状态" value="待审批" />
     <Statistic title="订单金额" value={568.08} prefix="¥" />
   </div>
-);
+)
 
 const description = (
   <RouteContext.Consumer>
@@ -105,7 +105,7 @@ const description = (
       </Descriptions>
     )}
   </RouteContext.Consumer>
-);
+)
 
 const desc1 = (
   <div className={classNames(styles.textSecondary, styles.stepDescription)}>
@@ -115,7 +115,7 @@ const desc1 = (
     </Fragment>
     <div>2016-12-12 12:32</div>
   </div>
-);
+)
 
 const desc2 = (
   <div className={styles.stepDescription}>
@@ -127,7 +127,7 @@ const desc2 = (
       <a href="">催一下</a>
     </div>
   </div>
-);
+)
 
 const popoverContent = (
   <div style={{ width: 160 }}>
@@ -139,7 +139,7 @@ const popoverContent = (
       耗时：2小时25分钟
     </div>
   </div>
-);
+)
 
 const customDot = (dot: React.ReactNode, { status }: { status: string }) => {
   if (status === 'process') {
@@ -147,10 +147,10 @@ const customDot = (dot: React.ReactNode, { status }: { status: string }) => {
       <Popover placement="topLeft" arrowPointAtCenter content={popoverContent}>
         <span>{dot}</span>
       </Popover>
-    );
+    )
   }
-  return dot;
-};
+  return dot
+}
 
 const operationTabList = [
   {
@@ -165,7 +165,7 @@ const operationTabList = [
     key: 'tab3',
     tab: '操作日志三',
   },
-];
+]
 
 const columns = [
   {
@@ -184,9 +184,9 @@ const columns = [
     key: 'status',
     render: (text: string) => {
       if (text === 'agree') {
-        return <Badge status="success" text="成功" />;
+        return <Badge status="success" text="成功" />
       }
-      return <Badge status="error" text="驳回" />;
+      return <Badge status="error" text="驳回" />
     },
   },
   {
@@ -199,7 +199,7 @@ const columns = [
     dataIndex: 'memo',
     key: 'memo',
   },
-];
+]
 
 type AdvancedState = {
   operationKey: string;
@@ -210,9 +210,9 @@ const Advanced: FC = () => {
   const [tabStatus, seTabStatus] = useState<AdvancedState>({
     operationKey: 'tab1',
     tabActiveKey: 'detail',
-  });
-  const { data = {}, loading } = useRequest<{ data: AdvancedProfileData }>(queryAdvancedProfile);
-  const { advancedOperation1, advancedOperation2, advancedOperation3 } = data;
+  })
+  const { data = {}, loading } = useRequest<{ data: AdvancedProfileData }>(queryAdvancedProfile)
+  const { advancedOperation1, advancedOperation2, advancedOperation3 } = data
   const contentList = {
     tab1: (
       <Table
@@ -238,13 +238,13 @@ const Advanced: FC = () => {
         columns={columns}
       />
     ),
-  };
+  }
   const onTabChange = (tabActiveKey: string) => {
-    seTabStatus({ ...tabStatus, tabActiveKey });
-  };
+    seTabStatus({ ...tabStatus, tabActiveKey })
+  }
   const onOperationTabChange = (key: string) => {
-    seTabStatus({ ...tabStatus, operationKey: key });
-  };
+    seTabStatus({ ...tabStatus, operationKey: key })
+  }
 
   return (
     <PageContainer
@@ -350,7 +350,7 @@ const Advanced: FC = () => {
         </GridContent>
       </div>
     </PageContainer>
-  );
-};
+  )
+}
 
-export default Advanced;
+export default Advanced

@@ -1,8 +1,8 @@
-import { CanvasPanel, DetailPanel, EdgePanel, GroupPanel, MultiPanel, NodePanel } from 'gg-editor';
+import { CanvasPanel, DetailPanel, EdgePanel, GroupPanel, MultiPanel, NodePanel } from 'gg-editor'
 
-import { Card } from 'antd';
-import DetailForm from './DetailForm';
-import styles from './index.less';
+import { Card } from 'antd'
+import DetailForm from './DetailForm'
+import styles from './index.less'
 
 const FlowDetailPanel = () => (
   <DetailPanel className={styles.detailPanel}>
@@ -22,6 +22,6 @@ const FlowDetailPanel = () => (
       <Card type="inner" size="small" title="Canvas" bordered={false} />
     </CanvasPanel>
   </DetailPanel>
-);
+)
 
-export default FlowDetailPanel;
+export default FlowDetailPanel

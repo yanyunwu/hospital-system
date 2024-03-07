@@ -5,16 +5,16 @@ import {
   TaobaoCircleOutlined,
   UserOutlined,
   WeiboCircleOutlined,
-} from '@ant-design/icons';
-import { Alert, message, Tabs } from 'antd';
-import React, { useState } from 'react';
-import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form';
-import { useIntl, history, FormattedMessage, SelectLang, useModel } from 'umi';
-import Footer from '@/components/Footer';
-import { login } from '@/services/ant-design-pro/api';
-import { getFakeCaptcha } from '@/services/ant-design-pro/login';
+} from '@ant-design/icons'
+import { Alert, message, Tabs } from 'antd'
+import React, { useState } from 'react'
+import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form'
+import { useIntl, history, FormattedMessage, SelectLang, useModel } from 'umi'
+import Footer from '@/components/Footer'
+import { login } from '@/services/ant-design-pro/api'
+import { getFakeCaptcha } from '@/services/ant-design-pro/login'
 
-import styles from './index.less';
+import styles from './index.less'
 
 const LoginMessage: React.FC<{
   content: string;
@@ -27,57 +27,57 @@ const LoginMessage: React.FC<{
     type="error"
     showIcon
   />
-);
+)
 
 const Login: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
-  const [type, setType] = useState<string>('account');
-  const { initialState, setInitialState } = useModel('@@initialState');
+  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({})
+  const [type, setType] = useState<string>('account')
+  const { initialState, setInitialState } = useModel('@@initialState')
 
-  const intl = useIntl();
+  const intl = useIntl()
 
   const fetchUserInfo = async () => {
-    const userInfo = await initialState?.fetchUserInfo?.();
+    const userInfo = await initialState?.fetchUserInfo?.()
     if (userInfo) {
       await setInitialState((s) => ({
         ...s,
         currentUser: userInfo,
-      }));
+      }))
     }
-  };
+  }
 
   const handleSubmit = async (values: API.LoginParams) => {
     try {
       // 登录
-      const msg = await login({ ...values, type });
+      const msg = await login({ ...values, type })
       if (msg.status === 'ok') {
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',
-        });
+        })
         // @ts-ignore
         localStorage.setItem('token', msg.data.access_token)
-        message.success(defaultLoginSuccessMessage);
-        await fetchUserInfo();
+        message.success(defaultLoginSuccessMessage)
+        await fetchUserInfo()
         /** 此方法会跳转到 redirect 参数所在的位置 */
-        if (!history) return;
-        const { query } = history.location;
-        const { redirect } = query as { redirect: string };
-        history.push(redirect || '/');
-        return;
+        if (!history) return
+        const { query } = history.location
+        const { redirect } = query as { redirect: string }
+        history.push(redirect || '/')
+        return
       }
-      console.log(msg);
+      console.log(msg)
       // 如果失败去设置用户错误信息
-      setUserLoginState(msg);
+      setUserLoginState(msg)
     } catch (error) {
       const defaultLoginFailureMessage = intl.formatMessage({
         id: 'pages.login.failure',
         defaultMessage: '登录失败，请重试！',
-      });
-      message.error(defaultLoginFailureMessage);
+      })
+      message.error(defaultLoginFailureMessage)
     }
-  };
-  const { status, type: loginType } = userLoginState;
+  }
+  const { status, type: loginType } = userLoginState
 
   return (
     <div className={styles.container}>
@@ -103,7 +103,7 @@ const Login: React.FC = () => {
           //   <WeiboCircleOutlined key="WeiboCircleOutlined" className={styles.icon} />,
           // ]}
           onFinish={async (values) => {
-            await handleSubmit(values as API.LoginParams);
+            await handleSubmit(values as API.LoginParams)
           }}
         >
           <Tabs activeKey={type} onChange={setType}>
@@ -231,12 +231,12 @@ const Login: React.FC = () => {
                     return `${count} ${intl.formatMessage({
                       id: 'pages.getCaptchaSecondText',
                       defaultMessage: '获取验证码',
-                    })}`;
+                    })}`
                   }
                   return intl.formatMessage({
                     id: 'pages.login.phoneLogin.getVerificationCode',
                     defaultMessage: '获取验证码',
-                  });
+                  })
                 }}
                 name="captcha"
                 rules={[
@@ -253,11 +253,11 @@ const Login: React.FC = () => {
                 onGetCaptcha={async (phone) => {
                   const result = await getFakeCaptcha({
                     phone,
-                  });
+                  })
                   if (result === false) {
-                    return;
+                    return
                   }
-                  message.success('获取验证码成功！验证码为：1234');
+                  message.success('获取验证码成功！验证码为：1234')
                 }}
               />
             </>
@@ -282,7 +282,7 @@ const Login: React.FC = () => {
       </div>
       <Footer />
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

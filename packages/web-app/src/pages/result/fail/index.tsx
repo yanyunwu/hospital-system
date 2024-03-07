@@ -1,9 +1,9 @@
-import { CloseCircleOutlined, RightOutlined } from '@ant-design/icons';
-import { Button, Card, Result } from 'antd';
-import { Fragment } from 'react';
+import { CloseCircleOutlined, RightOutlined } from '@ant-design/icons'
+import { Button, Card, Result } from 'antd'
+import { Fragment } from 'react'
 
-import { GridContent } from '@ant-design/pro-layout';
-import styles from './index.less';
+import { GridContent } from '@ant-design/pro-layout'
+import styles from './index.less'
 
 const Content = (
   <Fragment>
@@ -27,7 +27,7 @@ const Content = (
       </a>
     </div>
   </Fragment>
-);
+)
 
 export default () => (
   <GridContent>
@@ -47,4 +47,4 @@ export default () => (
       </Result>
     </Card>
   </GridContent>
-);
+)

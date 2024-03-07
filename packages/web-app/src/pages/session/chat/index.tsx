@@ -1,10 +1,10 @@
-import { useEventEmitter } from 'ahooks';
+import { useEventEmitter } from 'ahooks'
 import CommonTemplate, {
   CommonTemplateProvider,
   useGlobalContext
 } from '@/templates/CommonTemplate'
-import { useConfig } from './config';
-import type { TableListItem } from './type';
+import { useConfig } from './config'
+import type { TableListItem } from './type'
 
 const Page = () => {
   const {
@@ -21,8 +21,8 @@ const Page = () => {
     <CommonTemplate<TableListItem>
       {...config}
     />
-  );
-};
+  )
+}
 
 export default () => {
   const event$ = useEventEmitter()

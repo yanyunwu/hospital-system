@@ -1,14 +1,14 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import type { Request, Response } from 'express';
-import { parse } from 'url';
-import type { TableListItem, TableListParams } from './data.d';
+import type { Request, Response } from 'express'
+import { parse } from 'url'
+import type { TableListItem, TableListParams } from './data.d'
 
 // mock tableListDataSource
 const genList = (current: number, pageSize: number) => {
-  const tableListDataSource: TableListItem[] = [];
+  const tableListDataSource: TableListItem[] = []
 
   for (let i = 0; i < pageSize; i += 1) {
-    const index = (current - 1) * 10 + i;
+    const index = (current - 1) * 10 + i
     tableListDataSource.push({
       key: index,
       disabled: i % 6 === 0,
@@ -25,72 +25,72 @@ const genList = (current: number, pageSize: number) => {
       updatedAt: new Date(),
       createdAt: new Date(),
       progress: Math.ceil(Math.random() * 100),
-    });
+    })
   }
-  tableListDataSource.reverse();
-  return tableListDataSource;
-};
+  tableListDataSource.reverse()
+  return tableListDataSource
+}
 
-let tableListDataSource = genList(1, 100);
+let tableListDataSource = genList(1, 100)
 
 function getRule(req: Request, res: Response, u: string) {
-  let realUrl = u;
+  let realUrl = u
   if (!realUrl || Object.prototype.toString.call(realUrl) !== '[object String]') {
-    realUrl = req.url;
+    realUrl = req.url
   }
-  const { current = 1, pageSize = 10 } = req.query;
-  const params = parse(realUrl, true).query as unknown as TableListParams;
+  const { current = 1, pageSize = 10 } = req.query
+  const params = parse(realUrl, true).query as unknown as TableListParams
 
   let dataSource = [...tableListDataSource].slice(
     ((current as number) - 1) * (pageSize as number),
     (current as number) * (pageSize as number),
-  );
+  )
   if (params.sorter) {
-    const sorter = JSON.parse(params.sorter as any);
+    const sorter = JSON.parse(params.sorter as any)
     dataSource = dataSource.sort((prev, next) => {
-      let sortNumber = 0;
+      let sortNumber = 0
       Object.keys(sorter).forEach((key) => {
         if (sorter[key] === 'descend') {
           if (prev[key] - next[key] > 0) {
-            sortNumber += -1;
+            sortNumber += -1
           } else {
-            sortNumber += 1;
+            sortNumber += 1
           }
-          return;
+          return
         }
         if (prev[key] - next[key] > 0) {
-          sortNumber += 1;
+          sortNumber += 1
         } else {
-          sortNumber += -1;
+          sortNumber += -1
         }
-      });
-      return sortNumber;
-    });
+      })
+      return sortNumber
+    })
   }
   if (params.filter) {
-    const filter = JSON.parse(params.filter as any) as Record<string, string[]>;
+    const filter = JSON.parse(params.filter as any) as Record<string, string[]>
     if (Object.keys(filter).length > 0) {
       dataSource = dataSource.filter((item) => {
         return Object.keys(filter).some((key) => {
           if (!filter[key]) {
-            return true;
+            return true
           }
           if (filter[key].includes(`${item[key]}`)) {
-            return true;
+            return true
           }
-          return false;
-        });
-      });
+          return false
+        })
+      })
     }
   }
 
   if (params.name) {
-    dataSource = dataSource.filter((data) => data.name.includes(params.name || ''));
+    dataSource = dataSource.filter((data) => data.name.includes(params.name || ''))
   }
 
-  let finalPageSize = 10;
+  let finalPageSize = 10
   if (params.pageSize) {
-    finalPageSize = parseInt(`${params.pageSize}`, 10);
+    finalPageSize = parseInt(`${params.pageSize}`, 10)
   }
 
   const result = {
@@ -99,64 +99,64 @@ function getRule(req: Request, res: Response, u: string) {
     success: true,
     pageSize: finalPageSize,
     current: parseInt(`${params.currentPage}`, 10) || 1,
-  };
+  }
 
-  return res.json(result);
+  return res.json(result)
 }
 
 function postRule(req: Request, res: Response, u: string, b: Request) {
-  let realUrl = u;
+  let realUrl = u
   if (!realUrl || Object.prototype.toString.call(realUrl) !== '[object String]') {
-    realUrl = req.url;
+    realUrl = req.url
   }
 
-  const body = (b && b.body) || req.body;
-  const { name, desc, key } = body;
+  const body = (b && b.body) || req.body
+  const { name, desc, key } = body
 
   switch (req.method) {
-    /* eslint no-case-declarations:0 */
-    case 'DELETE':
-      tableListDataSource = tableListDataSource.filter((item) => key.indexOf(item.key) === -1);
-      break;
-    case 'POST':
-      (() => {
-        const i = Math.ceil(Math.random() * 10000);
-        const newRule = {
-          key: tableListDataSource.length,
-          href: 'https://ant.design',
-          avatar: [
-            'https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png',
-            'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png',
-          ][i % 2],
-          name,
-          owner: '曲丽丽',
-          desc,
-          callNo: Math.floor(Math.random() * 1000),
-          status: (Math.floor(Math.random() * 10) % 2).toString(),
-          updatedAt: new Date(),
-          createdAt: new Date(),
-          progress: Math.ceil(Math.random() * 100),
-        };
-        tableListDataSource.unshift(newRule);
-        return res.json(newRule);
-      })();
-      return;
+  /* eslint no-case-declarations:0 */
+  case 'DELETE':
+    tableListDataSource = tableListDataSource.filter((item) => key.indexOf(item.key) === -1)
+    break
+  case 'POST':
+    (() => {
+      const i = Math.ceil(Math.random() * 10000)
+      const newRule = {
+        key: tableListDataSource.length,
+        href: 'https://ant.design',
+        avatar: [
+          'https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png',
+          'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png',
+        ][i % 2],
+        name,
+        owner: '曲丽丽',
+        desc,
+        callNo: Math.floor(Math.random() * 1000),
+        status: (Math.floor(Math.random() * 10) % 2).toString(),
+        updatedAt: new Date(),
+        createdAt: new Date(),
+        progress: Math.ceil(Math.random() * 100),
+      }
+      tableListDataSource.unshift(newRule)
+      return res.json(newRule)
+    })()
+    return
 
-    case 'PUT':
-      (() => {
-        let newRule = {};
-        tableListDataSource = tableListDataSource.map((item) => {
-          if (item.key === key) {
-            newRule = { ...item, desc, name };
-            return { ...item, desc, name };
-          }
-          return item;
-        });
-        return res.json(newRule);
-      })();
-      return;
-    default:
-      break;
+  case 'PUT':
+    (() => {
+      let newRule = {}
+      tableListDataSource = tableListDataSource.map((item) => {
+        if (item.key === key) {
+          newRule = { ...item, desc, name }
+          return { ...item, desc, name }
+        }
+        return item
+      })
+      return res.json(newRule)
+    })()
+    return
+  default:
+    break
   }
 
   const result = {
@@ -164,9 +164,9 @@ function postRule(req: Request, res: Response, u: string, b: Request) {
     pagination: {
       total: tableListDataSource.length,
     },
-  };
+  }
 
-  res.json(result);
+  res.json(result)
 }
 
 export default {
@@ -174,4 +174,4 @@ export default {
   'POST /api/rule': postRule,
   'DELETE /api/rule': postRule,
   'PUT /api/rule': postRule,
-};
+}

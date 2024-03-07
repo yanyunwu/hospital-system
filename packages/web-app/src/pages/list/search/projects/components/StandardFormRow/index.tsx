@@ -1,6 +1,6 @@
-import React from 'react';
-import classNames from 'classnames';
-import styles from './index.less';
+import React from 'react'
+import classNames from 'classnames'
+import styles from './index.less'
 
 type StandardFormRowProps = {
   title?: string;
@@ -22,7 +22,7 @@ const StandardFormRow: React.FC<StandardFormRowProps> = ({
     [styles.standardFormRowBlock]: block,
     [styles.standardFormRowLast]: last,
     [styles.standardFormRowGrid]: grid,
-  });
+  })
 
   return (
     <div className={cls} {...rest}>
@@ -33,7 +33,7 @@ const StandardFormRow: React.FC<StandardFormRowProps> = ({
       )}
       <div className={styles.content}>{children}</div>
     </div>
-  );
-};
+  )
+}
 
-export default StandardFormRow;
+export default StandardFormRow

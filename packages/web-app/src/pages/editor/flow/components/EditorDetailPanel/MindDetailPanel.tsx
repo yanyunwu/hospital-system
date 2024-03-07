@@ -1,8 +1,8 @@
-import { CanvasPanel, DetailPanel, NodePanel } from 'gg-editor';
+import { CanvasPanel, DetailPanel, NodePanel } from 'gg-editor'
 
-import { Card } from 'antd';
-import DetailForm from './DetailForm';
-import styles from './index.less';
+import { Card } from 'antd'
+import DetailForm from './DetailForm'
+import styles from './index.less'
 
 const MindDetailPanel = () => (
   <DetailPanel className={styles.detailPanel}>
@@ -13,6 +13,6 @@ const MindDetailPanel = () => (
       <Card type="inner" size="small" title="Canvas" bordered={false} />
     </CanvasPanel>
   </DetailPanel>
-);
+)
 
-export default MindDetailPanel;
+export default MindDetailPanel
