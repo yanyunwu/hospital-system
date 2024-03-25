@@ -1,6 +1,7 @@
 import { message } from 'antd'
 import { TableListItem } from './type'
 import { add, del, set } from './config/request'
+import { request } from 'umi'
 
 export const handleAdd = async (fields: TableListItem) => {
   const hide = message.loading('正在添加')
@@ -53,5 +54,20 @@ export const handleRemove = async (selectedRows: TableListItem | TableListItem[]
     message.error('删除失败，请重试')
     return false
   }
+}
+
+export const GetPostCuts = async (id: number) => {
+
+  if (!id) {
+    return
+  }
+
+  const res = await request('/api/community/getPostCuts', {
+    params: {
+      id
+    }
+  })
+
+  return res.data
 }
 

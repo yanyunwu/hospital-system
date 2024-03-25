@@ -10,6 +10,7 @@ type Word = {
 export interface WordCloudProps {
   words?: Word[]
   height?: number | string
+  weightFactor?: number
 }
 
 export default function WordCloud(props: WordCloudProps) {
@@ -23,11 +24,11 @@ export default function WordCloud(props: WordCloudProps) {
     if (container) {
       wordCloud(container, {
         list: initWords.map(item => [item.text, item.value]),
-        gridSize: 4,
-        minSize: 1
+        minSize: 1,
+        weightFactor: props.weightFactor ?? 10,
       })
     }
-  }, [props.words])
+  }, [props.words, props.weightFactor])
 
   return (
     <div className='cursor-pointer'>

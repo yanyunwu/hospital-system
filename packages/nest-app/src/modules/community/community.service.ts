@@ -4,6 +4,11 @@ import { Post } from 'src/entities/post.entity';
 import { PostReply } from 'src/entities/postReply.entity';
 import { User } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
+import * as Segment from 'segment';
+import unionArr from 'src/utils/unionArr';
+
+const segment = new Segment();
+segment.useDefault();
 
 @Injectable()
 export class CommunityService {
@@ -82,5 +87,21 @@ export class CommunityService {
     });
 
     return this.postRepository.remove(columns);
+  }
+
+  // 获取关键词
+  getCut(text: string) {
+    const result = segment.doSegment(text, {
+      stripPunctuation: true,
+    });
+
+    const cuts = result.filter((item) => item.w.length > 1) as Array<{
+      w: string;
+    }>;
+
+    return unionArr(cuts, (item) => item.w).map((item) => ({
+      text: item[0],
+      value: item[1],
+    }));
   }
 }

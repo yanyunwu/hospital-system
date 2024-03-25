@@ -48,6 +48,13 @@ export class CommunityController {
     return this.communityService.delPost(body.ids);
   }
 
+  @Public()
+  @Get('/getPostCuts')
+  async getPostCuts(@Query('id') id: string) {
+    const post = await this.communityService.getPost(parseInt(id));
+    return this.communityService.getCut(post.content);
+  }
+
   @Post('/addPostReply')
   async addPostReply(
     @Body()

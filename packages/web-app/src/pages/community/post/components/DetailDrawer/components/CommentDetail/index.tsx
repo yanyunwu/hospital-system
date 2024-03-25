@@ -23,21 +23,23 @@ export default function CommentDetail({record}: CommentDetailProps) {
         </Col>
       </Row>
       <Card title="评论列表">
-        {
-          replies.length
-            ? replies.map(item => {
-              return (
-                <div key={item.id} className='py-4'>
-                  <Comment
-                    name={'user'}
-                    time={dayjs(item.createTime).format('YYYY-MM-DD HH:mm:ss')}
-                    content={item.content}
-                  />
-                </div>
-              )
-            })
-            : <Empty className='mt-8' description="暂无评论数据" />
-        }
+        <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
+          {
+            replies.length
+              ? replies.map(item => {
+                return (
+                  <div key={item.id}>
+                    <Comment
+                      name={'user'}
+                      time={dayjs(item.createTime).format('YYYY-MM-DD HH:mm:ss')}
+                      content={item.content}
+                    />
+                  </div>
+                )
+              })
+              : <Empty className='mt-8' description="暂无评论数据" />
+          }
+        </Space>
       </Card>
     </Space>
   )

@@ -13,6 +13,7 @@ import { BookingDateRecord } from './bookingDateRecord.entity';
 import { RR } from './rr.entity';
 import { Feedback } from './feedback.entity';
 import { UserNotice } from './userNotice.entity';
+import { Tag } from './tags.entity';
 
 @Entity()
 export class User {
@@ -55,6 +56,9 @@ export class User {
   // 学号
   @Column({ nullable: true })
   stuId: string;
+
+  @OneToMany(() => Tag, (tags) => tags.user)
+  tags: Tag[];
 
   @CreateDateColumn()
   createTime: string;
