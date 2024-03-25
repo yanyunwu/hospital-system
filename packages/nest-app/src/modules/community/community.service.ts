@@ -68,4 +68,19 @@ export class CommunityService {
 
     return this.postReplyRepository.save(reply);
   }
+
+  async delPost(ids: number[]) {
+    // 切记空数组一定要终止，否则会讲数据库全部删掉
+    if (!ids.length) {
+      return;
+    }
+
+    const whereIds = ids.map((id) => ({ id }));
+
+    const columns = await this.postRepository.find({
+      where: whereIds,
+    });
+
+    return this.postRepository.remove(columns);
+  }
 }

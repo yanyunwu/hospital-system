@@ -43,6 +43,11 @@ export class CommunityController {
     return this.communityService.getPost(parseInt(id));
   }
 
+  @Post('/delPost')
+  delPost(@Body() body: { ids: number[] }) {
+    return this.communityService.delPost(body.ids);
+  }
+
   @Post('/addPostReply')
   async addPostReply(
     @Body()

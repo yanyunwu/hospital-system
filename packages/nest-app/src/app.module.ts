@@ -13,6 +13,7 @@ import { CommunityModule } from './modules/community/community.module';
 import { BookingModule } from './modules/booking/booking.module';
 import { FeedbackModule } from './modules/feedback/feedback.module';
 import { RrModule } from './modules/rr/rr.module';
+import { ConfigModule as SystemConfigModule } from './modules/config/config.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { RrModule } from './modules/rr/rr.module';
     BookingModule,
     FeedbackModule,
     RrModule,
+    SystemConfigModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.MYSQL_HOST,

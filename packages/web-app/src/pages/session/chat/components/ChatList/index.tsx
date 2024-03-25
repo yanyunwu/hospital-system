@@ -6,6 +6,7 @@ import Picker from '@emoji-mart/react'
 import { SmileOutlined, UserOutlined } from '@ant-design/icons'
 import type { TableListItem } from '../../type'
 import './ChatList.less'
+import i18n from './i18n.json'
 
 export type FormValueType = {
   target?: string;
@@ -102,6 +103,7 @@ const ChatList: React.FC<ChatListProps> = (props) => {
             open={show}
             content={
               <Picker
+                i18n={i18n}
                 data={emojiData}
                 onEmojiSelect={(_: any) => {
                   props.onChangeText(props.waitText + _.native)

@@ -1,0 +1,29 @@
+{
+  "search": "搜索",
+  "search_no_results_1": "没有找到你想要的表情！",
+  "search_no_results_2": "没有找到你想要的表情！",
+  "pick": "选择一个你想要的表情",
+  "add_custom": "添加自定义表情符号",
+  "categories": {
+    "activity": "活动",
+    "custom": "自定义",
+    "flags": "旗帜",
+    "foods": "食品和饮料",
+    "frequent": "常用表情",
+    "nature": "动物与自然",
+    "objects": "对象",
+    "people": "其他表情",
+    "places": "旅行和地点",
+    "search": "搜索结果",
+    "symbols": "符号"
+  },
+  "skins": {
+    "choose": "选择肤色",
+    "1": "默认",
+    "2": "光明",
+    "3": "中光",
+    "4": "平均",
+    "5": "中暗",
+    "6": "黑暗"
+  }
+}
