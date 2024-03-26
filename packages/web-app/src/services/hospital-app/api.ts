@@ -55,3 +55,10 @@ export async function currentUser(options?: { [key: string]: any }) {
     ...(options || {}),
   })
 }
+
+export async function setCurrentUser(data?: { [key: string]: any }) {
+  return request('/api/admin/user/setOwnerAdminUser', {
+    method: 'POST',
+    data: data
+  })
+}

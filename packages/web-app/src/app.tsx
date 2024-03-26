@@ -2,16 +2,14 @@ import type { Settings as LayoutSettings } from '@ant-design/pro-components'
 import { SettingDrawer } from '@ant-design/pro-components'
 import { PageLoading } from '@ant-design/pro-components'
 import type { RunTimeLayoutConfig, RequestConfig } from '@umijs/max'
-import { history, Link } from '@umijs/max'
+import { history } from '@umijs/max'
 import Footer from '@/components/Footer'
 import { currentUser as queryCurrentUser } from './services/hospital-app'
-import { BookOutlined, LinkOutlined } from '@ant-design/icons'
 import defaultSettings from '../config/defaultSettings'
 import Logo from '../public/hzaulogo.jpg'
 import {  message } from 'antd'
 import header from './header'
 
-const isDev = process.env.NODE_ENV === 'development'
 const loginPath = '/user/login'
 
 /** 获取用户信息比较慢的时候会展示一个 loading */

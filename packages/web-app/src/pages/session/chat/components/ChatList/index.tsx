@@ -7,6 +7,7 @@ import { SmileOutlined, UserOutlined } from '@ant-design/icons'
 import type { TableListItem } from '../../type'
 import './ChatList.less'
 import i18n from './i18n.json'
+import { useGlobalContext } from '@/templates/CommonTemplate'
 
 export type FormValueType = {
   target?: string;
@@ -30,7 +31,7 @@ export type ChatListProps = {
 };
 
 const ChatList: React.FC<ChatListProps> = (props) => {
-
+  const { currentRow } = useGlobalContext<TableListItem>()
   const [show, showAction] = useBoolean()
 
   const dom = useRef<HTMLDivElement>()
@@ -45,9 +46,9 @@ const ChatList: React.FC<ChatListProps> = (props) => {
     if (item.speakUserType === 1) {
       return (
         <div className="chat_message_item chat_message_self">
-          <Avatar size="large" style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
+          <Avatar size="large" style={{ backgroundColor: '#87d068' }} src={currentRow.adminUser.avatar} />
           <div style={{flex: 1, overflow:'hidden'}}>
-            <div>{item.speakUserName}</div>
+            <div>{currentRow.adminUser.nickname}</div>
             <div style={{display: 'flex'}}>
               <p className="chat_message_text">
                 {item.content}

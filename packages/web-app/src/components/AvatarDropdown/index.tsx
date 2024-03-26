@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
-import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons'
-import { Avatar, Menu, MenuProps, Spin } from 'antd'
+import { LogoutOutlined, UserOutlined } from '@ant-design/icons'
+import { Avatar, Menu, MenuProps, Modal, Spin } from 'antd'
 import { history, useModel } from '@umijs/max'
 import { stringify } from 'querystring'
 import HeaderDropdown from '../HeaderDropdown'
@@ -38,8 +38,13 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = () => {
     (event: MenuInfo) => {
       const { key } = event
       if (key === 'logout') {
-        setInitialState((s) => ({ ...s, currentUser: undefined }))
-        loginOut()
+        Modal.confirm({
+          title: '确定要退出登录吗？',
+          onOk() {
+            setInitialState((s) => ({ ...s, currentUser: undefined }))
+            loginOut()
+          },
+        })
         return
       }
 
@@ -76,11 +81,11 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = () => {
       label: '个人中心',
       icon: <UserOutlined />
     },
-    {
-      key: 'settings',
-      label: '个人设置',
-      icon:   <SettingOutlined />
-    },
+    // {
+    //   key: 'settings',
+    //   label: '个人设置',
+    //   icon:   <SettingOutlined />
+    // },
     {
       key: 'logout',
       label: '退出登录',

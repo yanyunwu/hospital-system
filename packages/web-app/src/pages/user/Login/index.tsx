@@ -1,10 +1,7 @@
 import {
-  AlipayCircleOutlined,
   LockOutlined,
   MobileOutlined,
-  TaobaoCircleOutlined,
   UserOutlined,
-  WeiboCircleOutlined,
 } from '@ant-design/icons'
 import { Alert, message, Tabs } from 'antd'
 import React, { useState } from 'react'
@@ -64,10 +61,11 @@ const Login: React.FC = () => {
         if (!history) return
         const query = qs.parse(history.location.search)
         const { redirect } = query as { redirect: string }
-        history.push(redirect || '/')
+        setTimeout(() => {
+          history.push(redirect || '/')
+        })
         return
       }
-      console.log(msg)
       // 如果失败去设置用户错误信息
       setUserLoginState(msg)
     } catch (error) {
@@ -94,16 +92,6 @@ const Login: React.FC = () => {
           initialValues={{
             autoLogin: true,
           }}
-          // actions={[
-          //   <FormattedMessage
-          //     key="loginWith"
-          //     id="pages.login.loginWith"
-          //     defaultMessage="其他登录方式"
-          //   />,
-          //   <AlipayCircleOutlined key="AlipayCircleOutlined" className={styles.icon} />,
-          //   <TaobaoCircleOutlined key="TaobaoCircleOutlined" className={styles.icon} />,
-          //   <WeiboCircleOutlined key="WeiboCircleOutlined" className={styles.icon} />,
-          // ]}
           onFinish={async (values) => {
             await handleSubmit(values as API.LoginParams)
           }}
@@ -256,7 +244,7 @@ const Login: React.FC = () => {
                   const result = await getFakeCaptcha({
                     phone,
                   })
-                  if (result === false) {
+                  if (!result) {
                     return
                   }
                   message.success('获取验证码成功！验证码为：1234')

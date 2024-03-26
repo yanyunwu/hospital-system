@@ -47,6 +47,14 @@ export class UsersController {
     return this.usersService.getOwnerAdminUser(adminUser.adminUserId);
   }
 
+  @Post('/setOwnerAdminUser')
+  async setOwnerAdminUser(@Req() req: Request, @Body() body: any) {
+    const adminUser = req['user'];
+    console.log('adminUser', adminUser, body);
+    body.id = adminUser.adminUserId;
+    return this.usersService.setAdminUser(body);
+  }
+
   @Post('/addAdminUser')
   async addAdminUser(@Body() body: Admin) {
     body.password = '12345678';

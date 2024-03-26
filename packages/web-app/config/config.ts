@@ -17,7 +17,6 @@ export default defineConfig({
     __SOCKET_BASE_URL__: 'ws://hospital.api.yanyun.ltd',
     __BASE_URL__: 'http://hospital.api.yanyun.ltd',
   },
-  hash: true,
   lessLoader: {
     modifyVars: v5Vars,
   },
@@ -221,6 +220,16 @@ export default defineConfig({
           icon: 'smile',
           path: '/other/sysNotice',
           component: './other/sysNotice',
+        },
+      ],
+    },
+    {
+      path: '/account',
+      routes: [
+        {
+          name: '个人中心',
+          path: '/account/center',
+          component: './account/center',
         },
       ],
     },
