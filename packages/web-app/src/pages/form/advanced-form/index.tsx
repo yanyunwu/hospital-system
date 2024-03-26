@@ -9,9 +9,9 @@ import ProForm, {
   ProFormText,
   ProFormTimePicker,
 } from '@ant-design/pro-form'
-import type { ProColumnType } from '@ant-design/pro-table'
-import { EditableProTable } from '@ant-design/pro-table'
-import { PageContainer, FooterToolbar } from '@ant-design/pro-layout'
+import type { ProColumnType } from '@ant-design/pro-components'
+import { EditableProTable } from '@ant-design/pro-components'
+import { PageContainer, FooterToolbar } from '@ant-design/pro-components'
 import { fakeSubmitForm } from './service'
 import styles from './style.less'
 

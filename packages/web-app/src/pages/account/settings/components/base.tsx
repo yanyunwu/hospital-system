@@ -8,7 +8,7 @@ import ProForm, {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-form'
-import { useRequest } from 'umi'
+import { useRequest } from '@umijs/max'
 import { queryCurrent } from '../service'
 import { queryProvince, queryCity } from '../service'
 

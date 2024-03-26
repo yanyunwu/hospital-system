@@ -1,7 +1,7 @@
 import React from 'react'
-import { PageContainer } from '@ant-design/pro-layout'
+import { PageContainer } from '@ant-design/pro-components'
 import { Card, Alert, Typography } from 'antd'
-import { useIntl, FormattedMessage } from 'umi'
+import { useIntl, FormattedMessage } from '@umijs/max'
 import styles from './Welcome.less'
 
 const CodePreview: React.FC = ({ children }) => (
@@ -41,7 +41,7 @@ const Welcome: React.FC = () => {
             <FormattedMessage id="pages.welcome.link" defaultMessage="Welcome" />
           </a>
         </Typography.Text>
-        <CodePreview>yarn add @ant-design/pro-table</CodePreview>
+        <CodePreview>yarn add @ant-design/pro-components</CodePreview>
         <Typography.Text
           strong
           style={{
@@ -57,7 +57,7 @@ const Welcome: React.FC = () => {
             <FormattedMessage id="pages.welcome.link" defaultMessage="Welcome" />
           </a>
         </Typography.Text>
-        <CodePreview>yarn add @ant-design/pro-layout</CodePreview>
+        <CodePreview>yarn add @ant-design/pro-components</CodePreview>
       </Card>
     </PageContainer>
   )

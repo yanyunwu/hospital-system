@@ -8,9 +8,9 @@ import React, {
   useContext
 } from 'react'
 import { Button, Popconfirm } from 'antd'
-import { PageContainer, FooterToolbar } from '@ant-design/pro-layout'
-import ProTable, { ProTableProps } from '@ant-design/pro-table'
-import type { ActionType } from '@ant-design/pro-table'
+import { PageContainer, FooterToolbar } from '@ant-design/pro-components'
+import { ProTable, ProTableProps } from '@ant-design/pro-components'
+import type { ActionType } from '@ant-design/pro-components'
 
 type TableListPagination = {
   total: number;

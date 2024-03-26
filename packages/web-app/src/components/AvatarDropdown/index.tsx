@@ -1,14 +1,12 @@
 import React, { useCallback } from 'react'
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons'
-import { Avatar, Drawer, Menu, MenuProps, Spin } from 'antd'
+import { Avatar, Menu, MenuProps, Spin } from 'antd'
 import { history, useModel } from '@umijs/max'
 import { stringify } from 'querystring'
 import HeaderDropdown from '../HeaderDropdown'
 import styles from './index.less'
-// import { outLogin } from '@/services/ant-design-pro/api';
 import type { MenuInfo } from 'rc-menu/lib/interface'
-import { useBoolean } from 'ahooks'
-import AccountCenter from '@/pages/account/center'
+import qs from 'query-string'
 
 export type GlobalHeaderRightProps = {
   menu?: boolean;
@@ -20,7 +18,8 @@ export type GlobalHeaderRightProps = {
 const loginOut = async () => {
   // await outLogin();
   localStorage.clear()
-  const { query = {}, search, pathname } = history.location
+  const { search, pathname } = history.location
+  const query = qs.parse(search)
   const { redirect } = query
   // Note: There may be security issues, please note
   if (window.location.pathname !== '/user/login' && !redirect) {
@@ -33,21 +32,14 @@ const loginOut = async () => {
   }
 }
 
-const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
+const AvatarDropdown: React.FC<GlobalHeaderRightProps> = () => {
   const { initialState, setInitialState } = useModel('@@initialState')
-  const [isOpen, open] = useBoolean()
-
   const onMenuClick = useCallback(
     (event: MenuInfo) => {
       const { key } = event
       if (key === 'logout') {
         setInitialState((s) => ({ ...s, currentUser: undefined }))
         loginOut()
-        return
-      }
-
-      if (key === 'center') {
-        open.setTrue()
         return
       }
 
@@ -101,12 +93,9 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
   )
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
-      <span className={`${styles.action} ${styles.account}`}>
-        <Avatar size="small" className={styles.avatar} src={currentUser.avatar} alt="avatar" />
-        <span className={`${styles.name} anticon`}>{currentUser.name}</span>
-        <Drawer open={isOpen} width='80%'>
-          <AccountCenter />
-        </Drawer>
+      <span className='flex items-center'>
+        <Avatar size="small" src={currentUser.avatar} alt="avatar" />
+        <span className='px-2'>{currentUser.name}</span>
       </span>
     </HeaderDropdown>
   )

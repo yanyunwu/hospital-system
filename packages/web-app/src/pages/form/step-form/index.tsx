@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import type { FormInstance } from 'antd'
 import { Card, Result, Button, Descriptions, Divider, Alert, Statistic } from 'antd'
-import { PageContainer } from '@ant-design/pro-layout'
+import { PageContainer } from '@ant-design/pro-components'
 import ProForm, { ProFormDigit, ProFormSelect, ProFormText, StepsForm } from '@ant-design/pro-form'
 import type { StepDataType } from './data.d'
 import styles from './style.less'

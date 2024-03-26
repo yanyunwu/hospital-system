@@ -1,4 +1,4 @@
-import { request } from 'umi'
+import { request } from '@umijs/max'
 import { TableListItem } from '../type'
 
 const GET_URL = '/api/admin/user/getAdminUserList'

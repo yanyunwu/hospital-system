@@ -1,9 +1,9 @@
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, message, Input, Drawer, Popconfirm } from 'antd'
 import React, { useState, useRef } from 'react'
-import { PageContainer, FooterToolbar } from '@ant-design/pro-layout'
-import type { ProColumns, ActionType } from '@ant-design/pro-table'
-import ProTable from '@ant-design/pro-table'
+import { PageContainer, FooterToolbar } from '@ant-design/pro-components'
+import type { ProColumns, ActionType } from '@ant-design/pro-components'
+import { ProTable } from '@ant-design/pro-components'
 import {
   ModalForm,
   ProFormText,
@@ -11,8 +11,8 @@ import {
   ProFormDatePicker,
   ProFormTextArea,
 } from '@ant-design/pro-form'
-import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions'
-import ProDescriptions from '@ant-design/pro-descriptions'
+import type { ProDescriptionsItemProps } from '@ant-design/pro-components'
+import { ProDescriptions } from '@ant-design/pro-components'
 import type { FormValueType } from './components/UpdateForm'
 import { get, add, set, del } from './service'
 import type { TableListItem, TableListPagination } from './data'

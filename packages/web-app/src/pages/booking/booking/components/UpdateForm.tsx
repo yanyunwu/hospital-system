@@ -11,8 +11,8 @@ import {
   ProFormDigit,
 } from '@ant-design/pro-form'
 import type { DateTableListItem, TableListItem, TableListPagination } from '../data'
-import type { ActionType, ProColumns } from '@ant-design/pro-table'
-import ProTable from '@ant-design/pro-table'
+import type { ActionType, ProColumns } from '@ant-design/pro-components'
+import { ProTable } from '@ant-design/pro-components'
 import { PlusOutlined } from '@ant-design/icons'
 import { add2, get2, del2, set2 } from '../service'
 

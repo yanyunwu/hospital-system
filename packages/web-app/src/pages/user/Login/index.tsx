@@ -9,7 +9,8 @@ import {
 import { Alert, message, Tabs } from 'antd'
 import React, { useState } from 'react'
 import { ProFormCaptcha, ProFormCheckbox, ProFormText, LoginForm } from '@ant-design/pro-form'
-import { useIntl, history, FormattedMessage, SelectLang, useModel } from 'umi'
+import { useIntl, history, FormattedMessage, SelectLang, useModel } from '@umijs/max'
+import qs from 'query-string'
 import Footer from '@/components/Footer'
 import { login } from '@/services/ant-design-pro/api'
 import { getFakeCaptcha } from '@/services/ant-design-pro/login'
@@ -61,7 +62,7 @@ const Login: React.FC = () => {
         await fetchUserInfo()
         /** 此方法会跳转到 redirect 参数所在的位置 */
         if (!history) return
-        const { query } = history.location
+        const query = qs.parse(history.location.search)
         const { redirect } = query as { redirect: string }
         history.push(redirect || '/')
         return
@@ -70,6 +71,7 @@ const Login: React.FC = () => {
       // 如果失败去设置用户错误信息
       setUserLoginState(msg)
     } catch (error) {
+      console.log('error', error)
       const defaultLoginFailureMessage = intl.formatMessage({
         id: 'pages.login.failure',
         defaultMessage: '登录失败，请重试！',

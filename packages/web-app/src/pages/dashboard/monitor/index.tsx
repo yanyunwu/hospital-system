@@ -1,10 +1,10 @@
 import { Card, Col, Row, Statistic } from 'antd'
-import { useRequest } from 'umi'
+import { useRequest } from '@umijs/max'
 import type { FC } from 'react'
 import { Gauge, WordCloud, Liquid, RingProgress } from '@ant-design/charts'
 import type { WordCloudData } from '@antv/g2plot/esm/plots/word-cloud/layer'
 
-import { GridContent } from '@ant-design/pro-layout'
+import { GridContent } from '@ant-design/pro-components'
 import numeral from 'numeral'
 import Map from './components/Map'
 import ActiveChart from './components/ActiveChart'

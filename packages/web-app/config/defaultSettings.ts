@@ -1,12 +1,11 @@
-import { Settings as LayoutSettings } from '@ant-design/pro-layout';
+import { Settings as LayoutSettings } from '@ant-design/pro-components'
 
 const Settings: LayoutSettings & {
   pwa?: boolean;
   logo?: string;
 } = {
   navTheme: 'light',
-  primaryColor: 'red',
-  layout: 'side',
+  layout: 'mix',
   contentWidth: 'Fluid',
   fixedHeader: true,
   fixSiderbar: true,
@@ -14,4 +13,4 @@ const Settings: LayoutSettings & {
   splitMenus: false,
 }
 
-export default Settings;
+export default Settings

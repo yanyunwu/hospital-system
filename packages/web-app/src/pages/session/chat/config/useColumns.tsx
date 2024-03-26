@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { ProColumns, ProColumnType } from '@ant-design/pro-table'
+import { ProColumns, ProColumnType } from '@ant-design/pro-components'
 import { useGlobalContext } from '@/templates/CommonTemplate'
 import { TableListItem } from '../type'
 import ChatDetailDrawer from '../components/ChatDetailDrawer'

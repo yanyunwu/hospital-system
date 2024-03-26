@@ -1,6 +1,6 @@
 // @ts-ignore
 /* eslint-disable */
-import { request } from 'umi';
+import { request } from '@umijs/max';
 
 // const baseUrl = process.env.MOCK === 'none' ? '' : 'http://localhost:3000'
 

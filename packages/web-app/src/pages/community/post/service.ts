@@ -1,7 +1,7 @@
 import { message } from 'antd'
 import { TableListItem } from './type'
 import { add, del, set } from './config/request'
-import { request } from 'umi'
+import { request } from '@umijs/max'
 
 export const handleAdd = async (fields: TableListItem) => {
   const hide = message.loading('正在添加')
