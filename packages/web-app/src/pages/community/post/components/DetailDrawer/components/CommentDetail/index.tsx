@@ -26,9 +26,9 @@ export default function CommentDetail({record}: CommentDetailProps) {
         <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
           {
             replies.length
-              ? replies.map(item => {
+              ? replies.map((item, index) => {
                 return (
-                  <div key={item.id}>
+                  <div key={index}>
                     <Comment
                       name={'user'}
                       time={dayjs(item.createTime).format('YYYY-MM-DD HH:mm:ss')}

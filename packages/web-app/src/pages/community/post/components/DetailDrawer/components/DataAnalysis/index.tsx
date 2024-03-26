@@ -5,12 +5,13 @@ import { GetPostCuts } from '@/pages/community/post/service'
 import { useGlobalContext } from '@/templates/CommonTemplate'
 import { TableListItem } from '../../../../type'
 import { useState } from 'react'
+import { RedoOutlined } from '@ant-design/icons'
 
 export default function DataAnalysis() {
 
   const [multiple, setMultiple ] = useState(10)
   const { currentRow } = useGlobalContext<TableListItem>()
-  const { data } = useRequest(() => GetPostCuts(currentRow.id), {
+  const { data, refresh } = useRequest(() => GetPostCuts(currentRow.id), {
     refreshDeps: [currentRow.id]
   })
 
@@ -33,6 +34,9 @@ export default function DataAnalysis() {
                 { value: 20, label: '20'},
               ]}
             />
+            <span>
+              <RedoOutlined onClick={refresh} />
+            </span>
           </Space>
         }
       >

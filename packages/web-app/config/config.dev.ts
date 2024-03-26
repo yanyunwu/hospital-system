@@ -15,5 +15,5 @@ export default defineConfig({
   define: {
     __SOCKET_BASE_URL__: 'ws://localhost:3000',
     __BASE_URL__: ''
-  }
+  },
 })

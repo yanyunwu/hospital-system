@@ -10,7 +10,7 @@ export const useConfig = () => {
   const columns = useColumns()
   return useMemo<CommonTemplateProps<TableListItem>>(() => ({
     ref: actionRef,
-    rowKey: 'key',
+    rowKey: 'id',
     request: get,
     columns: columns,
     onMultipleMove: async (items) => {

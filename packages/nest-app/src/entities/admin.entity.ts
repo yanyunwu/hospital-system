@@ -13,6 +13,10 @@ export class Admin {
   id: number;
 
   // 用户名
+  @Column({ nullable: true })
+  avatar: string;
+
+  // 用户名
   @Column({ unique: true, nullable: false })
   username: string;
 

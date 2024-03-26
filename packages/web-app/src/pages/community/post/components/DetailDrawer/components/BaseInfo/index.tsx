@@ -11,8 +11,8 @@ export default function BaseInfo() {
       </Card>
       <Card title='附带图片'>
         <Image.PreviewGroup>
-          {currentRow?.picture?.map((item) => {
-            return <Image key={item} width="33%" src={item} />
+          {currentRow?.picture?.map((item, index) => {
+            return <Image key={index} width="33%" src={item} />
           })}
         </Image.PreviewGroup>
       </Card>

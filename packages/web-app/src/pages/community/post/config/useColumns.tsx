@@ -10,17 +10,18 @@ const useAction = (): ProColumnType<TableListItem> => {
     title: '操作',
     dataIndex: 'option',
     valueType: 'option',
-    render: (_, record) => [
+    render: (_, record) => (
       <DetailDrawer
         key="config"
         trigger={
           <a onClick={() => {
             setCurrentRow(record)
           }}>
-        查看详情
+      查看详情
           </a>}
       />
-    ],
+    )
+
   }
 }
 
@@ -44,7 +45,7 @@ export default () => {
     },
     {
       title: '评论数',
-      dataIndex: 'anonymous',
+      dataIndex: 'replies.length',
       render(dom, item) {
         return item.replies ? item.replies.length : 0
       },
