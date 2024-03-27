@@ -6,6 +6,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { LiveChat } from './liveChat.entity';
+import { Auth } from './auth.entity';
 
 @Entity()
 export class Admin {
@@ -38,9 +39,13 @@ export class Admin {
   @Column({ nullable: true })
   age: number;
 
-  // 姓名昵称
+  // 昵称
   @Column()
   nickname: string;
+
+  // 真实姓名
+  @Column({ nullable: true })
+  name: string;
 
   // 职称
   @Column({ nullable: true })
@@ -59,4 +64,10 @@ export class Admin {
 
   @OneToMany(() => LiveChat, (liveChat) => liveChat.adminUser)
   liveChats: LiveChat[];
+
+  @Column({ nullable: true, type: 'boolean', default: false })
+  isSuper?: boolean;
+
+  @OneToMany(() => Auth, (auth) => auth.adminUser)
+  auths: Auth[];
 }

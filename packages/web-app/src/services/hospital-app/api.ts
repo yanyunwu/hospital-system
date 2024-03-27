@@ -71,3 +71,21 @@ export async function getCommunityReplies(id: number) {
     }
   })
 }
+
+export async function getAdminUserInfo(id: number) {
+  return request('/api/admin/user/getOneAdminUser', {
+    method: 'GET',
+    params: {
+      id
+    }
+  })
+}
+
+export async function getUserInfo(id: number) {
+  return request('/api/mp/user/getOneUserInfo', {
+    method: 'GET',
+    params: {
+      id
+    }
+  })
+}

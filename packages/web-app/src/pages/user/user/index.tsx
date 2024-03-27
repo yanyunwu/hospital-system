@@ -10,6 +10,7 @@ import {ProDescriptions} from '@ant-design/pro-components'
 import type { FormValueType } from './components/UpdateForm'
 import { get, add, set, del } from './service'
 import type { TableListItem, TableListPagination } from './data'
+import UserInfoCard from '@/components/UserInfoCard'
 /**
  * 添加节点
  *
@@ -94,6 +95,11 @@ const TableList: React.FC = () => {
       title: '用户名',
       dataIndex: 'username',
       valueType: 'text',
+      render(dom, record) {
+        return <UserInfoCard id={record.id}>
+          <Button type='link'>{dom}</Button>
+        </UserInfoCard>
+      }
     },
     {
       title: '性别',

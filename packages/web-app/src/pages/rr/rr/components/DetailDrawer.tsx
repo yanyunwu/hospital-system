@@ -3,15 +3,17 @@ import ProForm, {
   DrawerForm,
   ProFormCheckbox,
   ProFormDatePicker,
+  ProFormDateTimePicker,
   ProFormRadio,
-  ProFormText
+  ProFormText,
+  ProFormTextArea
 } from '@ant-design/pro-form'
 import { useRequest } from 'ahooks'
 import { TableListItem } from '../type'
 import { useGlobalContext } from '@/templates/CommonTemplate'
 import { handleRemove, handleUpdate } from '../service'
 import { role } from '@/pages/access/role/service'
-import { Button, Popconfirm } from 'antd'
+import { Button, Popconfirm,  Image } from 'antd'
 import FileUpload from '@/components/FileUpload'
 
 export interface DetailDrawerProps {
@@ -20,11 +22,6 @@ export interface DetailDrawerProps {
 
 const DetailDrawer: React.FC<DetailDrawerProps> = (props) => {
   const { currentRow, setCurrentRow, event$ } = useGlobalContext<TableListItem>()
-  const { data } = useRequest(role)
-  const checkboxValues = (data?.data || []).map((item) => ({
-    label: item.name,
-    value: item.id,
-  }))
 
   return (
     <DrawerForm<TableListItem>
@@ -55,7 +52,7 @@ const DetailDrawer: React.FC<DetailDrawerProps> = (props) => {
           </Popconfirm>
         )
       }}
-      initialValues={{...currentRow, roles: currentRow?.roles?.split(',').map(i => parseInt(i))}}
+      initialValues={{...currentRow }}
       onFinish={async (values) => {
         // @ts-ignore
         values.roles = values.roles?.join(',')
@@ -70,22 +67,17 @@ const DetailDrawer: React.FC<DetailDrawerProps> = (props) => {
         return false
       }}
     >
-      <ProForm.Item name='avatar'>
-        <FileUpload />
-      </ProForm.Item>
       <ProFormText
-        label="用户名"
-        rules={[
-          {
-            required: true,
-            message: '必填项',
-          },
-        ]}
+        label="姓名"
         width="md"
-        name="username"
+        name="name"
+      />
+      <ProFormText
+        label="学号"
+        width="md"
+        name="stuId"
       />
       <ProFormRadio.Group
-        width="md"
         name="sex"
         label="性别"
         options={[
@@ -97,46 +89,30 @@ const DetailDrawer: React.FC<DetailDrawerProps> = (props) => {
             label: '女',
             value: 1,
           },
-          {
-            label: '未知',
-            value: 2,
-          },
         ]}
-      />
-      <ProFormDatePicker
-        label="出生年月"
-        rules={[
-          {
-            required: true,
-            message: '必填项',
-          },
-        ]}
-        width="md"
-        name="birthday"
       />
       <ProFormText
-        label="姓名/昵称"
-        rules={[
-          {
-            required: true,
-            message: '必填项',
-          },
-        ]}
+        label="手机号码"
         width="md"
-        name="nickname"
+        name="phone"
       />
-      <ProFormText
-        label="医生编号"
+      <ProFormDateTimePicker
+        label="校外就诊时间"
         width="md"
-        name="doctorId"
+        name="datetime"
       />
-      <ProFormCheckbox.Group
+
+      <ProFormTextArea
+        label="备注"
         width="md"
-        name="roles"
-        layout="horizontal"
-        label="配置角色"
-        options={checkboxValues}
+        name="remark"
       />
+      <div style={{ margin: '10px 0' }}>附带图片：</div>
+      <Image.PreviewGroup>
+        {(currentRow?.picture as string[])?.map((item) => {
+          return <Image key={item} width="33%" src={item} />
+        })}
+      </Image.PreviewGroup>
     </DrawerForm>
   )
 }

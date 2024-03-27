@@ -15,7 +15,7 @@
 			</view>
 			<view class="onwer-extend">
 				<view class="title"><text>个人签名</text></view>
-				<view class="content"><text>为世界一切美好的事物而战</text></view>
+				<view class="content"><text>这是你的个人签名~~~</text></view>
 			</view>
 		</view>
 		<view class="onwer-info-card">

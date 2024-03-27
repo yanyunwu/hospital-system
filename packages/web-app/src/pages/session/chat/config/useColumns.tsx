@@ -3,8 +3,9 @@ import { ProColumns, ProColumnType } from '@ant-design/pro-components'
 import { useGlobalContext } from '@/templates/CommonTemplate'
 import { TableListItem } from '../type'
 import ChatDetailDrawer from '../components/ChatDetailDrawer'
-import { message } from 'antd'
+import { Button, message } from 'antd'
 import { replySession } from '@/services/hospital-app/api'
+import UserInfoCard from '@/components/UserInfoCard'
 
 const useAction = (): ProColumnType<TableListItem> => {
   const { setCurrentRow } = useGlobalContext<TableListItem>()
@@ -47,7 +48,11 @@ export default () => {
       title: '昵称/姓名',
       dataIndex: 'user',
       render(dom, item) {
-        return item.user?.nickname
+        return <UserInfoCard id={item.user?.id}>
+          <Button type='link'>
+            {item.user?.nickname}
+          </Button>
+        </UserInfoCard>
       },
     },
     {

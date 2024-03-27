@@ -13,13 +13,13 @@ export interface FileUploadProps {
 
 export default function FileUpload({value, onChange}: FileUploadProps) {
 
-  const [loading, setLoading] = useState(!value)
-  const [openFileDialogOnClick, openFileDialogOnClickAction] = useBoolean(false)
+  const [loading, setLoading] = useState(false)
+  const [openFileDialogOnClick, openFileDialogOnClickAction] = useBoolean(!value)
 
   const uploadButton = (
     <button style={{ border: 0, background: 'none' }} type="button">
       {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>Upload</div>
+      <div style={{ marginTop: 8 }}>点击上传</div>
     </button>
   )
 

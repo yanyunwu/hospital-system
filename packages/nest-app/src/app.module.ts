@@ -14,6 +14,7 @@ import { BookingModule } from './modules/booking/booking.module';
 import { FeedbackModule } from './modules/feedback/feedback.module';
 import { RrModule } from './modules/rr/rr.module';
 import { ConfigModule as SystemConfigModule } from './modules/config/config.module';
+import { InitModule } from './modules/init/init.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { ConfigModule as SystemConfigModule } from './modules/config/config.modu
       synchronize: true,
       logging: true,
     }),
+    InitModule,
   ],
   controllers: [AppController],
   providers: [AppService],

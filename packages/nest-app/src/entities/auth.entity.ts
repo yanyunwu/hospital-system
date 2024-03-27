@@ -3,7 +3,9 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
+  ManyToOne,
 } from 'typeorm';
+import { Admin } from './admin.entity';
 
 @Entity()
 export class Auth {
@@ -20,14 +22,20 @@ export class Auth {
 
   // 权限类型 菜单权限 访问权限
   @Column()
-  type: string;
+  type: 'route' | 'permission';
 
-  @Column()
+  @Column({ nullable: true })
   path: string;
+
+  @Column({ nullable: true })
+  description: string;
 
   @Column({ type: 'boolean' })
   status: boolean;
 
   @CreateDateColumn()
   createTime: string;
+
+  @ManyToOne(() => Admin, (adminUser) => adminUser.auths)
+  adminUser: Admin;
 }

@@ -3,6 +3,8 @@ import { ProColumns, ProColumnType } from '@ant-design/pro-components'
 import { useGlobalContext } from '@/templates/CommonTemplate'
 import { TableListItem } from '../type'
 import DetailDrawer from '../components/DetailDrawer'
+import AdminUserInfoCard from '@/components/AdminUserInfoCard'
+import { Button } from 'antd'
 
 const useAction = (): ProColumnType<TableListItem> => {
   const { setCurrentRow } = useGlobalContext<TableListItem>()
@@ -29,6 +31,14 @@ export default () => {
       title: '用户名',
       dataIndex: 'username',
       valueType: 'text',
+      render(dom, record) {
+        return  (
+          <AdminUserInfoCard id={record.id}>
+            <Button type='link'>{dom}</Button>
+          </AdminUserInfoCard>
+        )
+
+      }
     },
     {
       title: '性别',

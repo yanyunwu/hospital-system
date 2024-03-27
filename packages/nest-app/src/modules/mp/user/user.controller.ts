@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
 import { Request } from 'express';
 import { UserService } from './user.service';
 import { User } from 'src/entities/user.entity';
@@ -11,6 +11,11 @@ export class UserController {
   getMyInfo(@Req() req: Request) {
     const user = req['user'];
     return this.userService.getMyInfo(parseInt(user.userId));
+  }
+
+  @Get('/getOneUserInfo')
+  getOneUserInfo(@Query('id') id: string) {
+    return this.userService.getMyInfo(parseInt(id));
   }
 
   @Post('/setMyInfo')

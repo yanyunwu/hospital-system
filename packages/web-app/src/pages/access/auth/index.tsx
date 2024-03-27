@@ -96,7 +96,7 @@ const TableList: React.FC = () => {
       valueType: 'text',
     },
     {
-      title: '菜单名称',
+      title: '权限名称',
       dataIndex: 'name',
       valueType: 'text',
     },
@@ -172,7 +172,6 @@ const TableList: React.FC = () => {
   return (
     (<PageContainer>
       <ProTable<TableListItem, TableListPagination>
-        headerTitle="菜单列表"
         actionRef={actionRef}
         rowKey="key"
         search={{
@@ -228,7 +227,7 @@ const TableList: React.FC = () => {
         </FooterToolbar>
       )}
       <ModalForm
-        title="新建菜单"
+        title="新建权限"
         width="400px"
         visible={createModalVisible}
         initialValues={{ status: true }}
@@ -255,11 +254,11 @@ const TableList: React.FC = () => {
           name="identification"
         />
         <ProFormText
-          label="菜单名称"
+          label="权限名称"
           rules={[
             {
               required: true,
-              message: '菜单名称必填项',
+              message: '权限名称必填项',
             },
           ]}
           width="md"
@@ -267,19 +266,13 @@ const TableList: React.FC = () => {
         />
         <ProFormText
           label="菜单路径"
-          rules={[
-            {
-              required: true,
-              message: '菜单路径必填项',
-            },
-          ]}
           width="md"
           name="path"
         />
         <ProFormSwitch label="状态" width="md" name="status" />
       </ModalForm>
       <ModalForm
-        title="修改菜单"
+        title="修改权限"
         width="400px"
         initialValues={{ ...currentRow }}
         visible={updateModalVisible}
@@ -309,7 +302,7 @@ const TableList: React.FC = () => {
           name="identification"
         />
         <ProFormText
-          label="菜单名称"
+          label="权限名称"
           rules={[
             {
               required: true,
@@ -321,12 +314,6 @@ const TableList: React.FC = () => {
         />
         <ProFormText
           label="菜单路径"
-          rules={[
-            {
-              required: true,
-              message: '菜单路径必填项',
-            },
-          ]}
           width="md"
           name="path"
         />

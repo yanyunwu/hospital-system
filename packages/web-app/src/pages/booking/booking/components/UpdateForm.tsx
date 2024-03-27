@@ -183,7 +183,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
       stepsFormRender={(dom, submitter) => {
         return (
           (<Modal
-            width="80%"
+            width="800px"
             destroyOnClose
             title="预约配置"
             open={props.updateModalVisible}

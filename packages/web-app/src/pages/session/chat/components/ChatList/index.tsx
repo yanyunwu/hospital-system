@@ -3,11 +3,13 @@ import { Input, Avatar, Popover } from 'antd'
 import { useBoolean, useUpdateEffect } from 'ahooks'
 import emojiData from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
-import { SmileOutlined, UserOutlined } from '@ant-design/icons'
+import { SmileOutlined } from '@ant-design/icons'
 import type { TableListItem } from '../../type'
 import './ChatList.less'
 import i18n from './i18n.json'
 import { useGlobalContext } from '@/templates/CommonTemplate'
+import AdminUserInfoCard from '@/components/AdminUserInfoCard'
+import UserInfoCard from '@/components/UserInfoCard'
 
 export type FormValueType = {
   target?: string;
@@ -46,9 +48,12 @@ const ChatList: React.FC<ChatListProps> = (props) => {
     if (item.speakUserType === 1) {
       return (
         <div className="chat_message_item chat_message_self">
-          <Avatar size="large" style={{ backgroundColor: '#87d068' }} src={currentRow.adminUser.avatar} />
+          <AdminUserInfoCard id={currentRow.adminUser?.id}>
+            <Avatar size="large" style={{ backgroundColor: '#87d068' }} src={currentRow.adminUser?.avatar} />
+          </AdminUserInfoCard>
+
           <div style={{flex: 1, overflow:'hidden'}}>
-            <div>{currentRow.adminUser.nickname}</div>
+            <div>{currentRow.adminUser?.nickname}</div>
             <div style={{display: 'flex'}}>
               <p className="chat_message_text">
                 {item.content}
@@ -60,9 +65,11 @@ const ChatList: React.FC<ChatListProps> = (props) => {
     } else if (item.speakUserType === 0) {
       return (
         <div className="chat_message_item chat_message_other">
-          <Avatar size="large" style={{ backgroundColor: '#87d068' }} src={currentRow.user.avatar} />
+          <UserInfoCard id={currentRow.user?.id}>
+            <Avatar size="large" style={{ backgroundColor: '#87d068' }} src={currentRow.user?.avatar} />
+          </UserInfoCard>
           <div>
-            <div>{currentRow.user.nickname}</div>
+            <div>{currentRow.user?.nickname}</div>
             <div style={{display: 'flex'}}>
               <p className="chat_message_text">
                 {item.content}

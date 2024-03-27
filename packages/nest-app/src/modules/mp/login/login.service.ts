@@ -22,9 +22,16 @@ export class LoginService {
     //   throw new UnauthorizedException();
     // }
     const user = await this.getUserByOpenId(wxres.openid);
-    user.avatar = body.avatarUrl;
+    if (!user.avatar) {
+      user.avatar = body.avatarUrl;
+    }
+
     console.log('user.avatar', user.avatar);
-    user.nickname = body.nickName;
+
+    if (!user.nickname) {
+      user.nickname = body.nickName;
+    }
+
     await this.userRepository.save(user);
     const payload = { ...wxres, userId: user.id };
     return {

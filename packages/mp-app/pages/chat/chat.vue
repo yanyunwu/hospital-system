@@ -11,9 +11,9 @@
 					</view>
 					<view v-for="item in messageList" >
 						<view v-if="item.speakUserType === 0" class="chat_message_item chat_message_self">
-							<image :src="sessionInfo.user.avatar" class="avatar"  style="float: right;"></image>
+							<image :src="sessionInfo.user?.avatar" class="avatar"  style="float: right;"></image>
 							<view style="margin-right: 100rpx;">
-								<view><text>{{sessionInfo.user.nickname}}</text></view>
+								<view><text>{{sessionInfo.user?.nickname}}</text></view>
 								<view style="display: flex;">
 									<view class="chat_message_text">
 										{{item.content}}
@@ -23,9 +23,9 @@
 						</view>
 						
 						<view v-else-if="item.speakUserType === 1" class="chat_message_item chat_message_other">
-							<image :src="sessionInfo.adminUser.avatar" class="avatar" style="float: left;"></image>
+							<image :src="sessionInfo.adminUser?.avatar" class="avatar" style="float: left;"></image>
 							<view style="margin-left: 100rpx;">
-								<view><text>{{sessionInfo.adminUser.nickname}}</text></view>
+								<view><text>{{sessionInfo.adminUser?.nickname}}</text></view>
 								<view style="display: flex;">
 									<view class="chat_message_text" style="margin-left: 0;">
 										{{item.content}}

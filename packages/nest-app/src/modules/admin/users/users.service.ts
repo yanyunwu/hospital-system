@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Admin } from 'src/entities/admin.entity';
+import { Auth } from 'src/entities/auth.entity';
 import { User } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
+import routeConfig from 'src/config/route';
 
 function mymethod(birthday: any) {
   const str = birthday;
@@ -36,6 +38,9 @@ export class UsersService {
   @InjectRepository(Admin)
   private adminUserRepository: Repository<Admin>;
 
+  @InjectRepository(Auth)
+  private authUserRepository: Repository<Auth>;
+
   @InjectRepository(User)
   private userRepository: Repository<User>;
 
@@ -63,6 +68,7 @@ export class UsersService {
       },
       skip: skip * take,
       take,
+      relations: ['auths'],
     });
 
     return [
@@ -76,14 +82,36 @@ export class UsersService {
   }
 
   async getOwnerAdminUser(adminUserId: number) {
-    return this.adminUserRepository.findOne({
+    const admin = await this.adminUserRepository.findOne({
       where: {
         id: adminUserId,
       },
+      relations: ['auths'],
     });
+
+    const isSuper =
+      admin.isSuper ||
+      admin.auths.some((item) => item.identification === 'super');
+
+    const auths = await this.authUserRepository.find();
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
+    admin.hasAuths = isSuper
+      ? auths.map((item) => item.identification)
+      : admin.auths.map((item) => item.identification);
+
+    return admin;
   }
 
   async addAdminUser(admin: Admin) {
+    const auths = await this.authUserRepository.find({
+      where: routeConfig
+        .filter((item) => item.pub)
+        .map((item) => ({ identification: item.identifier })),
+    });
+
+    admin.auths = auths;
     return this.adminUserRepository.save(admin);
   }
 

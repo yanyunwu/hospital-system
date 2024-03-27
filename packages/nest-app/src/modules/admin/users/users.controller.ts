@@ -7,16 +7,7 @@ import { User } from 'src/entities/user.entity';
 
 @Controller()
 export class UsersController {
-  constructor(private usersService: UsersService) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    this.addAdminUser({
-      username: process.env.ADMIN_ACCOUNT,
-      password: process.env.ADMIN_PASSWORD,
-      nickname: '超级管理员',
-      birthday: '2024-02-08',
-    }).catch((err) => err);
-  }
+  constructor(private usersService: UsersService) {}
 
   /**
    * 医院人员信息管理模块
@@ -45,6 +36,11 @@ export class UsersController {
     const adminUser = req['user'];
     console.log('adminUser', adminUser);
     return this.usersService.getOwnerAdminUser(adminUser.adminUserId);
+  }
+
+  @Get('/getOneAdminUser')
+  async getOneAdminUser(@Query('id') id: string) {
+    return this.usersService.getOwnerAdminUser(parseInt(id));
   }
 
   @Post('/setOwnerAdminUser')
