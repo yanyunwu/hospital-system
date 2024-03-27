@@ -104,4 +104,15 @@ export class CommunityService {
       value: item[1],
     }));
   }
+
+  getReplies(id: number) {
+    return this.postReplyRepository.find({
+      where: {
+        post: {
+          id,
+        },
+      },
+      relations: ['user'],
+    });
+  }
 }

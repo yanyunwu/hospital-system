@@ -3,6 +3,9 @@ import { TableListItem } from '../../../../type'
 import Comment from '../Comment'
 import dayjs from 'dayjs'
 import { Card, Col, Empty, Row, Space } from 'antd'
+import { useRequest } from 'ahooks'
+import { getCommunityReplies } from '@/services/hospital-app/api'
+import { PageLoading } from '@ant-design/pro-components'
 
 interface CommentDetailProps {
   record: TableListItem
@@ -10,7 +13,15 @@ interface CommentDetailProps {
 
 export default function CommentDetail({record}: CommentDetailProps) {
 
-  const replies = record.replies
+  const { data: requestData } = useRequest(() => getCommunityReplies(record.id), {
+    refreshDeps: []
+  })
+
+  if (!requestData) {
+    return <PageLoading />
+  }
+
+  const replies = requestData.data as TableListItem['replies']
 
   return (
     <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
@@ -30,7 +41,8 @@ export default function CommentDetail({record}: CommentDetailProps) {
                 return (
                   <div key={index}>
                     <Comment
-                      name={'user'}
+                      avatarUrl={item.user.avatar}
+                      name={item.user.nickname}
                       time={dayjs(item.createTime).format('YYYY-MM-DD HH:mm:ss')}
                       content={item.content}
                     />

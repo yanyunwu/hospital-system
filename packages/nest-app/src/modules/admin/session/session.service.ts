@@ -51,6 +51,16 @@ export class SessionService {
     });
   }
 
+  // 获取一次会话信息（不包括消息列表）
+  async getOneSessionInfo(id: number) {
+    return this.liveChatRepository.findOne({
+      where: {
+        id,
+      },
+      relations: ['user', 'adminUser'],
+    });
+  }
+
   async replySession(adId: number, sessionId: number) {
     const session = await this.liveChatRepository.findOne({
       where: { id: sessionId },

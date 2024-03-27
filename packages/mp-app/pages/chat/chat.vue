@@ -11,9 +11,9 @@
 					</view>
 					<view v-for="item in messageList" >
 						<view v-if="item.speakUserType === 0" class="chat_message_item chat_message_self">
-							<image :src="selfimg"  style="width: 80rpx;height: 80rpx;float: right;"></image>
+							<image :src="sessionInfo.user.avatar" class="avatar"  style="float: right;"></image>
 							<view style="margin-right: 100rpx;">
-								<view><text>{{item.speakUserName}}</text></view>
+								<view><text>{{sessionInfo.user.nickname}}</text></view>
 								<view style="display: flex;">
 									<view class="chat_message_text">
 										{{item.content}}
@@ -23,9 +23,9 @@
 						</view>
 						
 						<view v-else-if="item.speakUserType === 1" class="chat_message_item chat_message_other">
-							<image :src="selfimg"  style="width: 80rpx;height: 80rpx;float: left;"></image>
+							<image :src="sessionInfo.adminUser.avatar" class="avatar" style="float: left;"></image>
 							<view style="margin-left: 100rpx;">
-								<view><text>{{item.speakUserName}}</text></view>
+								<view><text>{{sessionInfo.adminUser.nickname}}</text></view>
 								<view style="display: flex;">
 									<view class="chat_message_text" style="margin-left: 0;">
 										{{item.content}}
@@ -76,6 +76,7 @@
 				waitMsg: "",
 				 scrollTop: 0, //滚动条位置
 				scrollHeight: 0, // 滚动视图的高度
+				sessionInfo: {},
 				
 				
 				intro: `您已成功进入会话聊天，请耐心等待医生回复，退出界面会话依然有效。您可以在首页的消息页面查看，也可先留言讲述你的问题。`
@@ -165,6 +166,19 @@
 					this.messageList = value.data.data
 					console.log('getMessageList', value)
 				})
+			},
+			
+			getSessionInfo() {
+				request({
+					url: '/api/admin/session/getOneSessionInfo',
+					data: {
+						id: this.sessionId
+					}
+				}).then(value => {
+					const { data: uniData } = value
+					this.sessionInfo = uniData.data
+					console.log('getSessionInfo', value)
+				})
 			}
 		},
 		 mounted() {
@@ -175,6 +189,7 @@
 			const sessionId = parseInt(query.sessionId)
 			this.sessionId = sessionId
 			this.initSocket()
+			this.getSessionInfo()
 			this.getMessageList()
 		},
 		onUnload() {
@@ -302,6 +317,12 @@
 		color: white;
 		border-radius: 10rpx;
 		text-align: center;
+	}
+	
+	.avatar {
+		width: 80rpx;
+		height: 80rpx;
+		border-radius: 1000px;
 	}
 
 </style>

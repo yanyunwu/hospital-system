@@ -2,6 +2,16 @@
 	<view class="container">
 		<uni-section title="请录入您的个人信息" type="line">
 					<view class="example">
+						<button class="avatar-button" open-type="chooseAvatar" @chooseavatar="onChooseAvatar" plain>
+							 <image :src="avatarUrl"></image>
+						</button>
+						<view class="tip">点击头像获取微信头像</view>
+						<view class="nickname-view">
+							<text>
+								昵称
+							</text>
+							<input v-model="nickname" type="nickname" placeholder="点击获取微信昵称,也可自定义" @change="onNicknameInput"/>
+						</view>
 						<!-- 基础用法，不包含校验规则 -->
 						<uni-forms ref="baseForm" :modelValue="baseFormData">
 							<uni-forms-item label="姓名" required>
@@ -32,6 +42,7 @@
 
 <script>
 	import request from '@/utils/request.js'
+	const defaultAvatarUrl = '../../../static/touxiang.png'
 	export default {
 		data() {
 			return {
@@ -52,6 +63,9 @@
 					text: '保密',
 					value: 2
 				}],
+				
+				avatarUrl: defaultAvatarUrl,
+				nickname: ''
 			};
 		},
 		
@@ -61,7 +75,9 @@
 					url: '/api/mp/user/setMyInfo',
 					method: 'post',
 					data: {
-						...this.baseFormData
+						...this.baseFormData,
+						avatar: this.avatarUrl,
+						nickname: this.nickname
 					}
 				}).then(res => {
 					console.log('保存结果', res)
@@ -77,7 +93,34 @@
 						}
 					})
 				})
-			}
+			},
+			onChooseAvatar(e) {
+				const { avatarUrl } = e.detail 
+				this.base64(avatarUrl, 'png').then(value => {
+					console.log('base64', value)
+					this.avatarUrl = value
+				})
+			},
+			onNicknameInput(e) {
+				console.log('onNicknameInput', e)
+				this.nickname = e.detail.value
+			},
+			
+			// 图片转64代码
+			base64(url, type) {
+			  return new Promise((resolve, reject) => {
+			    uni.getFileSystemManager().readFile({
+			      filePath: url, //选择图片返回的相对路径
+			      encoding: 'base64', //编码格式
+			      success: res => {
+			        resolve('data:image/' + type.toLocaleLowerCase() + ';base64,' + res.data)
+			        // resolve(res.data)
+			      },
+			      fail: res => reject(res.errMsg)
+			    })
+			  })
+			},
+
 		},
 		
 		onLoad() {
@@ -85,7 +128,12 @@
 				url: '/api/mp/user/getMyInfo'
 			}).then(res => {
 				console.log('获取用户信息', res)
-				this.baseFormData = res.data.data
+				
+				const uniData = res.data
+				
+				this.baseFormData = uniData.data
+				this.avatarUrl = uniData.data.avatar || defaultAvatarUrl
+				this.nickname = uniData.data.nickname || ''
 			})
 		}
 	}
@@ -97,7 +145,46 @@
 	}
 	
 	.example {
-			padding: 15px;
-			background-color: #fff;
+		padding: 15px;
+		background-color: #fff;
+	}
+		
+	.tip {
+		font-size: 12px;
+		color: #ccc;
+		text-align: center;
+	}
+	
+	.avatar-button {
+		border: none;
+		
+		image {
+			width: 150rpx;
+			height: 150rpx;
 		}
+	}
+
+	.nickname-view {
+
+		display: flex;
+		justify-content: center;
+		padding: 10px 0;
+
+		text {
+			width: 58px;
+			text-align: left;
+			line-height: 35px;
+			padding-right: 12px;
+			color: #606266;
+		}
+
+		input {
+			flex: 1;
+			height: 23px;
+			border: 1px solid #eee;
+			border-radius: 5px;
+			padding: 5px;
+			font-size: 12px;
+		}
+	}
 </style>

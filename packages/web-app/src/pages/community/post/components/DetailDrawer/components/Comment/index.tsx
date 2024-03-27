@@ -1,4 +1,3 @@
-import { UserOutlined } from '@ant-design/icons'
 import { Avatar } from 'antd'
 
 export interface CommentProps {
@@ -26,7 +25,7 @@ export default function Comment(props: CommentProps) {
     <div>
       <div className='flex items-center h-[50px]'>
         <div className='w-[40px] h-[40px]'>
-          <Avatar size='large' icon={<UserOutlined />}  />
+          <Avatar size='large' src={props.avatarUrl}  />
         </div>
         <div className='flex flex-col pl-2 h-full'>
           {renderTitle()}

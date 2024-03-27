@@ -9,6 +9,7 @@ export type TableListItem = {
   nickname: string
   stuId: number;
   createTime: string;
+  avatar: string
 };
 
 export type TableListPagination = {

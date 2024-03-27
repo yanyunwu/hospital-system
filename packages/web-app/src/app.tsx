@@ -29,7 +29,6 @@ export async function getInitialState(): Promise<{
   const fetchUserInfo = async () => {
     try {
       const msg = await queryCurrentUser()
-      msg.data.avatar = 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png'
       // @ts-ignore
       msg.data.name = msg.data.nickname
       return msg.data

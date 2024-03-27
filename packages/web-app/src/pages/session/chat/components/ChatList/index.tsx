@@ -60,9 +60,9 @@ const ChatList: React.FC<ChatListProps> = (props) => {
     } else if (item.speakUserType === 0) {
       return (
         <div className="chat_message_item chat_message_other">
-          <Avatar size="large" style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
+          <Avatar size="large" style={{ backgroundColor: '#87d068' }} src={currentRow.user.avatar} />
           <div>
-            <div>{item.speakUserName}</div>
+            <div>{currentRow.user.nickname}</div>
             <div style={{display: 'flex'}}>
               <p className="chat_message_text">
                 {item.content}

@@ -1,9 +1,9 @@
 
 export const HOST = process.env.NODE_ENV === 'production'
 	? 'xxxx'
-	: 'localhost:3000'
+	// : 'localhost:3000'
 	// : '192.168.1.3:3000'
-	// : '10.84.149.235:3000'
+	: '10.84.151.246:3000'
 	// : 'hospital.api.yanyun.ltd'
 
 export const BASE_URL = `http://${HOST}`

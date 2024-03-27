@@ -6,7 +6,7 @@
 				<uni-swipe-action-item  v-for="(item, index) in messages" :right-options="options" @click="handleDelMessage($event, item.id)">
 					<view class="info" :key="index" @click="handleClickItem(item.id)">
 						<view class="avatar">
-							<image mode="widthFix" src="../../static/touxiang.png"></image>
+							<image mode="widthFix" :src="item.adminUser?.avatar"></image>
 						</view>
 						<view class="title">
 							<view class="name">{{item.adminUser?.nickname}}</view>

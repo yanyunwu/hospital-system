@@ -48,7 +48,6 @@ export class CommunityController {
     return this.communityService.delPost(body.ids);
   }
 
-  @Public()
   @Get('/getPostCuts')
   async getPostCuts(@Query('id') id: string) {
     const post = await this.communityService.getPost(parseInt(id));
@@ -67,5 +66,10 @@ export class CommunityController {
     const payload = req['user'];
     const user = await this.loginService.getUserByOpenId(payload.openid);
     return this.communityService.addPostReply(body.postId, user, body.content);
+  }
+
+  @Get('/getReplies')
+  async getReplies(@Query('id') id: string) {
+    return this.communityService.getReplies(parseInt(id));
   }
 }

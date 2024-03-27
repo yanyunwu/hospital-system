@@ -31,6 +31,11 @@ export class SessionController {
     return this.sessionService.getSessionMessageList(parseInt(id));
   }
 
+  @Get('/getOneSessionInfo')
+  async getOneSessionInfo(@Query('id') id: string) {
+    return this.sessionService.getOneSessionInfo(parseInt(id));
+  }
+
   @Post('/replySession')
   async replySession(@Req() req: Request, @Body() body: any) {
     const au = req['user'];

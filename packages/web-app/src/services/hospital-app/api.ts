@@ -62,3 +62,12 @@ export async function setCurrentUser(data?: { [key: string]: any }) {
     data: data
   })
 }
+
+export async function getCommunityReplies(id: number) {
+  return request('/api/community/getReplies', {
+    method: 'GET',
+    params: {
+      id
+    }
+  })
+}

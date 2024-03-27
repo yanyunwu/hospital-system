@@ -24,7 +24,7 @@ export class User {
   openId: string;
 
   // 用户名
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'text' })
   avatar: string;
 
   // 用户名
