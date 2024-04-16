@@ -25,4 +25,5 @@ declare const REACT_APP_ENV: 'test' | 'dev' | 'pre' | false
 
 declare let __SOCKET_BASE_URL__: string
 declare let __BASE_URL__: string
+declare let __FILE_BASE_URL__: string
 

@@ -3,7 +3,7 @@ import { useBoolean } from 'ahooks'
 import { Upload, Image, Popover, Button } from 'antd'
 import { useRef, useState } from 'react'
 
-const __UPLOAD_FILE_URL__ = `${__BASE_URL__}/api/file/upload`
+const __UPLOAD_FILE_URL__ = `${__FILE_BASE_URL__}/api/file/upload`
 
 
 export interface FileUploadProps {

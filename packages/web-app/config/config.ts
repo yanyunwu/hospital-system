@@ -17,6 +17,7 @@ export default defineConfig({
   define: {
     __SOCKET_BASE_URL__: 'ws://hospital.api.yanyun.ltd',
     __BASE_URL__: 'http://hospital.api.yanyun.ltd',
+    __FILE_BASE_URL__: 'http://file.yanyun.ltd'
   },
   lessLoader: {
     modifyVars: v5Vars,
