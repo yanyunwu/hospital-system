@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
-import { Repository } from 'typeorm';
+import { Repository, Not, Equal } from 'typeorm';
 
 @Injectable()
 export class LoginService {
@@ -53,5 +53,32 @@ export class LoginService {
     const newUser = new User();
     newUser.openId = openId;
     return this.userRepository.save(newUser);
+  }
+
+  async appLogin(studentID: string, password: string) {
+    let user = await this.userRepository.findOne({
+      where: {
+        stuId: Equal(studentID),
+      },
+    });
+
+    if (!user) {
+      const u = {
+        username: studentID,
+        stuId: studentID,
+        password,
+      } as User;
+      user = await this.userRepository.save(u);
+    }
+
+    console.log('user', user);
+
+    const payload = {
+      userId: user.id,
+    };
+
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+    };
   }
 }

@@ -11,6 +11,7 @@ import { Public } from 'src/modules/admin/login/decorators';
 import { HttpService } from '@nestjs/axios';
 import { jwtConstants } from './constants';
 import fetch from 'node-fetch';
+import { AppLoginDto } from './dto/app-login.dto';
 
 @Controller()
 export class LoginController {
@@ -46,5 +47,12 @@ export class LoginController {
     );
     const wxres = await res.json();
     return this.loginService.login(wxres, body.userInfo);
+  }
+
+  @Public()
+  @HttpCode(HttpStatus.OK)
+  @Post('/appLogin')
+  async appLogin(@Body() body: AppLoginDto) {
+    return this.loginService.appLogin(body.stuID, body.password);
   }
 }

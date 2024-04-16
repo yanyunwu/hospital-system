@@ -97,30 +97,18 @@
 					return 
 				}
 				
-				uni.showToast({
-					title: "正在登录中...",
-					icon: "loading"
-				})
-				
 				// #ifdef APP || WEB
-				request({
-					url: '/api/mp/login', 
-					method: "post",
-					data: {
-						code: 'xxxxxx',
-						userInfo: {
-							avatarUrl: 'xxxxx',
-							nickName: 'xxxxxxxx'
-						}
-					}
-				}).then((data) => {
-					console.log('data', data)
-					uni.setStorageSync('token', data.data.data.access_token)
-					this.getInfo()
+				uni.navigateTo({
+					url: '/pages/self/login/login'
 				})
 				return
 				// #endif
 				
+				uni.showToast({
+					title: "正在登录中...",
+					icon: "loading"
+				})
+
 				uni.getUserProfile({
 					desc: "用于完善会员资料",
 					success: (res) => {
