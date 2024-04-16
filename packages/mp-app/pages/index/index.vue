@@ -7,7 +7,12 @@
 		<view class="navigation">
 			<view v-for="item in index_nav" @click="goTo(item)">
 				<view class="icon">
+					<!-- #ifdef MP-WEIXIN -->
 					<image :src="item.image" mode="widthFix" style="height: auto;"></image>
+					<!-- #endif -->
+					<!-- #ifndef MP-WEIXIN -->
+					<image :src="item.image" mode="widthFix"></image>
+					<!-- #endif -->
 				</view>
 				<view class="icon_text"><text>{{item.text}}</text></view>
 			</view>

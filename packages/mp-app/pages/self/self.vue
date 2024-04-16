@@ -102,6 +102,25 @@
 					icon: "loading"
 				})
 				
+				// #ifdef APP || WEB
+				request({
+					url: '/api/mp/login', 
+					method: "post",
+					data: {
+						code: 'xxxxxx',
+						userInfo: {
+							avatarUrl: 'xxxxx',
+							nickName: 'xxxxxxxx'
+						}
+					}
+				}).then((data) => {
+					console.log('data', data)
+					uni.setStorageSync('token', data.data.data.access_token)
+					this.getInfo()
+				})
+				return
+				// #endif
+				
 				uni.getUserProfile({
 					desc: "用于完善会员资料",
 					success: (res) => {
@@ -142,11 +161,12 @@
 					fail: (res) => {
 						console.log('getUserProfile err', res)
 					}
-				})
-				
+				})			
+			},
 			
-				
-				
+			
+			
+			handleAppLogin() {
 				
 			},
 			
@@ -167,7 +187,7 @@
 					url: '/api/mp/user/getMyInfo'
 				}).then(res => {
 					console.log('获取用户信息', res)
-					this.userData = res.data.data
+					this.userData = res.data.data || initData
 				})
 			},
 			
