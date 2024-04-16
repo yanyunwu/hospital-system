@@ -35,13 +35,16 @@ export default function FileUpload({value, onChange}: FileUploadProps) {
   )
 
   const divRef = useRef<HTMLDivElement>()
-
+  const access_token = localStorage.getItem('token')
   return (
-    <Upload<{ data: string }>
+    <Upload<{ data: { url: string} }>
       openFileDialogOnClick={openFileDialogOnClick}
       showUploadList={false}
       action={__UPLOAD_FILE_URL__}
       listType='picture-circle'
+      headers={{
+        authorization: `Bearer ${access_token}`
+      }}
       onChange={({file}) => {
         if (file.status === 'uploading') {
           setLoading(true)
@@ -51,8 +54,8 @@ export default function FileUpload({value, onChange}: FileUploadProps) {
           setLoading(false)
         }
         if (file.response) {
-          const url = file.response.data
-          onChange?.(url)
+          const url = file.response.data.url
+          onChange?.(`${__FILE_BASE_URL__}${url}`)
         }
       }}
     >
