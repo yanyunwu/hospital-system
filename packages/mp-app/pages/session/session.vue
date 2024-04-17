@@ -1,6 +1,6 @@
 <template>
     <view>
-        <uni-segmented-control :values="['消息', '通知']" @clickItem="onClick" style="width: 200px;margin: 50px auto 0;border-radius: 0;"></uni-segmented-control>
+        <uni-segmented-control :values="['消息', '通知']" @clickItem="onClick" style="width: 100%;border-radius: 0;"></uni-segmented-control>
         <view v-if="activeTab === 0" class="content">
 			<uni-swipe-action>
 				<uni-swipe-action-item  v-for="(item, index) in messages" :right-options="options" @click="handleDelMessage($event, item.id)">
