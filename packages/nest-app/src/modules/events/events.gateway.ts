@@ -37,16 +37,15 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
         secret: jwtConstants.secret,
       });
 
-      const openId = payload.openid;
+      const userId = payload.userId;
       const adminUserId = payload.adminUserId;
-      if (openId) {
+      if (userId) {
         this.eventsService.handleClientSocketConnection(
-          openId,
+          userId,
           client,
           this.server,
-          payload.userId,
         );
-        console.log(`client ${client.id} 上线, openid: ${openId}`);
+        console.log(`client ${client.id} 上线, userId: ${userId}`);
       } else {
         this.eventsService.handleAdminSocketConnection(
           adminUserId,

@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { LiveChat } from 'src/entities/liveChat.entity';
 import { LoginService } from '../mp/login/login.service';
 import { SessionService } from './session.service';
+import { UserService } from '../mp/user/user.service';
 
 @Controller('/api/session')
 export class SessionController {
@@ -14,13 +15,13 @@ export class SessionController {
   constructor(
     private loginService: LoginService,
     private sessionService: SessionService,
+    private userService: UserService,
   ) {}
 
   @Post('/addNewSession')
   async addNewSession(@Req() req: Request) {
     const payload = req['user'];
-    const user = await this.loginService.getUserByOpenId(payload.openid);
-
+    const user = await this.userService.getUserById(parseInt(payload.userId));
     const live = new LiveChat();
     live.status = 0;
     live.user = user;

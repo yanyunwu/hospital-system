@@ -49,4 +49,12 @@ export class UserService {
   async setMyInfo(user: User) {
     return this.userRepository.save(user);
   }
+
+  async getUserById(id: number) {
+    return this.userRepository.findOne({
+      where: {
+        id,
+      },
+    });
+  }
 }

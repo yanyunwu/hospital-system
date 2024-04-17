@@ -7,7 +7,7 @@ const ADMIN_ROOM = 'admin_room';
 
 @Injectable()
 export class EventsService {
-  clientMap: Map<string, Socket>;
+  clientMap: Map<number, Socket>;
   adminClientMap: Map<number, Socket>;
 
   constructor(private messageService: MessageService) {
@@ -16,16 +16,11 @@ export class EventsService {
   }
 
   // 处理客户端
-  handleClientSocketConnection(
-    openId: string,
-    socket: Socket,
-    server: Server,
-    userId: number,
-  ) {
-    this.clientMap.set(openId, socket);
+  handleClientSocketConnection(userId: number, socket: Socket, server: Server) {
+    this.clientMap.set(userId, socket);
     server.to(ADMIN_ROOM).emit('new_client', {});
     socket.on('disconnect', () => {
-      this.clientMap.delete(openId);
+      this.clientMap.delete(userId);
     });
 
     // 接受到消息群发给后台

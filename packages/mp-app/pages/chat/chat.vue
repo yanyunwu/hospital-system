@@ -10,35 +10,37 @@
 						</view>
 					</view>
 					<view v-for="item in messageList" >
-						<view v-if="item.speakUserType === 0" class="chat_message_item chat_message_self">
-							<image :src="sessionInfo.user?.avatar" class="avatar"  style="float: right;"></image>
-							<view style="margin-right: 100rpx;">
-								<view><text>{{sessionInfo.user?.nickname}}</text></view>
-								<view style="display: flex;">
-									<view class="chat_message_text">
-										{{item.content}}
+						<!-- <template :key="item.id"> -->
+							<view v-if="item.speakUserType === 0" class="chat_message_item chat_message_self">
+								<image :src="sessionInfo.user?.avatar" class="avatar"  style="float: right;"></image>
+								<view style="margin-right: 100rpx;">
+									<view><text>{{sessionInfo.user?.nickname}}</text></view>
+									<view style="display: flex;">
+										<view class="chat_message_text">
+											{{item.content}}
+										</view>
 									</view>
 								</view>
 							</view>
-						</view>
-						
-						<view v-else-if="item.speakUserType === 1" class="chat_message_item chat_message_other">
-							<image :src="sessionInfo.adminUser?.avatar" class="avatar" style="float: left;"></image>
-							<view style="margin-left: 100rpx;">
-								<view><text>{{sessionInfo.adminUser?.nickname}}</text></view>
-								<view style="display: flex;">
-									<view class="chat_message_text" style="margin-left: 0;">
-										{{item.content}}
+							
+							<view v-else-if="item.speakUserType === 1" class="chat_message_item chat_message_other">
+								<image :src="sessionInfo.adminUser?.avatar" class="avatar" style="float: left;"></image>
+								<view style="margin-left: 100rpx;">
+									<view><text>{{sessionInfo.adminUser?.nickname}}</text></view>
+									<view style="display: flex;">
+										<view class="chat_message_text" style="margin-left: 0;">
+											{{item.content}}
+										</view>
 									</view>
 								</view>
 							</view>
-						</view>
-						
-						<view v-else class="message_system">
-							<view>
-								{{item.content}}
+							
+							<view v-else class="message_system">
+								<view>
+									{{item.content}}
+								</view>
 							</view>
-						</view>
+						<!-- </template> -->
 					</view>
 				</view>
 			</scroll-view>
@@ -150,6 +152,7 @@
 				
 				socket?.on('message_ok', (message) => {
 					this.messageList.push(message)
+					console.log('message', message)
 					setTimeout(() => {
 						this.initContentHeight()
 					}, 1)
