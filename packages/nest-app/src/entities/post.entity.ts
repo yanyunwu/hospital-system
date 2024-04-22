@@ -4,13 +4,12 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   OneToMany,
-  ManyToMany,
-  JoinTable,
   CreateDateColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 import { User } from './user.entity';
 import { PostReply } from './postReply.entity';
+import { PostRecord } from './postRecord.entity';
+import { PostBrowseRecord } from './postBrowseRecord.entity';
 
 @Entity()
 export class Post {
@@ -37,6 +36,15 @@ export class Post {
 
   @OneToMany(() => PostReply, (reply) => reply.post)
   replies: PostReply[];
+
+  @OneToMany(() => PostRecord, (postRecords) => postRecords.post)
+  postRecords: PostRecord[];
+
+  @OneToMany(
+    () => PostBrowseRecord,
+    (postBrowseRecords) => postBrowseRecords.post,
+  )
+  postBrowseRecords: PostBrowseRecord[];
 
   @CreateDateColumn()
   createTime: string;

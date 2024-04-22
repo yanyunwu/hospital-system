@@ -15,6 +15,7 @@ import { FeedbackModule } from './modules/feedback/feedback.module';
 import { RrModule } from './modules/rr/rr.module';
 import { ConfigModule as SystemConfigModule } from './modules/config/config.module';
 import { InitModule } from './modules/init/init.module';
+import { RecommendModule } from './modules/recommend/recommend.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { InitModule } from './modules/init/init.module';
       logging: true,
     }),
     InitModule,
+    RecommendModule,
   ],
   controllers: [AppController],
   providers: [AppService],

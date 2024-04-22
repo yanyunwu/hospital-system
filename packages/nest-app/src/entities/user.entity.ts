@@ -14,6 +14,8 @@ import { RR } from './rr.entity';
 import { Feedback } from './feedback.entity';
 import { UserNotice } from './userNotice.entity';
 import { Tag } from './tags.entity';
+import { PostRecord } from './postRecord.entity';
+import { PostBrowseRecord } from './postBrowseRecord.entity';
 
 @Entity()
 export class User {
@@ -92,4 +94,13 @@ export class User {
     (anonymousMailbox) => anonymousMailbox.user,
   )
   anonymousMailboxs: AnonymousMailbox[];
+
+  @OneToMany(() => PostRecord, (postRecords) => postRecords.user)
+  postRecords: PostRecord[];
+
+  @OneToMany(
+    () => PostBrowseRecord,
+    (postBrowseRecords) => postBrowseRecords.user,
+  )
+  postBrowseRecords: PostBrowseRecord[];
 }

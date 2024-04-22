@@ -3,20 +3,99 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from 'src/entities/post.entity';
 import { PostReply } from 'src/entities/postReply.entity';
 import { User } from 'src/entities/user.entity';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import * as Segment from 'segment';
 import unionArr from 'src/utils/unionArr';
+import { PostRecord } from 'src/entities/postRecord.entity';
+import { PostBrowseRecord } from 'src/entities/postBrowseRecord.entity';
 
 const segment = new Segment();
 segment.useDefault();
 
 @Injectable()
 export class CommunityService {
+  constructor(private dataSource: DataSource) {}
+
   @InjectRepository(Post)
   private postRepository: Repository<Post>;
 
+  @InjectRepository(PostRecord)
+  private postRecordRepository: Repository<PostRecord>;
+
+  @InjectRepository(PostBrowseRecord)
+  private postBrowseRecordRepository: Repository<PostBrowseRecord>;
+
   @InjectRepository(PostReply)
   private postReplyRepository: Repository<PostReply>;
+
+  findAll() {
+    return this.postRepository.find();
+  }
+
+  // 找到最近的浏览记录
+  async findRecentAll(userID: number, number?: number) {
+    return this.dataSource.manager.transaction(
+      async (transactionalEntityManager) => {
+        const [postRecordResult = [], postRecordCount] =
+          await transactionalEntityManager.findAndCount(PostRecord, {
+            where: {
+              user: {
+                id: userID,
+              },
+            },
+          });
+
+        return {
+          postRecordResult,
+          postRecordCount,
+        };
+      },
+    );
+
+    // // 帖子被多少人看过 不重复
+    // const userBrowseRecordCount = await this.postRecordRepository.countBy({
+    //   post: {
+    //     id,
+    //   },
+    // });
+
+    // // 喜欢的个数
+    // const likeCount = await this.postRecordRepository.countBy({
+    //   post: {
+    //     id,
+    //   },
+    //   like: true,
+    // });
+
+    // // 不喜欢的个数
+    // const notLikeCount = await this.postRecordRepository.countBy({
+    //   post: {
+    //     id,
+    //   },
+    //   like: false,
+    // });
+
+    // // 不喜欢的个数
+    // const replyCount = await this.postReplyRepository.countBy({
+    //   post: {
+    //     id,
+    //   },
+    // });
+
+    // const post = await this.postRepository.findOne({
+    //   where: {
+    //     id,
+    //   },
+    // });
+
+    // return {
+    //   ...post,
+    //   userBrowseRecordCount,
+    //   likeCount,
+    //   notLikeCount,
+    //   replyCount,
+    // };
+  }
 
   async getPostList(
     skip?: number,
