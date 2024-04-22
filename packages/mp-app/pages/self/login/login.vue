@@ -40,7 +40,7 @@
 					uni.setStorageSync('token', value.data.data.access_token)
 					
 					uni.showToast({
-						title: '登录成功，马上跳转',
+						title: '登录成功',
 						duration: 2000,
 						complete() {
 							uni.switchTab({
@@ -50,6 +50,7 @@
 					});
 				}).catch(err => {
 					uni.showToast({
+						icon: 'none',
 						title: '登录失败，请重试',
 						duration: 2000,
 					});

@@ -20,7 +20,7 @@
 </template>
 
 <script>
-	import request, { BASE_URL } from '../../../utils/request.js'
+	import request, { FAIL_BASE_URL } from '../../../utils/request.js'
 	export default {
 		data() {
 			return {
@@ -39,15 +39,18 @@
 					sourceType: ['album'],
 					success: (res) => {
 						console.log(res);
-						
+						const access_token = uni.getStorageSync('token')
 						res.tempFilePaths.forEach((item, index) => {
 							uni.uploadFile({
-								url: `${BASE_URL}/api/file/upload`, //仅为示例，非真实的接口地址
+								url: `${FAIL_BASE_URL}/api/file/upload`, //仅为示例，非真实的接口地址
 								filePath: item,
 								name: 'file',
+								header: {
+									authorization: `Bearer ${access_token}`
+								},
 								success: (uploadFileRes) => {
-									const data = JSON.parse(uploadFileRes.data)
-									this.picture[index] = data.data
+									const outerData = JSON.parse(uploadFileRes.data)
+									this.picture[index] = `${FAIL_BASE_URL}${outerData.data?.url}`
 								}
 							});
 						})
