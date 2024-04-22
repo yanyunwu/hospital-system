@@ -86,7 +86,7 @@ const DetailDrawer: React.FC<DetailDrawerProps> = (props) => {
 
     socketRef.current?.send({
       text: waitText,
-      openId: currentRow?.user.openId,
+      userId: currentRow?.user.id,
       sessionId: currentRow?.id,
     })
 

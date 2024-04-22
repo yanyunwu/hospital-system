@@ -7,11 +7,13 @@ import { LoginModule } from '../mp/login/login.module';
 import { PostReply } from 'src/entities/postReply.entity';
 import { PostRecord } from 'src/entities/postRecord.entity';
 import { PostBrowseRecord } from 'src/entities/postBrowseRecord.entity';
+import { UserModule } from '../mp/user/user.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Post, PostReply, PostRecord, PostBrowseRecord]),
     LoginModule,
+    UserModule,
   ],
   providers: [CommunityService],
   controllers: [CommunityController],

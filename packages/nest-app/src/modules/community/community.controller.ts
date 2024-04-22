@@ -4,12 +4,15 @@ import { Post as PostEntity } from 'src/entities/post.entity';
 import { CommunityService } from './community.service';
 import { Public } from '../admin/login/decorators';
 import { LoginService } from '../mp/login/login.service';
+import { User, UserType } from 'src/decorators/user.decorator';
+import { UserService } from '../mp/user/user.service';
 
 @Controller('/api/community')
 export class CommunityController {
   constructor(
     private communityService: CommunityService,
     private loginService: LoginService,
+    private userService: UserService,
   ) {}
 
   @Get('/getPostList')
@@ -31,10 +34,12 @@ export class CommunityController {
   }
 
   @Post('/addPost')
-  async addPost(@Body() body: PostEntity, @Req() req: Request) {
-    const payload = req['user'];
-    const user = await this.loginService.getUserByOpenId(payload.openid);
-    body.user = user;
+  async addPost(
+    @Body() body: PostEntity,
+    @Req() req: Request,
+    @User() user: UserType,
+  ) {
+    body.user = await this.userService.getUserById(user.userId);
     return this.communityService.addPost(body);
   }
 
@@ -62,9 +67,9 @@ export class CommunityController {
       content: string;
     },
     @Req() req: Request,
+    @User() u: UserType,
   ) {
-    const payload = req['user'];
-    const user = await this.loginService.getUserByOpenId(payload.openid);
+    const user = await this.userService.getUserById(u.userId);
     return this.communityService.addPostReply(body.postId, user, body.content);
   }
 

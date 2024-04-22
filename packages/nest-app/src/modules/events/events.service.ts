@@ -52,8 +52,8 @@ export class EventsService {
     });
 
     socket.on('message', async (message) => {
-      const openId = message.openId;
-      const client = this.clientMap.get(openId);
+      const userId = message.userId;
+      const client = this.clientMap.get(userId);
       console.log('handleAdminSocketConnection', message, client);
       const msg = await this.messageService.addMessage(
         message.sessionId,

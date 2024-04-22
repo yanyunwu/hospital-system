@@ -2,10 +2,22 @@
 	<view class="container">
 		<uni-section title="请录入您的个人信息" type="line">
 					<view class="example">
+						<!-- #ifndef APP || WEB -->
 						<button class="avatar-button" open-type="chooseAvatar" @chooseavatar="onChooseAvatar" plain>
 							 <image :src="avatarUrl"></image>
 						</button>
+						<!-- #endif -->
+						<!-- #ifdef APP || WEB -->
+						<button class="avatar-button" @click="handleSelectImage" plain>
+							 <image :src="avatarUrl"></image>
+						</button>
+						<!-- #endif -->
+						<!-- #ifndef APP || WEB -->
 						<view class="tip">点击头像获取微信头像</view>
+						<!-- #endif -->
+						<!-- #ifdef APP || WEB -->
+						<view class="tip">点击头像上传头像</view>
+						<!-- #endif -->
 						<view class="nickname-view">
 							<text>
 								昵称
@@ -41,7 +53,7 @@
 </template>
 
 <script>
-	import request from '@/utils/request.js'
+	import request, {FAIL_BASE_URL} from '@/utils/request.js'
 	const defaultAvatarUrl = '../../../static/touxiang.png'
 	export default {
 		data() {
@@ -66,6 +78,7 @@
 				
 				avatarUrl: defaultAvatarUrl,
 				nickname: ''
+				
 			};
 		},
 		
@@ -119,6 +132,35 @@
 			      fail: res => reject(res.errMsg)
 			    })
 			  })
+			},
+			
+			handleSelectImage() {
+				uni.chooseImage({
+					count: 1,
+					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album'],
+					success: (res) => {
+						console.log(res);
+						const access_token = uni.getStorageSync('token')
+						res.tempFilePaths.forEach((item, index) => {
+							uni.uploadFile({
+								url: `${FAIL_BASE_URL}/api/file/upload`,
+								filePath: item,
+								header: {
+									authorization: `Bearer ${access_token}`
+								},
+								name: 'file',
+								success: (uploadFileRes) => {
+									const outerData = JSON.parse(uploadFileRes.data)
+									this.avatarUrl = `${FAIL_BASE_URL}${outerData.data?.url}`
+									console.log('uploadFileRes', outerData.data)
+								}
+							});
+						})
+						
+						this.avatarUrl = res.tempFilePaths[0]
+					}
+				});
 			},
 
 		},
