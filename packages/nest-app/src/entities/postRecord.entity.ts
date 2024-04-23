@@ -24,7 +24,7 @@ export class PostRecord {
 
   // 浏览次数
   @Column({ type: 'int', default: 1 })
-  browse: number;
+  browseCount: number;
 
   @Column({ type: 'int', default: 0 })
   browseTime: number;

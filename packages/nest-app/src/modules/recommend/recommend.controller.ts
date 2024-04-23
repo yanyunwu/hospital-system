@@ -23,7 +23,7 @@ export class RecommendController {
   }
 
   @Public()
-  @Post('/getRecommend')
+  @Get('/getRecommend')
   getRecommend(@Body() body: GetUserRecommendDto, @User() user: UserType) {
     if (!user.userId && !body.userID) {
       return null;

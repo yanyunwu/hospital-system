@@ -17,14 +17,14 @@ export class CommunityController {
 
   @Get('/getPostList')
   async getPostList(
-    @Query() qurey: { skip?: number; take?: number; [key: string]: any },
+    @Query() query: { skip?: number; take?: number; [key: string]: any },
   ) {
-    const { skip = 0, take = 20, ...options } = qurey;
-    const [data, count] = await this.communityService.getPostList(
-      skip,
-      take,
-      options as PostEntity,
-    );
+    const { skip = 0, take = 20, ...options } = query;
+    const [data, count] = await this.communityService.findAllPost({
+      page: skip,
+      size: take,
+      options: options as PostEntity,
+    });
 
     return {
       data,

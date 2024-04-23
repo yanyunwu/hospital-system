@@ -5,8 +5,13 @@ import { CommunityService } from '../community/community.service';
 export class RecommendService {
   constructor(private communityService: CommunityService) {}
 
-  findAll() {
-    return this.communityService.findAll();
+  async findAll() {
+    const [postResult, postCount] = await this.communityService.findAllPost();
+
+    return {
+      postResult,
+      postCount,
+    };
   }
 
   getRecommend(userID: number) {

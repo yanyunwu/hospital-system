@@ -28,8 +28,71 @@ export class CommunityService {
   @InjectRepository(PostReply)
   private postReplyRepository: Repository<PostReply>;
 
-  findAll() {
-    return this.postRepository.find();
+  findAllPost({
+    size,
+    page,
+    options,
+  }: { size?: number; page?: number; options?: Post } = {}) {
+    const { picture, user, replies, ...rest } = options || {};
+
+    return this.dataSource.manager.transaction(
+      async (transactionalEntityManager) => {
+        const [postResult = [], postCount] =
+          await transactionalEntityManager.findAndCount(Post, {
+            where: {
+              ...rest,
+            },
+            relations: {
+              replies: true,
+            },
+            skip: size != null && page != null ? size * page : undefined,
+            take: size,
+          });
+
+        const bakPostResult = await Promise.all(
+          postResult.map(async (item) => {
+            const browseCount = await transactionalEntityManager.countBy(
+              PostRecord,
+              {
+                post: {
+                  id: item.id,
+                },
+              },
+            );
+
+            const likeCount = await transactionalEntityManager.countBy(
+              PostRecord,
+              {
+                post: {
+                  id: item.id,
+                },
+                like: true,
+              },
+            );
+
+            const unlikeCount = await transactionalEntityManager.countBy(
+              PostRecord,
+              {
+                post: {
+                  id: item.id,
+                },
+                like: false,
+              },
+            );
+
+            return {
+              ...item,
+              browseCount,
+              likeCount,
+              unlikeCount,
+              noLikeOperate: browseCount - likeCount - unlikeCount,
+              replyCount: item.replies?.length ?? 0,
+            };
+          }),
+        );
+        return [bakPostResult, postCount];
+      },
+    );
   }
 
   // 找到最近的浏览记录
@@ -43,6 +106,11 @@ export class CommunityService {
                 id: userID,
               },
             },
+            relations: {
+              post: {
+                replies: true,
+              },
+            },
           });
 
         return {
@@ -51,50 +119,6 @@ export class CommunityService {
         };
       },
     );
-
-    // // 帖子被多少人看过 不重复
-    // const userBrowseRecordCount = await this.postRecordRepository.countBy({
-    //   post: {
-    //     id,
-    //   },
-    // });
-
-    // // 喜欢的个数
-    // const likeCount = await this.postRecordRepository.countBy({
-    //   post: {
-    //     id,
-    //   },
-    //   like: true,
-    // });
-
-    // // 不喜欢的个数
-    // const notLikeCount = await this.postRecordRepository.countBy({
-    //   post: {
-    //     id,
-    //   },
-    //   like: false,
-    // });
-
-    // // 不喜欢的个数
-    // const replyCount = await this.postReplyRepository.countBy({
-    //   post: {
-    //     id,
-    //   },
-    // });
-
-    // const post = await this.postRepository.findOne({
-    //   where: {
-    //     id,
-    //   },
-    // });
-
-    // return {
-    //   ...post,
-    //   userBrowseRecordCount,
-    //   likeCount,
-    //   notLikeCount,
-    //   replyCount,
-    // };
   }
 
   async getPostList(
