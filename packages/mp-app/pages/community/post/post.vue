@@ -21,7 +21,23 @@
 				<view class="post-info-base">
 					<view>{{item.replies?.length || 0}}评论</view>
 					<view>{{item.views}}浏览</view>
+					
 				</view>
+				
+				<view class="post-info-base">
+					<view class="icon-center" style="margin-left: auto;">
+						<image @click="handeLike" v-if="postRecord.like !== true" mode="widthFix" style="width: 32rpx;" src="../../../static/blike.png" ></image>
+						<image @click="handeLike" v-if="postRecord.like === true" mode="widthFix" style="width: 32rpx;" src="../../../static/like.png" ></image>
+						<text style="margin-left: 4rpx;">{{item.likeCount}}</text>
+					</view>
+					<view class="icon-center">
+						<image @click="handeUnLike" v-if="postRecord.like !== false" mode="widthFix" style="width: 30rpx;" src="../../../static/bunlike.png"></image>
+						<image @click="handeUnLike" v-if="postRecord.like === false" mode="widthFix" style="width: 30rpx;" src="../../../static/unlike.png"></image>
+						<text style="margin-left: 4rpx;">不喜欢</text>
+					</view>
+					</view>
+				
+				
 			</view>
 		</view>
 		
@@ -56,6 +72,7 @@
 				anonymousAvatar: "../../../static/touxiang.png",
 				anonymousName: "匿名用户",
 				id: null,
+				postRecordID: null,
 				item: {
 					id: 1,
 					avatar: "../../../static/touxiang.png",
@@ -67,13 +84,20 @@
 					content: '加载中...',
 					picture: [],
 					comments: [],
-					views: 0
+					views: 0,
+					likeCount: 0,
+				},
+				
+				postRecord: {
+					like: null
 				},
 				
 				replyValue: '',
 				
 				list: [
-				]
+				],
+				
+				time: 0
 			};
 		},
 		
@@ -118,14 +142,71 @@
 					this.getPost()
 				})
 			},
+			addPostRecord(time) {
+					request({
+						url: '/api/community/addPostRecord',
+						method: 'post',
+						data: {
+							id: this.id,
+							time
+						}
+					}).then(res => {
+						const uniData = res.data
+						console.log('addPostRecord', res)
+						this.postRecord = uniData.data
+						this.postRecordID = uniData.data.id
+					})
+			},
 			dayjs(...args) {
 				return dayjs(...args)
+			},
+			
+			handeLike() {
+				request({
+					url: '/api/community/setPostReply',
+					method: 'post',
+					data: {
+						id: this.postRecordID,
+						like: this.postRecord.like ? null : true
+					}
+				}).then(res => {
+			
+					console.log('setPostReply', res)
+					this.postRecord = res.data.data
+				}).finally(() => {
+					this.getPost()
+				})
+			},
+			
+			handeUnLike() {
+				request({
+					url: '/api/community/setPostReply',
+					method: 'post',
+					data: {
+						id: this.postRecordID,
+						like: this.postRecord.like === false ? null : false
+					}
+				}).then(res => {
+			
+					console.log('setPostReply', res)
+					this.postRecord = res.data.data
+				}).finally(() => {
+					this.getPost()
+				})
 			}
 		},
 		
 		onLoad(query) {
 			this.id = query.postId
+			
+			this.time = Math.floor((new Date().getTime()) / 1000)
+			
 			this.getPost()
+			this.addPostRecord()
+		},
+		
+		onUnload() {
+			this.addPostRecord(Math.floor((new Date().getTime()) / 1000) - this.time)
 		}
 	}
 </script>
@@ -205,6 +286,7 @@
 	
 	      .post-info-base {
 	        display: flex;
+			align-items: center;
 	
 	        view {
 	          margin-right: 10px;
@@ -284,5 +366,10 @@
 		  }
 	  }
 	}
+
+.icon-center {
+	display: flex;
+	align-items: center;
+}
 
 </style>

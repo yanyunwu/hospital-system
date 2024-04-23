@@ -1,35 +1,58 @@
 <template>
-	<view class="container">
-		<view class="intro">
-			社区里鼓励真诚地表达、专业地讨论、友善地互动，反对不友善、低质、低俗、抄袭、侵权、虚假认证、恶意营销导流等破坏社区生态的内容与行为，禁止一切违法违规行为。
+	<view>
+		<view style="margin: ;">
+			<zb-tab
+			  :activeStyle="{
+			    fontWeight: 'bold',
+			    transform: 'scale(1.1)'
+			    }"
+			  :data="list"
+			  v-model="activeTab"
+			 ></zb-tab>
 		</view>
-		<view class="post" v-for="item in posts" @click="handleClickPost(item)">
-			<view class="info">
-				<view class="avatar">
-					<image mode="widthFix" :src="item.anonymous ? anonymousAvatar : item.user.avatar"></image>
-				</view>
-				<view class="title">
-					<view class="name">{{item.anonymous ? anonymousName : item.user.nickname}}
-						<image v-if="item.user.sex === 0" mode="widthFix" style="width: 30rpx;" src="../../static/nan.png"></image>
-						<image v-if="item.user.sex === 1" mode="widthFix" style="width: 30rpx;" src="../../static/nv.png"></image>
+		<view class="container">
+			<uni-notice-bar show-icon scrollable
+				text="社区里鼓励真诚地表达、专业地讨论、友善地互动，反对不友善、低质、低俗、抄袭、侵权、虚假认证、恶意营销导流等破坏社区生态的内容与行为，禁止一切违法违规行为。" />
+				
+			<view v-if="loading">
+				<view style="display: flex; justify-content: center;flex-direction: column;align-items: center;">
+					<image mode="widthFix" style="width: 50rpx;height: auto;" src="https://cdn.pixabay.com/animation/2023/05/02/04/29/04-29-03-511_512.gif"></image>
+					<view style="margin-top: 10rpx; color: #aaa;font-size: 12px;">
+						加载中... 
 					</view>
-					<view class="time">{{dayjs(item.createTime).format('YYYY/MM/DD HH:mm:ss')}}</view>
 				</view>
 			</view>
-			<view class="text">{{item.content}}</view>
-			<view class="picture">
-				<image @click.stop="handlePreview(imageUrl, item.picture)" mode="widthFix" v-for="imageUrl in item.picture" :src="imageUrl"></image>
-			</view>
-			<view class="post-info">
-				<view class="post-info-base">
-					<view>{{item.replies?.length || 0}}评论</view>
-					<view>{{item.views}}浏览</view>
-				</view>
-			</view>
-		</view>
+			
+			
 		
-		<view class="post-publish" @click="handleClickPublish">
-			<image mode="widthFix" src="../../static/post-publish.png"></image>
+			<view v-else class="post" v-for="item in posts" @click="handleClickPost(item)">
+				<view class="info">
+					<view class="avatar">
+						<image mode="widthFix" :src="item.anonymous ? anonymousAvatar : item.user.avatar"></image>
+					</view>
+					<view class="title">
+						<view class="name">{{item.anonymous ? anonymousName : item.user.nickname}}
+							<image v-if="item.user.sex === 0" mode="widthFix" style="width: 30rpx;" src="../../static/nan.png"></image>
+							<image v-if="item.user.sex === 1" mode="widthFix" style="width: 30rpx;" src="../../static/nv.png"></image>
+						</view>
+						<view class="time">{{dayjs(item.createTime).format('YYYY/MM/DD HH:mm:ss')}}</view>
+					</view>
+				</view>
+				<view class="text">{{item.content}}</view>
+				<view class="picture">
+					<image @click.stop="handlePreview(imageUrl, item.picture)" mode="widthFix" v-for="imageUrl in item.picture" :src="imageUrl"></image>
+				</view>
+				<view class="post-info">
+					<view class="post-info-base">
+						<view>{{item.replies?.length || 0}}评论</view>
+						<view>{{item.views}}浏览</view>
+					</view>
+				</view>
+			</view>
+			
+			<view class="post-publish" @click="handleClickPublish">
+				<image mode="widthFix" src="../../static/post-publish.png"></image>
+			</view>
 		</view>
 	</view>
 </template>
@@ -40,9 +63,35 @@
 	export default {
 		data() {
 			return {
+				loading: false,
+				list: [
+					{
+					    name: '综合',
+					    value: 0,
+					}, {
+					    name: '推荐',
+					    value: 1,
+					}, {
+					    name: '提问',
+					    value: 2,
+					}, {
+					    name: '情感',
+					    value: 3,
+					},
+					{
+					    name: '日常分享',
+					    value: 4,
+					}
+				],
+				activeTab: 0,
 				posts: [],
 				anonymousAvatar: "../../static/touxiang.png",
 				anonymousName: "匿名用户"
+			}
+		},
+		watch: {
+			activeTab() {
+				this.getPostList()
 			}
 		},
 		methods: {
@@ -66,12 +115,20 @@
 			},
 			
 			getPostList() {
+				this.loading = true
 				return request({
-					url: '/api/community/getPostList'
+					url: '/api/community/getPostList',
+					data: {
+						type: this.activeTab
+					}
 				}).then(res => {
 					console.log('帖子列表', res)
+					this.loading = false
 					this.posts = res.data.data.data
-				})
+				}).finally(() => {
+					this.loading = false
+				}
+				)
 			},
 			
 			dayjs(...args) {

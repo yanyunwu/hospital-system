@@ -1,6 +1,6 @@
 <template>
 	<view class="container"> 
-		<textarea v-model="content" placeholder="请输入内容吧..."></textarea>
+		<textarea v-model="content" placeholder="请写点内容吧..."></textarea>
 		<view class="operate">
 			<view class="operate-top">
 				<view class="left">
@@ -8,7 +8,8 @@
 					<image mode="widthFix" src="../../../static/zhaop.png" @click="handleSelectImage"></image>
 				</view>
 				<view class="right">
-					<view style="margin-right: 50rpx;"><radio style="transform:scale(0.8)" :checked="anonymous" @click="anonymous = !anonymous" /><text>是否匿名</text></view>
+					<view style="margin-right: 20rpx;" @click="handleTypeChange">标签：{{typeList[type]}}</view>
+					<view style="margin-right: 50rpx;" class="icon-center"><radio style="transform:scale(0.8)" :checked="anonymous" @click="anonymous = !anonymous" /><text>是否匿名</text></view>
 					<button type="primary" size="mini" @click="handleSend">发送</button>
 				</view>
 			</view>
@@ -29,10 +30,35 @@
 				// form
 				picture: [],
 				anonymous: false,
-				content: ""
+				content: "",
+				typeList: [
+					'综合', '提问', '情感', '日常分享'
+				],
+				type: 0,
+				typeParam: 0
 			}
 		},
 		methods: {
+			handleTypeChange() {
+				
+					const map = {
+						0: 0,
+						1: 2,
+						2: 3,
+						3: 4
+					}
+				
+					uni.showActionSheet({
+						itemList: this.typeList,
+						success:  (res) => {
+							this.type = res.tapIndex
+							this.typeParam = map[res.tapIndex]
+						},
+						fail: function (res) {
+							console.log(res.errMsg);
+						}
+					});
+			},
 			handleSelectImage() {
 				uni.chooseImage({
 					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
@@ -86,7 +112,8 @@
 								data: {
 									picture: this.picture,
 									anonymous: this.anonymous,
-									content: this.content
+									content: this.content,
+									type: this.typeParam
 								}
 							}).then(() => {
 								uni.switchTab({
@@ -163,5 +190,10 @@
 				}
 			}
 		}
+	}
+	
+	.icon-center {
+		display: flex;
+		align-items: center;
 	}
 </style>

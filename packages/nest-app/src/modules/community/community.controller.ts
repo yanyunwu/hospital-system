@@ -6,6 +6,7 @@ import { Public } from '../admin/login/decorators';
 import { LoginService } from '../mp/login/login.service';
 import { User, UserType } from 'src/decorators/user.decorator';
 import { UserService } from '../mp/user/user.service';
+import { PostRecord } from 'src/entities/postRecord.entity';
 
 @Controller('/api/community')
 export class CommunityController {
@@ -43,6 +44,25 @@ export class CommunityController {
     return this.communityService.addPost(body);
   }
 
+  @Post('/addPostRecord')
+  async addPostRecord(
+    @Body() body: { id: number; time?: number },
+    @Req() req: Request,
+    @User() user: UserType,
+  ) {
+    return this.communityService.addPostRecord({
+      userID: user.userId,
+      postID: body.id,
+      count: !body.time,
+      time: body.time ?? 0,
+    });
+  }
+
+  @Post('/setPost')
+  async setPost(@Body() body: PostEntity) {
+    return this.communityService.setPost(body);
+  }
+
   @Get('/getPost')
   getPost(@Query('id') id: string) {
     return this.communityService.getPost(parseInt(id));
@@ -71,6 +91,12 @@ export class CommunityController {
   ) {
     const user = await this.userService.getUserById(u.userId);
     return this.communityService.addPostReply(body.postId, user, body.content);
+  }
+
+  @Post('/setPostReply')
+  async setPostReply(@Body() body: PostRecord) {
+    console.log('bodybodybody', body);
+    return this.communityService.setPostRecord(body);
   }
 
   @Get('/getReplies')

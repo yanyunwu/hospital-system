@@ -8,10 +8,17 @@ import { PostReply } from 'src/entities/postReply.entity';
 import { PostRecord } from 'src/entities/postRecord.entity';
 import { PostBrowseRecord } from 'src/entities/postBrowseRecord.entity';
 import { UserModule } from '../mp/user/user.module';
+import { User } from 'src/entities/user.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Post, PostReply, PostRecord, PostBrowseRecord]),
+    TypeOrmModule.forFeature([
+      Post,
+      PostReply,
+      PostRecord,
+      PostBrowseRecord,
+      User,
+    ]),
     LoginModule,
     UserModule,
   ],

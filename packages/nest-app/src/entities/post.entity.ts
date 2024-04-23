@@ -31,6 +31,10 @@ export class Post {
   @Column({ type: 'int', default: 0 })
   views: number;
 
+  // 分类 0综合 1推荐 2提问 3情感 4日常分享
+  @Column({ type: 'int', default: 0 })
+  type: number;
+
   @ManyToOne(() => User, (user) => user.posts)
   user: User;
 

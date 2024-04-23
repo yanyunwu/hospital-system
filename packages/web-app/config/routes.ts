@@ -104,13 +104,13 @@ export default  [
         component: './session/chat',
         access: 'session.chat'
       },
-      {
-        name: '会话信息管理',
-        icon: 'smile',
-        path: '/session/chat-list',
-        component: './session/chat-list',
-        access: 'session.chat-list'
-      },
+      // {
+      //   name: '会话信息管理',
+      //   icon: 'smile',
+      //   path: '/session/chat-list',
+      //   component: './session/chat-list',
+      //   access: 'session.chat-list'
+      // },
     ],
   },
   {
@@ -174,13 +174,13 @@ export default  [
         component: './other/feedback',
         access: 'other.feedback'
       },
-      {
-        name: '首页通知',
-        icon: 'smile',
-        path: '/other/sysNotice',
-        component: './other/sysNotice',
-        access: 'other.sysNotice'
-      },
+      // {
+      //   name: '首页通知',
+      //   icon: 'smile',
+      //   path: '/other/sysNotice',
+      //   component: './other/sysNotice',
+      //   access: 'other.sysNotice'
+      // },
     ],
   },
   {

@@ -44,6 +44,7 @@ export class CommunityService {
             },
             relations: {
               replies: true,
+              user: true,
             },
             skip: size != null && page != null ? size * page : undefined,
             take: size,
@@ -158,11 +159,71 @@ export class CommunityService {
 
     data.views += 1;
 
+    const likeCount = await this.postRecordRepository.countBy({
+      post: {
+        id: id,
+      },
+      like: true,
+    });
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    data.likeCount = likeCount;
+
     await this.postRepository.save(data);
     return data;
   }
 
+  async getPostRecord(userID: number, postID: number) {
+    return this.postRecordRepository.findOne({
+      where: {
+        user: {
+          id: userID,
+        },
+        post: {
+          id: postID,
+        },
+      },
+    });
+  }
+
+  async addPostRecord({ userID, postID, count = true, time }: any) {
+    const thePostRecord = await this.getPostRecord(userID, postID);
+
+    if (thePostRecord) {
+      const postRecord = {
+        id: thePostRecord.id,
+        browseCount: count
+          ? thePostRecord.browseCount + 1
+          : thePostRecord.browseCount,
+        browseTime: thePostRecord.browseTime + time,
+      } as PostRecord;
+      await this.postRecordRepository.save(postRecord);
+      return this.getPostRecord(userID, postID);
+    }
+
+    const postRecord = {
+      user: {
+        id: userID,
+      },
+      post: {
+        id: postID,
+      },
+    } as PostRecord;
+
+    return this.postRecordRepository.save(postRecord);
+  }
+
+  async setPostRecord(p: PostRecord) {
+    return this.postRecordRepository.save(p);
+  }
+
   addPost(body: Post) {
+    // const post = new Post()
+    return this.postRepository.save(body);
+  }
+
+  setPost(body: Post) {
     // const post = new Post()
     return this.postRepository.save(body);
   }
