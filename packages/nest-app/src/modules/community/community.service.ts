@@ -3,7 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from 'src/entities/post.entity';
 import { PostReply } from 'src/entities/postReply.entity';
 import { User } from 'src/entities/user.entity';
-import { DataSource, FindOptions, FindOptionsWhere, Repository } from 'typeorm';
+import {
+  DataSource,
+  Equal,
+  FindOptions,
+  FindOptionsWhere,
+  Not,
+  Repository,
+} from 'typeorm';
 import * as Segment from 'segment';
 import unionArr from 'src/utils/unionArr';
 import { PostRecord } from 'src/entities/postRecord.entity';
@@ -110,12 +117,19 @@ export class CommunityService {
               user: {
                 id: userID,
               },
+              post: {
+                content: Not(Equal('')),
+              },
             },
             relations: {
               post: {
                 replies: true,
               },
             },
+            order: {
+              createTime: 'DESC',
+            },
+            take: 10,
           });
 
         return {
