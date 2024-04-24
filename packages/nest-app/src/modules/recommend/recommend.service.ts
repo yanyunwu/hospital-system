@@ -1,13 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import { CommunityService } from '../community/community.service';
+import { Equal, Not } from 'typeorm';
 
 @Injectable()
 export class RecommendService {
   constructor(private communityService: CommunityService) {}
 
   async findAll() {
-    const [postResult, postCount] = await this.communityService.findAllPost();
+    const [postResult, postCount] = await this.communityService.findAllPost({
+      options: {
+        content: Not(Equal('')),
+      },
+    });
 
     return {
       postResult,
