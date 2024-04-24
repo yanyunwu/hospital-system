@@ -7,7 +7,7 @@
 					<image mode="widthFix" src="../../static/shezhi.png" @click="handleSetting"></image>
 				</view>
 				<view class="onwer-card-avator">
-					<image mode="widthFix" :src="userData.avatar" @click="handleLogin"></image>
+					<image :src="userData.avatar" @click="handleLogin"></image>
 				</view>
 				<view class="onwer-card-name">
 					<text>{{userData.nickname}}</text>
@@ -62,20 +62,7 @@
 	export default {
 		data() {
 			return {
-				userData: {
-					age: null,
-					birthday: "2023-12-05",
-					createTime: "2023-12-13T10:53:19.115Z",
-					id: 2,
-					nickname: "点击头像进行登录",
-					openId: "otlQF5ACNXeJxMRzPHK2CeKSDZ3I",
-					password: null,
-					sex: 0,
-					stuId: null,
-					username: "yanyun",
-					avatar: '../../static/touxiang.png',
-					name: '真名'
-				},
+				userData: initData,
 			}
 		},
 		methods: {
@@ -170,7 +157,6 @@
 			},
 			
 			getInfo() {
-				this.userData = initData
 				request({
 					url: '/api/mp/user/getMyInfo'
 				}).then(res => {
@@ -252,6 +238,7 @@
 				
 				& > image {
 					width: 150rpx;
+					height: 150rpx;
 					border-radius: 1000px;
 				}
 			}

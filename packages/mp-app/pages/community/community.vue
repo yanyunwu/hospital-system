@@ -11,21 +11,11 @@
 			 ></zb-tab>
 		</view>
 		<view class="container">
-			<uni-notice-bar show-icon scrollable
-				text="社区里鼓励真诚地表达、专业地讨论、友善地互动，反对不友善、低质、低俗、抄袭、侵权、虚假认证、恶意营销导流等破坏社区生态的内容与行为，禁止一切违法违规行为。" />
+			<uni-notice-bar show-icon scrollable text="社区里鼓励真诚地表达、专业地讨论、友善地互动，反对不友善、低质、低俗、抄袭、侵权、虚假认证、恶意营销导流等破坏社区生态的内容与行为，禁止一切违法违规行为。" />
 				
-			<view v-if="loading">
-				<view style="display: flex; justify-content: center;flex-direction: column;align-items: center;">
-					<image mode="widthFix" style="width: 50rpx;height: auto;" src="https://cdn.pixabay.com/animation/2023/05/02/04/29/04-29-03-511_512.gif"></image>
-					<view style="margin-top: 10rpx; color: #aaa;font-size: 12px;">
-						加载中... 
-					</view>
-				</view>
-			</view>
+			<Loading :loading="loading" />
 			
-			
-		
-			<view v-else class="post" v-for="item in posts" @click="handleClickPost(item)">
+			<view v-if="!loading" class="post" v-for="item in posts" @click="handleClickPost(item)">
 				<view class="info">
 					<view class="avatar">
 						<image mode="widthFix" :src="item.anonymous ? anonymousAvatar : item.user.avatar"></image>
@@ -60,7 +50,11 @@
 <script>
 	import dayjs from 'dayjs'
 	import request from '../../utils/request.js'
+	import Loading from '../../components/Loading.vue'
 	export default {
+		components: {
+			Loading
+		},
 		data() {
 			return {
 				loading: false,
@@ -136,7 +130,7 @@
 			}
 		},
 		
-		onShow() {
+		onLoad() {
 			this.getPostList()
 		},
 		

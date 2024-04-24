@@ -16,10 +16,6 @@
 		onHide: function() {
 			console.log('App Hide')
 		},
-		 mounted() {
-		    document.body.style.overflow = 'hidden';
-		    document.body.style.overscrollBehavior = 'none';
-		  },
 	}
 </script>
 
