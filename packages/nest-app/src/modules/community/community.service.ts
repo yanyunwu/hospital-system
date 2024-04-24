@@ -41,6 +41,9 @@ export class CommunityService {
           await transactionalEntityManager.findAndCount(Post, {
             where: {
               ...rest,
+              user: {
+                ...user,
+              },
             },
             relations: {
               replies: true,
@@ -252,6 +255,13 @@ export class CommunityService {
     const columns = await this.postRepository.find({
       where: whereIds,
     });
+
+    for (const column of columns) {
+      column.postRecords = [];
+      column.postBrowseRecords = [];
+      column.replies = [];
+    }
+    await this.postRepository.save(columns);
 
     return this.postRepository.remove(columns);
   }

@@ -1,6 +1,6 @@
 <template>
 	<view class="container"> 
-		<textarea v-model="content" placeholder="请写点内容吧..."></textarea>
+		<textarea style="height: calc(100% - 200rpx);" v-model="content" placeholder="请写点内容吧..." maxlength="-1"></textarea>
 		<view class="operate">
 			<view class="operate-top">
 				<view class="left">
@@ -25,6 +25,7 @@
 	export default {
 		data() {
 			return {
+				postID: null,
 				imageList: [],
 				
 				// form
@@ -105,29 +106,75 @@
 					content: "确定要发送吗？",
 					success: (res) => {
 						if (res.confirm) {
-							console.log('this.anonymous', typeof this.anonymous)
-							request({
-								url: '/api/community/addPost',
-								method: 'post',
-								data: {
-									picture: this.picture,
-									anonymous: this.anonymous,
-									content: this.content,
-									type: this.typeParam
-								}
-							}).then(() => {
-								uni.switchTab({
-									url: '/pages/community/community'
+							
+							if (this.postID) {
+								request({
+									url: '/api/community/setPost',
+									method: 'post',
+									data: {
+										id: parseInt(this.postID),
+										picture: this.picture,
+										anonymous: this.anonymous,
+										content: this.content,
+										type: this.typeParam
+									}
+								}).then(() => {
+									uni.navigateBack()
 								})
-							})
+							} else {
+								request({
+									url: '/api/community/addPost',
+									method: 'post',
+									data: {
+										picture: this.picture,
+										anonymous: this.anonymous,
+										content: this.content,
+										type: this.typeParam
+									}
+								}).then(() => {
+									uni.switchTab({
+										url: '/pages/community/community'
+									})
+								})
+							}
 						}
 					}
 				})
-			}
+			},
+			getPost() {
+				if (!this.postID) {
+					return
+				}
+				
+				const map = {
+					0: 0,
+					2: 1,
+					3: 2,
+					4: 3
+				}
+				
+				request({
+					url: '/api/community/getPost',
+					data: {
+						id: this.postID
+					}
+				}).then(res => {
+					const uniData =  res.data
+					const userData = uniData.data
+					console.log('帖子', res)
+					this.content = userData.content
+					this.imageList = userData.picture
+					this.picture = userData.picture
+					this.type = map[userData.type]
+					this.typeParam = userData.type
+					this.anonymous = userData.anonymous
+				})
+			},
 		},
-		onLoad() {
-			console.log('BASE_URL', BASE_URL)
-			uni.enableAlertBeforeUnload({
+		onLoad(query) {
+			this.postID = query.postID
+			this.getPost()
+			uni.enableAlertBeforeUnload?.({
 				message: '你还没有发布，确定要返回吗（内容将丢失）？'
 			})
 		}

@@ -18,9 +18,18 @@ export class CommunityController {
 
   @Get('/getPostList')
   async getPostList(
-    @Query() query: { skip?: number; take?: number; [key: string]: any },
+    @Query()
+    query: {
+      skip?: number;
+      take?: number;
+      userID?: number;
+      [key: string]: any;
+    },
   ) {
-    const { skip = 0, take = 20, ...options } = query;
+    const { skip = 0, take = 20, userID, ...options } = query;
+    options.user = {
+      id: userID,
+    };
     const [data, count] = await this.communityService.findAllPost({
       page: skip,
       size: take,
@@ -64,12 +73,31 @@ export class CommunityController {
   }
 
   @Get('/getPost')
-  getPost(@Query('id') id: string) {
-    return this.communityService.getPost(parseInt(id));
+  async getPost(@Query('id') id: string, @User() user: UserType) {
+    const data = await this.communityService.getPost(parseInt(id));
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    data.permission = [];
+    if (user.userId === data.user.id) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      data.permission = ['permission.edit'];
+    }
+
+    return data;
   }
 
   @Post('/delPost')
   delPost(@Body() body: { ids: number[] }) {
+    return this.communityService.delPost(body.ids);
+  }
+
+  @Post('/userDelPost')
+  userDelPost(@Body() body: { ids: number[] }, @User() user: UserType) {
+    if (!body.ids.length) {
+      return;
+    }
+
     return this.communityService.delPost(body.ids);
   }
 

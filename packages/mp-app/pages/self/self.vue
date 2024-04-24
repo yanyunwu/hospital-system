@@ -18,6 +18,20 @@
 				<view class="content"><text>这是你的个人签名~~~</text></view>
 			</view>
 		</view>
+		<view class="index_middle">
+			<view @click="handleTo(`/pages/self/posts/posts?userID=${userData.id}`)">
+				<image src="../../static/self1.png" mode="widthFix"></image>
+				<text>发帖记录</text>
+			</view>
+			<view>
+				<image src="../../static/self2.png" mode="widthFix"></image>
+				<text>预约记录</text>
+			</view>
+			<view>
+				<image src="../../static/self3.png" mode="widthFix"></image>
+				<text>转诊报销</text>
+			</view>
+		</view>
 		<view class="onwer-info-card">
 			<view class="onwer-info-card-item">
 				<view class="onwer-info-card-item-label">姓名</view>
@@ -46,6 +60,7 @@
 <script>
 	import request from '@/utils/request.js'
 	const initData = {
+		id: null,
 					age: null,
 					birthday: "登录后查看",
 					createTime: "2023-12-13T10:53:19.115Z",
@@ -176,7 +191,13 @@
 				uni.navigateTo({
 					url: '/pages/self/setting/setting'
 				})
-			}
+			},
+			
+			handleTo(path) {
+				uni.navigateTo({
+					url:path
+				})
+			},
 		},
 		
 		onLoad() {
@@ -201,7 +222,7 @@
 			padding-bottom: 20rpx;
 			background-color: white;
 			border-radius: 15rpx;
-			margin-bottom: 40rpx;
+			margin-bottom: 20rpx;
 			
 			.onwer-extend {
 				.title {
@@ -275,4 +296,27 @@
 			}
 		}
 	}
+	
+	.index_middle {
+			display: flex;
+			justify-content: space-around;
+		
+			// box-shadow: 0 0 40rpx rgba(0, 0, 0, .1);
+			border-radius: 10rpx;
+			margin-bottom: 20rpx;
+			background-color: white;
+		}
+		
+		.index_middle > view {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin: 20rpx;
+			color: #666;
+		}
+		
+		.index_middle > view image {
+			width: 60rpx;
+			margin-bottom: 10rpx;
+		}
 </style>

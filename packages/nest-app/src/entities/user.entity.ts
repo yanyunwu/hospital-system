@@ -37,7 +37,7 @@ export class User {
   @Column({ nullable: true })
   password: string;
 
-  // 性别
+  // 性别 0男 1女 2未知
   @Column({ nullable: true })
   sex: number;
 

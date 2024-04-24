@@ -16,6 +16,7 @@ import { RrModule } from './modules/rr/rr.module';
 import { ConfigModule as SystemConfigModule } from './modules/config/config.module';
 import { InitModule } from './modules/init/init.module';
 import { RecommendModule } from './modules/recommend/recommend.module';
+import { VisualizationModule } from './modules/visualization/visualization.module';
 
 @Module({
   imports: [
@@ -38,10 +39,11 @@ import { RecommendModule } from './modules/recommend/recommend.module';
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
       entities: [resolve(__dirname, './entities/**/*.entity.{js,ts}')],
-      synchronize: true,
+      synchronize: false,
       logging: true,
     }),
     InitModule,
+    VisualizationModule,
     RecommendModule,
   ],
   controllers: [AppController],

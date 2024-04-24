@@ -12,6 +12,9 @@
 					</view>
 					<view class="time">{{dayjs(item.createTime).format('YYYY/MM/DD HH:mm:ss')}}</view>
 				</view>
+				<view v-if="item.permission?.includes?.('permission.edit')" style="margin-left: auto;" @click="handleClickEdit">
+					<image style="width: 50rpx;height: 50rpx;" src="/static/postbianji.png"></image>
+				</view>
 			</view>
 			<view class="text">{{item.content}}</view>
 			<view class="picture">
@@ -108,7 +111,7 @@
 					current:current,
 				})
 			},
-			getPost() {
+			getPost(cb) {
 				if (!this.id) {
 					return
 				}
@@ -122,6 +125,7 @@
 					console.log('帖子', res)
 					this.item = res.data.data
 					this.list = this.item.replies
+					cb?.()
 				})
 			},
 			handSendReply() {
@@ -193,6 +197,12 @@
 				}).finally(() => {
 					this.getPost()
 				})
+			},
+			
+			handleClickEdit() {
+				uni.navigateTo({
+					url: `/pages/community/publish/publish?postID=${this.id}`
+				})
 			}
 		},
 		
@@ -207,6 +217,16 @@
 		
 		onUnload() {
 			this.addPostRecord(Math.floor((new Date().getTime()) / 1000) - this.time)
+		},
+		
+		onPullDownRefresh() {
+			this.getPost(() => {
+				uni.stopPullDownRefresh()
+				uni.showToast({
+					icon: 'none',
+					title: '刷新成功！'
+				})
+			})
 		}
 	}
 </script>
@@ -261,6 +281,7 @@
 	      color: #333;
 	      line-height: 1.5;
 	      margin-bottom: 15px;
+		  word-break: break-all;
 	    }
 	
 	    .picture {
@@ -363,6 +384,7 @@
 		    line-height: 1.5;
 		    margin-bottom: 15px;
 			padding: 0 10rpx;
+			word-break: break-all;
 		  }
 	  }
 	}

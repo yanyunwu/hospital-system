@@ -11,23 +11,24 @@
 			 ></zb-tab>
 		</view>
 		<view class="container">
-			<uni-notice-bar show-icon scrollable text="社区里鼓励真诚地表达、专业地讨论、友善地互动，反对不友善、低质、低俗、抄袭、侵权、虚假认证、恶意营销导流等破坏社区生态的内容与行为，禁止一切违法违规行为。" />
-				
+
 			<Loading :loading="loading" />
-			
-			<Empty  style="margin-top: 40rpx;" v-if="!posts.length && !loading" content="这里还没有相关帖子呢!" />
+			<Empty  style="margin-top: 40rpx;" v-if="!posts.length && !loading" content="你还没有发布相关帖子哦!" />
 			
 			<view v-if="!loading" class="post" v-for="item in posts" @click="handleClickPost(item)">
 				<view class="info">
 					<view class="avatar">
-						<image mode="widthFix" :src="item.anonymous ? anonymousAvatar : item.user?.avatar"></image>
+						<image mode="widthFix" :src="item.anonymous ? anonymousAvatar : item.user.avatar"></image>
 					</view>
 					<view class="title">
-						<view class="name">{{item.anonymous ? anonymousName : item.user?.nickname}}
-							<image v-if="item.user?.sex === 0" mode="widthFix" style="width: 30rpx;" src="../../static/nan.png"></image>
-							<image v-if="item.user?.sex === 1" mode="widthFix" style="width: 30rpx;" src="../../static/nv.png"></image>
+						<view class="name">{{item.anonymous ? anonymousName : item.user.nickname}}
+							<image v-if="item.user.sex === 0" mode="widthFix" style="width: 30rpx;" src="../../../static/nan.png"></image>
+							<image v-if="item.user.sex === 1" mode="widthFix" style="width: 30rpx;" src="../../../static/nv.png"></image>
 						</view>
 						<view class="time">{{dayjs(item.createTime).format('YYYY/MM/DD HH:mm:ss')}}</view>
+					</view>
+					<view style="margin-left: auto;" @click.stop="handelDel(item.id)">
+						<image style="height: 40rpx;width: 40rpx;" src="/static/del.png"></image>
 					</view>
 				</view>
 				<view class="text">{{item.content}}</view>
@@ -41,19 +42,15 @@
 					</view>
 				</view>
 			</view>
-			
-			<view class="post-publish" @click="handleClickPublish">
-				<image mode="widthFix" src="../../static/post-publish.png"></image>
-			</view>
 		</view>
 	</view>
 </template>
 
 <script>
 	import dayjs from 'dayjs'
-	import request from '../../utils/request.js'
-	import Loading from '../../components/Loading.vue'
-	import Empty from '../../components/Empty.vue'
+	import request from '../../../utils/request.js'
+	import Loading from '../../../components/Loading.vue'
+	import Empty from '../../../components/Empty.vue'
 	export default {
 		components: {
 			Loading,
@@ -61,6 +58,7 @@
 		},
 		data() {
 			return {
+				userID: null,
 				loading: false,
 				list: [
 					{
@@ -83,7 +81,7 @@
 				],
 				activeTab: 0,
 				posts: [],
-				anonymousAvatar: "../../static/touxiang.png",
+				anonymousAvatar: "../../../static/touxiang.png",
 				anonymousName: "匿名用户"
 			}
 		},
@@ -117,7 +115,8 @@
 				return request({
 					url: '/api/community/getPostList',
 					data: {
-						type: this.activeTab
+						type: this.activeTab,
+						userID: this.userID
 					}
 				}).then(res => {
 					console.log('帖子列表', res)
@@ -131,10 +130,41 @@
 			
 			dayjs(...args) {
 				return dayjs(...args)
+			},
+			
+			handelDel(id) {
+				
+				uni.showModal({
+					title: '提示',
+					content: '删除后数据将永远清除，确认删除吗？',
+					success: (res) => {
+						if (res.confirm) {
+							request({
+								url: '/api/community/userDelPost',
+								data: {
+									ids: [id]
+								},
+								method: "post"
+							}).then(res => {
+								console.log('删除帖子', res)
+								this.getPostList()
+								uni.showToast({
+									icon: 'none',
+									title: "删除成功！"
+								})
+							})
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
+					}
+				});
+				
+				
 			}
 		},
 		
-		onLoad() {
+		onLoad(query) {
+			this.userID = query.userID
 			this.getPostList()
 		},
 		

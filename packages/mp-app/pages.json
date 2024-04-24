@@ -44,7 +44,7 @@
 			"style" : 
 			{
 				"navigationBarTitleText" : "帖子详情",
-				"enablePullDownRefresh" : false
+				"enablePullDownRefresh" : true
 			}
 		},
 		{
@@ -125,6 +125,14 @@
 			{
 				"navigationBarTitleText" : "",
 				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/self/posts/posts",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : true
 			}
 		}
 	],

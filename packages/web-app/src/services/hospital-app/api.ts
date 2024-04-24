@@ -89,3 +89,9 @@ export async function getUserInfo(id: number) {
     }
   })
 }
+
+export async function getSexCount() {
+  return request('/api/visualization/getSexCount', {
+    method: 'GET',
+  })
+}

@@ -2,14 +2,15 @@
     <view>
         <uni-segmented-control :values="['消息', '通知']" @clickItem="onClick" style="width: 100%;border-radius: 0;"></uni-segmented-control>
         <view v-if="activeTab === 0" class="content">
+			<Empty style="margin-top: 40rpx;" v-if="!messages.length" content="当前没有任何消息呢!" />
 			<uni-swipe-action>
 				<uni-swipe-action-item  v-for="(item, index) in messages" :right-options="options" @click="handleDelMessage($event, item.id)">
 					<view class="info" :key="index" @click="handleClickItem(item.id)">
 						<view class="avatar">
-							<image mode="widthFix" :src="item.adminUser?.avatar"></image>
+							<image mode="widthFix" :src="item.adminUser?.avatar ?? '/static/touxiang.png'"></image>
 						</view>
 						<view class="title">
-							<view class="name">{{item.adminUser?.nickname}}</view>
+							<view class="name">{{item.adminUser?.nickname ?? '等待回复中...'}}</view>
 							<view class="time">{{item.lastMessage}}</view>
 						</view>
 					</view>
@@ -17,6 +18,7 @@
 			</uni-swipe-action>
         </view>
         <view v-if="activeTab === 1" class="content">
+			<Empty style="margin-top: 40rpx;" v-if="!notifications.length" content="当前没有任何通知呢!" />
             <view class="notification" v-for="(item, index) in notifications" :key="index">
                 <text>{{ item }}</text>
             </view>
@@ -26,13 +28,15 @@
 
 <script>
 	import request from '@/utils/request.js'
+	import Empty from '@/components/Empty.vue'
 	let timer
 export default {
+	components: {Empty},
     data() {
         return {
             activeTab: 0,
             messages: [],
-            notifications: ['通知1', '通知2', '通知3'],
+            notifications: [],
 			options:[
 			        {
 			            text: '取消',

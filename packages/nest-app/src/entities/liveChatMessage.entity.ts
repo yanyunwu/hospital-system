@@ -15,10 +15,10 @@ export class LiveChatMessage {
   @ManyToOne(() => LiveChat, (liveChat) => liveChat.liveChatMessages)
   liveChat: LiveChat;
 
-  @Column()
+  @Column({ nullable: true })
   speakUserId: number;
 
-  @Column()
+  @Column({ nullable: true })
   speakUserName: string;
 
   @Column() // 0 用户 1 系统用户
