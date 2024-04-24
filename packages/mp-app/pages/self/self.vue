@@ -24,11 +24,11 @@
 				<text>发帖记录</text>
 			</view>
 			<view>
-				<image src="../../static/self2.png" mode="widthFix"></image>
+				<image @click="handleTo('/pages/booking/recordList/recordList')" src="../../static/self2.png" mode="widthFix"></image>
 				<text>预约记录</text>
 			</view>
 			<view>
-				<image src="../../static/self3.png" mode="widthFix"></image>
+				<image @click="handleTo('/pages/rr/record/record')" src="../../static/self3.png" mode="widthFix"></image>
 				<text>转诊报销</text>
 			</view>
 		</view>
@@ -205,6 +205,11 @@
 		},
 		
 		onShow() {
+			const token = uni.getStorageSync('token')
+			if (!token) {
+				this.userData = initData
+			}
+			
 			this.getInfo()
 		}
 	}
@@ -305,6 +310,7 @@
 			border-radius: 10rpx;
 			margin-bottom: 20rpx;
 			background-color: white;
+			font-size: 12px;
 		}
 		
 		.index_middle > view {

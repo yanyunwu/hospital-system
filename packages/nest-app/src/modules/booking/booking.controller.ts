@@ -4,17 +4,27 @@ import { BookingService } from './booking.service';
 import { Booking } from 'src/entities/booking.entity';
 import { BookingDate } from 'src/entities/bookingDate.entity';
 import { BookingDateRecord } from 'src/entities/bookingDateRecord.entity';
+import { In } from 'typeorm';
 
 @Controller('/api/booking')
 export class BookingController {
   constructor(private bookingService: BookingService) {}
 
   @Get('/getUserRecord')
-  getUserRecord(@Req() req: Request, @Query('bookingId') bookingId: string) {
+  getUserRecord(
+    @Req() req: Request,
+    @Query('bookingId') bookingId?: string,
+    @Query('status') status?: string,
+  ) {
     const userInfo = req['user'];
     return this.bookingService.getUserRecord(
       parseInt(userInfo.userId),
-      parseInt(bookingId),
+      bookingId ? parseInt(bookingId) : undefined,
+      {
+        status: status
+          ? In(status.split(',').map((item) => parseInt(item)))
+          : undefined,
+      },
     );
   }
 

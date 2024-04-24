@@ -60,6 +60,15 @@
 			},
 			
 			handleBook() {
+				
+				if (!this.single) {
+					uni.showToast({
+						icon: 'none',
+						title: '请先选择日期'
+					})
+					return
+				}
+				
 				const bookingDateId = this.findBookingDateId()
 				if (!bookingDateId) {
 					uni.showToast({
@@ -106,7 +115,7 @@
 					const dataList = res.data.data.data
 					this.start = dataList[0]?.date
 					this.end = dataList[dataList.length-1]?.date
-					this.single = this.start
+					// this.single = this.start
 					this.currentDate = dataList[0]
 				})
 			}

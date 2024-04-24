@@ -134,6 +134,14 @@
 				"navigationBarTitleText" : "",
 				"enablePullDownRefresh" : true
 			}
+		},
+		{
+			"path" : "pages/rr/record/record",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
 		}
 	],
 	"globalStyle": {

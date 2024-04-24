@@ -113,7 +113,22 @@
 			},
 			
 			getPostList() {
+				
 				this.loading = true
+				
+				if (this.activeTab === 1) {
+					return request({
+					url: '/api/recommend/getRecommend',
+				}).then(res => {
+					console.log('帖子列表', res)
+					this.loading = false
+					this.posts = res.data.data.data
+				}).finally(() => {
+					this.loading = false
+				}
+				)
+				}
+				
 				return request({
 					url: '/api/community/getPostList',
 					data: {

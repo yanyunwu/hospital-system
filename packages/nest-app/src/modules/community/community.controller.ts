@@ -20,20 +20,22 @@ export class CommunityController {
   async getPostList(
     @Query()
     query: {
-      skip?: number;
-      take?: number;
-      userID?: number;
+      skip?: string;
+      take?: string;
+      userID?: string;
       [key: string]: any;
     },
   ) {
-    const { skip = 0, take = 20, userID, ...options } = query;
-    options.user = {
-      id: userID,
-    };
+    const { skip, take, userID, ...options } = query;
     const [data, count] = await this.communityService.findAllPost({
-      page: skip,
-      size: take,
-      options: options as PostEntity,
+      page: skip ? parseInt(skip) : undefined,
+      size: take ? parseInt(take) : undefined,
+      options: {
+        user: {
+          id: userID ? parseInt(userID) : undefined,
+        },
+        ...options,
+      },
     });
 
     return {

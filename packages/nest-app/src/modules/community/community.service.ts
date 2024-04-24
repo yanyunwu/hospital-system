@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from 'src/entities/post.entity';
 import { PostReply } from 'src/entities/postReply.entity';
 import { User } from 'src/entities/user.entity';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, FindOptions, FindOptionsWhere, Repository } from 'typeorm';
 import * as Segment from 'segment';
 import unionArr from 'src/utils/unionArr';
 import { PostRecord } from 'src/entities/postRecord.entity';
@@ -32,7 +32,7 @@ export class CommunityService {
     size,
     page,
     options,
-  }: { size?: number; page?: number; options?: Post } = {}) {
+  }: { size?: number; page?: number; options?: FindOptionsWhere<Post> } = {}) {
     const { picture, user, replies, ...rest } = options || {};
 
     return this.dataSource.manager.transaction(
@@ -41,9 +41,7 @@ export class CommunityService {
           await transactionalEntityManager.findAndCount(Post, {
             where: {
               ...rest,
-              user: {
-                ...user,
-              },
+              user,
             },
             relations: {
               replies: true,

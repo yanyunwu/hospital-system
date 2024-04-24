@@ -4,7 +4,7 @@ import { Booking } from 'src/entities/booking.entity';
 import { BookingDate } from 'src/entities/bookingDate.entity';
 import { BookingDateRecord } from 'src/entities/bookingDateRecord.entity';
 import { User } from 'src/entities/user.entity';
-import { Any, Repository } from 'typeorm';
+import { Any, FindOptionsWhere, Repository } from 'typeorm';
 
 @Injectable()
 export class BookingService {
@@ -20,7 +20,11 @@ export class BookingService {
   @InjectRepository(User)
   private userRepository: Repository<User>;
 
-  getUserRecord(userId: number, bookingId: number) {
+  getUserRecord(
+    userId: number,
+    bookingId?: number,
+    options?: FindOptionsWhere<BookingDateRecord>,
+  ) {
     return this.bookingDateRecordRepository.find({
       where: {
         bookingDate: {
@@ -31,6 +35,13 @@ export class BookingService {
 
         user: {
           id: userId,
+        },
+
+        ...options,
+      },
+      relations: {
+        bookingDate: {
+          booking: true,
         },
       },
     });
