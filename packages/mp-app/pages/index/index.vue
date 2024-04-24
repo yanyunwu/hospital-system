@@ -125,7 +125,11 @@ export default {
 				url: `${item.to}?sessionId=${data.data.data.id}`
 			})
 		}
-	}
+	},
+	 mounted() {
+	    document.body.style.overflow = 'hidden';
+	    document.body.style.overscrollBehavior = 'none';
+	  },
 }
 
 </script>

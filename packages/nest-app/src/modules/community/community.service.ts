@@ -48,6 +48,9 @@ export class CommunityService {
             },
             skip: size != null && page != null ? size * page : undefined,
             take: size,
+            order: {
+              createTime: 'DESC',
+            },
           });
 
         const bakPostResult = await Promise.all(
