@@ -54,7 +54,7 @@
 
 <script>
 	import request, {FAIL_BASE_URL} from '@/utils/request.js'
-	const defaultAvatarUrl = '../../../static/touxiang.png'
+	const defaultAvatarUrl = '/static/touxiang.png'
 	export default {
 		data() {
 			return {

@@ -49,7 +49,7 @@ export class User {
   birthday: string;
 
   // 姓名昵称
-  @Column({ nullable: true })
+  @Column({ type: 'varchar', default: '暂无昵称', nullable: true })
   nickname: string;
 
   @Column({ nullable: true })

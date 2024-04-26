@@ -3,11 +3,11 @@
 		<view class="onwer-card-container">
 			<view class="onwer-card">
 				<view class="onwer-card-top">
-					<image mode="widthFix" src="../../static/bianji.png" @click="handleEdit"></image>
-					<image mode="widthFix" src="../../static/shezhi.png" @click="handleSetting"></image>
+					<image mode="widthFix" src="/static/bianji.png" @click="handleEdit"></image>
+					<image mode="widthFix" src="/static/shezhi.png" @click="handleSetting"></image>
 				</view>
 				<view class="onwer-card-avator">
-					<image :src="userData.avatar" @click="handleLogin"></image>
+					<image :src="userData.avatar || '/static/touxiang.png'" @click="handleLogin"></image>
 				</view>
 				<view class="onwer-card-name">
 					<text>{{userData.nickname}}</text>
@@ -20,15 +20,15 @@
 		</view>
 		<view class="index_middle">
 			<view @click="handleTo(`/pages/self/posts/posts?userID=${userData.id}`)">
-				<image src="../../static/self1.png" mode="widthFix"></image>
+				<image src="/static/self1.png" mode="widthFix"></image>
 				<text>发帖记录</text>
 			</view>
 			<view>
-				<image @click="handleTo('/pages/booking/recordList/recordList')" src="../../static/self2.png" mode="widthFix"></image>
+				<image @click="handleTo('/pages/booking/recordList/recordList')" src="/static/self2.png" mode="widthFix"></image>
 				<text>预约记录</text>
 			</view>
 			<view>
-				<image @click="handleTo('/pages/rr/record/record')" src="../../static/self3.png" mode="widthFix"></image>
+				<image @click="handleTo('/pages/rr/record/record')" src="/static/self3.png" mode="widthFix"></image>
 				<text>转诊报销</text>
 			</view>
 		</view>
