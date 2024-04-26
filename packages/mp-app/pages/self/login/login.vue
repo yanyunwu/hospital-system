@@ -37,7 +37,7 @@
 						password: this.form.password
 					}
 				}).then(value => {
-					uni.setStorageSync('token', value.data.data.access_token)
+					uni.setStorageSync('token', value.data.data?.access_token)
 					
 					uni.showToast({
 						title: '登录成功',
@@ -47,12 +47,6 @@
 								url:'/pages/self/self'
 							})
 						}
-					});
-				}).catch(err => {
-					uni.showToast({
-						icon: 'none',
-						title: '登录失败，请重试',
-						duration: 2000,
 					});
 				})
 			},

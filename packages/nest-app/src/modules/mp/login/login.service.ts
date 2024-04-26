@@ -1,4 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
@@ -69,6 +74,10 @@ export class LoginService {
         password,
       } as User;
       user = await this.userRepository.save(u);
+    }
+
+    if (password !== user.password) {
+      throw new BadRequestException('密码错误');
     }
 
     console.log('user', user);

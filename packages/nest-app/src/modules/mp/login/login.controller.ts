@@ -5,6 +5,7 @@ import {
   Post,
   Body,
   Get,
+  BadRequestException,
 } from '@nestjs/common';
 import { LoginService } from './login.service';
 import { Public } from 'src/modules/admin/login/decorators';
@@ -50,9 +51,12 @@ export class LoginController {
   }
 
   @Public()
-  @HttpCode(HttpStatus.OK)
   @Post('/appLogin')
   async appLogin(@Body() body: AppLoginDto) {
+    if (!(body.stuID && body.password)) {
+      throw new BadRequestException('账号和密码都不能为空');
+    }
+
     return this.loginService.appLogin(body.stuID, body.password);
   }
 }
