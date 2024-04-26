@@ -5,6 +5,7 @@ import { Auth } from 'src/entities/auth.entity';
 import { User } from 'src/entities/user.entity';
 import { In, Repository } from 'typeorm';
 import routeConfig from 'src/config/route';
+import { AccessService } from '../access/access.service';
 
 function mymethod(birthday: any) {
   const str = birthday;
@@ -44,9 +45,7 @@ export class UsersService {
   @InjectRepository(User)
   private userRepository: Repository<User>;
 
-  constructor() {
-    console.log('123123123', this.adminUserRepository);
-  }
+  constructor(private accessService: AccessService) {}
 
   async findOne(username: string): Promise<Admin> {
     return this.adminUserRepository.findOne({
@@ -68,7 +67,6 @@ export class UsersService {
       },
       skip: skip * take,
       take,
-      relations: ['auths'],
     });
 
     return [
@@ -86,21 +84,53 @@ export class UsersService {
       where: {
         id: adminUserId,
       },
-      relations: ['auths'],
+    });
+
+    const superAuth = await this.authUserRepository.findOne({
+      where: {
+        identification: 'super',
+      },
     });
 
     const isSuper =
-      admin.isSuper ||
-      admin.auths.some((item) => item.identification === 'super');
+      superAuth &&
+      (admin.isSuper ||
+        admin.auths
+          ?.split(',')
+          .some((item) => parseInt(item) === superAuth.id));
 
     const auths = await this.authUserRepository.find();
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //@ts-ignore
-    admin.hasAuths = isSuper
-      ? auths.map((item) => item.identification)
-      : admin.auths.map((item) => item.identification);
+    const hasAuths = [];
 
+    if (isSuper) {
+      hasAuths.push(...auths.map((item) => item.identification));
+    } else {
+      const authIds =
+        (admin.auths && admin.auths.split(',').map((item) => parseInt(item))) ||
+        [];
+      const thehasAuths = (
+        (await this.authUserRepository.find({ where: { id: In(authIds) } })) ||
+        []
+      ).map((item) => item.identification);
+
+      hasAuths.push(...thehasAuths);
+    }
+
+    const roles =
+      (admin.roles && admin.roles.split(',').map((item) => parseInt(item))) ||
+      [];
+
+    const roleHasAuths = [];
+
+    for (const role of roles) {
+      const rauths = await this.accessService.getRoleAuths(role);
+      roleHasAuths.push(...rauths);
+    }
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    admin.hasAuths = [...new Set([...hasAuths, ...roleHasAuths])];
     return admin;
   }
 
@@ -111,7 +141,7 @@ export class UsersService {
         .map((item) => ({ identification: item.identifier })),
     });
 
-    admin.auths = auths;
+    admin.auths = auths.map((item) => item.id).join(',');
     return this.adminUserRepository.save(admin);
   }
 

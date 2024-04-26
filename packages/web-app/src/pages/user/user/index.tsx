@@ -11,6 +11,7 @@ import type { FormValueType } from './components/UpdateForm'
 import { get, add, set, del } from './service'
 import type { TableListItem, TableListPagination } from './data'
 import UserInfoCard from '@/components/UserInfoCard'
+import PasswordModal from './components/PasswordModal'
 /**
  * 添加节点
  *
@@ -173,7 +174,9 @@ const TableList: React.FC = () => {
         >
           配置
         </a>,
-        <a>重置密码</a>,
+        <PasswordModal key='PasswordModal' currentRow={record}  onTrigger={() => {
+          setCurrentRow(record)
+        }} refresh={() => actionRef.current.reloadAndRest()}/>,
         <Popconfirm
           key="subscribeAlert"
           title="确定要进行删除操作吗？"

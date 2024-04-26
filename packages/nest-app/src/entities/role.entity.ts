@@ -14,7 +14,7 @@ export class Role {
   identification: string;
 
   // 拥有的权限
-  @Column()
+  @Column({ nullable: true, default: '' })
   auths: string;
 
   // 角色名

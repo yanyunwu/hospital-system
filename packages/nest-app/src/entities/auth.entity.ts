@@ -35,7 +35,4 @@ export class Auth {
 
   @CreateDateColumn()
   createTime: string;
-
-  @ManyToOne(() => Admin, (adminUser) => adminUser.auths)
-  adminUser: Admin;
 }

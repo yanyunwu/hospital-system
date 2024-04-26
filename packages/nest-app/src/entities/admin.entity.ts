@@ -25,8 +25,11 @@ export class Admin {
   @Column({ nullable: false })
   password: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: '' })
   roles: string;
+
+  @Column({ nullable: true, default: '' })
+  auths: string;
 
   // 性别
   @Column({ nullable: true })
@@ -55,9 +58,8 @@ export class Admin {
   @Column({ nullable: true })
   userType: string;
 
-  // 学号
   @Column({ nullable: true })
-  doctorId: number;
+  doctorId: string;
 
   @CreateDateColumn()
   createTime: string;
@@ -67,7 +69,4 @@ export class Admin {
 
   @Column({ nullable: true, type: 'boolean', default: false })
   isSuper?: boolean;
-
-  @OneToMany(() => Auth, (auth) => auth.adminUser)
-  auths: Auth[];
 }

@@ -95,7 +95,7 @@ export class InitService implements OnModuleInit {
         identification: 'super',
       });
 
-      admin.auths = [superAuth];
+      admin.auths = [superAuth.id].join(',');
 
       await this.adminUserRepository.save(admin);
     } catch (err) {

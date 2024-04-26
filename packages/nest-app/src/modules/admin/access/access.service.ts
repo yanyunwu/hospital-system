@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Role } from '../../../entities/role.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Auth } from 'src/entities/auth.entity';
 
 @Injectable()
@@ -38,16 +38,10 @@ export class AccessService {
     const role = new Role();
     role.identification = identification;
     role.name = name;
-    role.auths = 'a1';
     return this.roleRepository.save(role);
   }
 
-  async setRole(newRole: {
-    id: number;
-    identification: string;
-    name: string;
-    auths: string;
-  }) {
+  async setRole(newRole: { id: number; identification: string; name: string }) {
     return this.roleRepository.save(newRole as Role);
   }
 
@@ -121,5 +115,43 @@ export class AccessService {
     });
 
     return this.authRepository.remove(auths);
+  }
+
+  async getRoleAuths(roleId: number) {
+    const role = await this.roleRepository.findOne({
+      where: {
+        id: roleId,
+      },
+    });
+
+    const superAuth = await this.authRepository.findOne({
+      where: {
+        identification: 'super',
+      },
+    });
+
+    const isSuper =
+      superAuth &&
+      role?.auths?.split(',').some((item) => parseInt(item) === superAuth.id);
+
+    const auths = await this.authRepository.find();
+
+    let hasAuths: string[] = [];
+
+    if (isSuper) {
+      hasAuths = auths.map((item) => item.identification);
+    } else {
+      const authIds = [];
+
+      if (role?.auths) {
+        authIds.push(...role.auths.split(',').map((item) => parseInt(item)));
+      }
+
+      hasAuths = (
+        (await this.authRepository.find({ where: { id: In(authIds) } })) || []
+      ).map((item) => item.identification);
+    }
+
+    return hasAuths;
   }
 }

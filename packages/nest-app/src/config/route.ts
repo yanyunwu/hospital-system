@@ -36,7 +36,7 @@ export default [
     identifier: 'customer.user',
     name: '用户管理-用户信息管理',
     path: '/customer/user',
-    pub: true,
+    // pub: true,
   },
   {
     identifier: 'session.chat',
@@ -54,7 +54,7 @@ export default [
     identifier: 'community.post',
     name: '心理社区管理-帖子管理',
     path: '/community/post',
-    pub: true,
+    // pub: true,
   },
   {
     identifier: 'booking.booking',

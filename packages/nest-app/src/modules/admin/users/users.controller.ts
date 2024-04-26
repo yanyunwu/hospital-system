@@ -34,6 +34,11 @@ export class UsersController {
   async getAdminUser(@Req() req: Request) {
     const adminUser = req['user'];
     console.log('adminUser', adminUser);
+
+    if (!adminUser.adminUserId) {
+      return;
+    }
+
     return this.usersService.getOwnerAdminUser(adminUser.adminUserId);
   }
 
