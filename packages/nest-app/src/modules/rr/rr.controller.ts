@@ -41,4 +41,9 @@ export class RrController {
   async setRR(@Body() body: RR, @Req() req: Request) {
     return this.rrService.setRR(body);
   }
+
+  @Post('/delRR')
+  async delRR(@Body() body: { ids: number[] }) {
+    return this.rrService.delRR(body.ids);
+  }
 }

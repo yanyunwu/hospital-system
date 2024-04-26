@@ -2,7 +2,7 @@ import { Injectable, Post } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RR } from 'src/entities/rr.entity';
 import { User } from 'src/entities/user.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
 @Injectable()
 export class RrService {
@@ -54,5 +54,19 @@ export class RrService {
 
   addRR(body: RR) {
     return this.rrRepository.save(body);
+  }
+
+  async delRR(ids: number[]) {
+    // 切记空数组一定要终止，否则会讲数据库全部删掉
+    if (!ids.length) {
+      return;
+    }
+    const columns = await this.rrRepository.find({
+      where: {
+        id: In(ids),
+      },
+    });
+
+    return this.rrRepository.remove(columns);
   }
 }
