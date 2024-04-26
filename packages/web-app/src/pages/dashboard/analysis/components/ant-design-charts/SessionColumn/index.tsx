@@ -1,24 +1,29 @@
 import { Column } from '@ant-design/charts'
 import ChatContainer from '../ChatContainer'
+import { useRequest } from 'ahooks'
+import { getSessionAdd } from '@/services/hospital-app'
 
 
 const DemoColumn = () => {
+
+  const {data: reqData, loading} = useRequest(getSessionAdd)
+
+  const data = reqData?.data || {}
+
+
   const config = {
-    data: {
-      type: 'fetch',
-      value: 'https://render.alipay.com/p/yuyan/180020010001215413/antd-charts/column-column.json',
-    },
-    xField: 'letter',
-    yField: 'frequency',
+    data: data,
+    xField: 'date',
+    yField: 'value',
     label: {
-      text: (d) => `${(d.frequency * 100).toFixed(1)}%`,
+      text: (d) => `${d.value}个`,
       textBaseline: 'bottom',
     },
-    axis: {
-      y: {
-        labelFormatter: '.0%',
-      },
-    },
+    // axis: {
+    //   y: {
+    //     labelFormatter: '.0%',
+    //   },
+    // },
     style: {
       // 圆角样式
       radiusTopLeft: 10,
@@ -26,7 +31,7 @@ const DemoColumn = () => {
     },
   }
   return (
-    <ChatContainer title='会话产生增量图'>
+    <ChatContainer title='会话产生增量图' loading={loading}>
       <Column {...config} />
     </ChatContainer>
   )

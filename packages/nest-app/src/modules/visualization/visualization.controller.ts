@@ -46,4 +46,14 @@ export class VisualizationController {
   getPeopleAdd() {
     return this.visualizationService.getPeopleAdd();
   }
+
+  @Get('/getSessionAdd')
+  getSessionAdd() {
+    return this.visualizationService.getSessionAdd();
+  }
+
+  @Get('/getTopUserPosts')
+  async getTopUserPosts() {
+    return this.visualizationService.getTopUserPosts();
+  }
 }

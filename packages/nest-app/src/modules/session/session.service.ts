@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as dayjs from 'dayjs';
 import { LiveChat } from 'src/entities/liveChat.entity';
 import { LiveChatMessage } from 'src/entities/liveChatMessage.entity';
-import { Repository } from 'typeorm';
+import { Raw, Repository } from 'typeorm';
 
 @Injectable()
 export class SessionService {
@@ -41,5 +42,15 @@ export class SessionService {
 
   messageCount() {
     return this.liveChatMessageRepository.count();
+  }
+
+  getSessionAdd(day = 7) {
+    return this.liveChatRepository.find({
+      where: {
+        createTime: Raw((alias) => `${alias} > :date`, {
+          date: dayjs().subtract(day, 'day').format('YYYY-MM-DD'),
+        }),
+      },
+    });
   }
 }

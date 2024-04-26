@@ -114,4 +114,20 @@ export async function getPeopleAdd() {
   })
 }
 
+export async function getSessionAdd() {
+  return request('/api/visualization/getSessionAdd', {
+    method: 'GET',
+  })
+}
+
+export async function getTopUserPosts() {
+  return request('/api/visualization/getTopUserPosts', {
+    method: 'GET',
+  })
+}
+
+
+
+
+
 

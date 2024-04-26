@@ -95,4 +95,19 @@ export class UserService {
       other,
     };
   }
+
+  async getTopUserPosts(limit = 10) {
+    const topPosters = await this.userRepository
+      .createQueryBuilder('user')
+      .leftJoin('user.posts', 'post') // 假设在User实体中定义的帖子关系属性为`posts`
+      // .select('user.id', 'userId')
+      // .addSelect('user.nickname', 'nickname')
+      .addSelect('COUNT(post.id)', 'post_count') // 选择帖子数，别名为`post_count`
+      .groupBy('userId') // 根据用户ID分组
+      .orderBy('post_count', 'DESC') // 根据发帖数量降序排序
+      .limit(limit) // 限制结果为前10条
+      .getMany();
+
+    return topPosters;
+  }
 }

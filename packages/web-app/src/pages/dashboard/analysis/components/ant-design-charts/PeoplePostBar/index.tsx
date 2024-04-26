@@ -1,5 +1,7 @@
 import { Bar, BarConfig } from '@ant-design/charts'
 import ChatContainer from '../ChatContainer'
+import { useRequest } from 'ahooks'
+import { getTopUserPosts } from '@/services/hospital-app'
 
 
 const data = [
@@ -22,6 +24,13 @@ const data = [
 ]
 
 const DemoBar = () => {
+
+
+
+  const {data: reqData, loading} = useRequest(getTopUserPosts)
+
+  const data = reqData?.data || {}
+
   const config: BarConfig = {
     data,
     xField: 'labelName',
@@ -69,7 +78,7 @@ const DemoBar = () => {
     },
   }
   return (
-    <ChatContainer title='用户发帖量排名'>
+    <ChatContainer title='用户发帖量排名' loading={loading}>
       <Bar {...config} />
     </ChatContainer>
   )

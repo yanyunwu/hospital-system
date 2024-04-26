@@ -6,12 +6,37 @@ import { useGlobalContext } from '@/templates/CommonTemplate'
 import { TableListItem } from '../../../../type'
 import { useState } from 'react'
 import { RedoOutlined } from '@ant-design/icons'
+import { Column } from '@ant-design/charts'
+
+
+const DemoColumn = (props:any) => {
+
+  const data = (props.data).slice(0, 10).sort((a, b) => a.value > b.value ? -1 : 1)
+
+  const config = {
+    data: data,
+    xField: 'text',
+    yField: 'value',
+    label: {
+      text: (d) => `出现${d.value}次`,
+      textBaseline: 'bottom',
+    },
+    style: {
+      // 圆角样式
+      radiusTopLeft: 10,
+      radiusTopRight: 10,
+    },
+  }
+  return (
+    <Column {...config} />
+  )
+}
 
 export default function DataAnalysis() {
 
   const [multiple, setMultiple ] = useState(10)
   const { currentRow } = useGlobalContext<TableListItem>()
-  const { data, refresh } = useRequest(() => GetPostCuts(currentRow.id), {
+  const { data, refresh, loading } = useRequest(() => GetPostCuts(currentRow.id), {
     refreshDeps: [currentRow.id]
   })
 
@@ -43,7 +68,7 @@ export default function DataAnalysis() {
         {data && <WordCloud words={data} weightFactor={multiple} />}
       </Card>
       <Card title="图表分析">
-
+        {!loading && <DemoColumn data={data} />}
       </Card>
     </Space>
   )

@@ -69,6 +69,20 @@ export class VisualizationService {
       }));
     };
 
-    return [...fn(men, 'men'), ...fn(women, 'women'), ...fn(other, 'other')];
+    return [...fn(men, '男'), ...fn(women, '女'), ...fn(other, '未知')];
+  }
+
+  async getSessionAdd() {
+    const data = await this.sessionService.getSessionAdd();
+    return unionArr(data, (item) =>
+      dayjs(item.createTime).format('YYYY-MM-DD'),
+    ).map((item) => ({
+      date: item[0],
+      value: item[1],
+    }));
+  }
+
+  async getTopUserPosts() {
+    return this.userService.getTopUserPosts();
   }
 }
