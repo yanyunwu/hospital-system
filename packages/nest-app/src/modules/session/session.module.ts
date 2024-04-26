@@ -17,5 +17,6 @@ import { UserModule } from '../mp/user/user.module';
   ],
   controllers: [SessionController],
   providers: [SessionService],
+  exports: [SessionService],
 })
 export class SessionModule {}

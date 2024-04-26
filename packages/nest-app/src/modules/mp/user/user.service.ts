@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as dayjs from 'dayjs';
 import { User } from 'src/entities/user.entity';
-import { Repository } from 'typeorm';
+import { In, IsNull, Not, Raw, Repository } from 'typeorm';
 function mymethod(birthday: any) {
   const str = birthday;
   birthday = birthday.split('-');
@@ -56,5 +57,42 @@ export class UserService {
         id,
       },
     });
+  }
+
+  async count() {
+    return this.userRepository.count();
+  }
+
+  async getUsersBySex(day: number = 7) {
+    const createTime = Raw((alias) => `${alias} > :date`, {
+      date: dayjs().subtract(day, 'day').format('YYYY-MM-DD'),
+    });
+
+    const other = await this.userRepository.findBy([
+      {
+        sex: Not(In([0, 1])),
+        createTime,
+      },
+      {
+        sex: IsNull(),
+        createTime,
+      },
+    ]);
+
+    const men = await this.userRepository.findBy({
+      sex: 0,
+      createTime,
+    });
+
+    const women = await this.userRepository.findBy({
+      sex: 1,
+      createTime,
+    });
+
+    return {
+      men,
+      women,
+      other,
+    };
   }
 }

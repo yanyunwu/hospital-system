@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as dayjs from 'dayjs';
 import { Post } from 'src/entities/post.entity';
 import { PostReply } from 'src/entities/postReply.entity';
 import { User } from 'src/entities/user.entity';
@@ -9,6 +10,7 @@ import {
   FindOptions,
   FindOptionsWhere,
   Not,
+  Raw,
   Repository,
 } from 'typeorm';
 import * as Segment from 'segment';
@@ -321,5 +323,29 @@ export class CommunityService {
       },
       relations: ['user'],
     });
+  }
+
+  async getPostListByDate(day: number = 7) {
+    return this.postRepository.find({
+      where: {
+        createTime: Raw((alias) => `${alias} > :date`, {
+          date: dayjs().subtract(day, 'day').format('YYYY-MM-DD'),
+        }),
+      },
+    });
+  }
+
+  async postCount() {
+    return this.postRepository.count();
+  }
+
+  async postReplyCount() {
+    return this.postReplyRepository.count();
+  }
+
+  async allUserTime() {
+    // 单位秒
+    const time = await this.postRecordRepository.sum('browseTime');
+    return (time / 60 / 60).toFixed(2);
   }
 }

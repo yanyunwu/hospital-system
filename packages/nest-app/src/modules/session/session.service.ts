@@ -34,4 +34,12 @@ export class SessionService {
     });
     return this.liveChatRepository.remove(beenRemove);
   }
+
+  sessionCount() {
+    return this.liveChatRepository.count();
+  }
+
+  messageCount() {
+    return this.liveChatMessageRepository.count();
+  }
 }

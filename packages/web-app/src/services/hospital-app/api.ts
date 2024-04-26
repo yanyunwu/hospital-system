@@ -95,3 +95,23 @@ export async function getSexCount() {
     method: 'GET',
   })
 }
+
+export async function getCommunityAdd() {
+  return request('/api/visualization/getCommunityAdd', {
+    method: 'GET',
+  })
+}
+
+export async function getOverview() {
+  return request('/api/visualization/getOverview', {
+    method: 'GET',
+  })
+}
+
+export async function getPeopleAdd() {
+  return request('/api/visualization/getPeopleAdd', {
+    method: 'GET',
+  })
+}
+
+
