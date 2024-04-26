@@ -12,7 +12,6 @@ export class UsersController {
   /**
    * 医院人员信息管理模块
    */
-  @Public()
   @Get('/getAdminUserList')
   async getAdminUserList(
     @Query() qurey: { skip?: number; take?: number; [key: string]: any },
@@ -54,23 +53,22 @@ export class UsersController {
   @Post('/addAdminUser')
   async addAdminUser(@Body() body: Admin) {
     body.password = '12345678';
-    await this.usersService.addAdminUser(body);
+    return this.usersService.addAdminUser(body);
   }
 
   @Post('/setAdminUser')
   setAdminUser(@Body() body: Admin) {
-    this.usersService.setAdminUser(body);
+    return this.usersService.setAdminUser(body);
   }
 
   @Post('/delAdminUser')
   delAdminUser(@Body() body: { ids: number[] }) {
-    this.usersService.delAdminUser(body.ids);
+    return this.usersService.delAdminUser(body.ids);
   }
 
   /**
    * 用户信息管理模块
    */
-  @Public()
   @Get('/getUserList')
   async getUserList(
     @Query() qurey: { skip?: number; take?: number; [key: string]: any },
@@ -91,16 +89,16 @@ export class UsersController {
 
   @Post('/addUser')
   async addAuth(@Body() body: User) {
-    await this.usersService.addUser(body);
+    return this.usersService.addUser(body);
   }
 
   @Post('/setUser')
   setAuth(@Body() body: User) {
-    this.usersService.setUser(body);
+    return this.usersService.setUser(body);
   }
 
   @Post('/delUser')
   delAuth(@Body() body: { ids: number[] }) {
-    this.usersService.delUser(body.ids);
+    return this.usersService.delUser(body.ids);
   }
 }

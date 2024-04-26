@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Admin } from 'src/entities/admin.entity';
 import { Auth } from 'src/entities/auth.entity';
 import { User } from 'src/entities/user.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import routeConfig from 'src/config/route';
 
 function mymethod(birthday: any) {
@@ -197,12 +197,25 @@ export class UsersService {
     if (!ids.length) {
       return;
     }
-
-    const whereIds = ids.map((id) => ({ id }));
-
     const columns = await this.userRepository.find({
-      where: whereIds,
+      where: {
+        id: In(ids),
+      },
     });
+
+    for (const column of columns) {
+      column.anonymousMailboxs = [];
+      column.bookingDateRecords;
+      column.feedbacks = [];
+      column.liveChats = [];
+      column.postBrowseRecords = [];
+      column.postRecords = [];
+      column.postReplys = [];
+      column.posts = [];
+      column.rrs = [];
+    }
+
+    await this.userRepository.save(columns);
 
     return this.userRepository.remove(columns);
   }
