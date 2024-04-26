@@ -46,6 +46,22 @@ export class CommunityService {
       async (transactionalEntityManager) => {
         const [postResult = [], postCount] =
           await transactionalEntityManager.findAndCount(Post, {
+            select: {
+              user: {
+                id: true,
+                openId: true,
+                avatar: true,
+                username: true,
+                password: false,
+                sex: true,
+                age: true,
+                birthday: true,
+                nickname: true,
+                name: true,
+                stuId: true,
+                createTime: true,
+              },
+            },
             where: {
               ...rest,
               user,

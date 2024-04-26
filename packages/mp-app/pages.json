@@ -52,7 +52,10 @@
 			"style" : 
 			{
 				"navigationBarTitleText" : "写帖子",
-				"enablePullDownRefresh" : false
+				"enablePullDownRefresh" : false,
+				"app-plus": {
+					"softinputMode": "adjustResize"
+				}
 			}
 		},
 		{
