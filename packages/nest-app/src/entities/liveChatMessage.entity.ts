@@ -18,7 +18,7 @@ export class LiveChatMessage {
   @Column({ nullable: true })
   speakUserId: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   speakUserName: string;
 
   @Column() // 0 用户 1 系统用户

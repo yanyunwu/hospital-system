@@ -44,6 +44,9 @@ export class BookingService {
           booking: true,
         },
       },
+      order: {
+        createTime: 'DESC',
+      },
     });
   }
 
@@ -56,6 +59,9 @@ export class BookingService {
     const [data, count] = await this.bookingRepository.findAndCount({
       where: {
         ...rest,
+        bookingDates: {
+          ...bookingDates,
+        },
       },
       skip: skip * take,
       take,

@@ -10,7 +10,6 @@ export type UserType = {
 export const User = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest<Request>();
-    console.log('request', request);
     const user = request['user'] || {};
     const res: UserType = {
       openid: user.openid,

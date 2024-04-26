@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { MessageService } from '../admin/message/message.service';
+import { withErrorCatch } from 'src/utils/withErrorCatch';
 
 const ADMIN_ROOM = 'admin_room';
 
@@ -24,17 +25,25 @@ export class EventsService {
     });
 
     // 接受到消息群发给后台
-    socket.on('message', async (message) => {
-      const msg = await this.messageService.addMessage(
-        message.sessionId,
-        message.text,
-        0,
-        userId,
-      );
-      console.log('msg', msg);
-      server.to(ADMIN_ROOM).emit('message', msg);
-      socket.emit('message_ok', msg);
-    });
+    socket.on(
+      'message',
+      withErrorCatch(
+        async (message) => {
+          const msg = await this.messageService.addMessage(
+            message.sessionId,
+            message.text,
+            0,
+            userId,
+          );
+          console.log('msg', msg);
+          server.to(ADMIN_ROOM).emit('message', msg);
+          socket.emit('message_ok', msg);
+        },
+        (err) => {
+          console.error('err', err);
+        },
+      ),
+    );
   }
 
   // 处理后台系统
@@ -51,18 +60,26 @@ export class EventsService {
       this.adminClientMap.delete(adminUserId);
     });
 
-    socket.on('message', async (message) => {
-      const userId = message.userId;
-      const client = this.clientMap.get(userId);
-      console.log('handleAdminSocketConnection', message, client);
-      const msg = await this.messageService.addMessage(
-        message.sessionId,
-        message.text,
-        1,
-        adminUserId,
-      );
-      client?.send(msg);
-      socket.emit('message_ok', msg);
-    });
+    socket.on(
+      'message',
+      withErrorCatch(
+        async (message) => {
+          const userId = message.userId;
+          const client = this.clientMap.get(userId);
+          console.log('handleAdminSocketConnection', message, client);
+          const msg = await this.messageService.addMessage(
+            message.sessionId,
+            message.text,
+            1,
+            adminUserId,
+          );
+          client?.send(msg);
+          socket.emit('message_ok', msg);
+        },
+        (err) => {
+          console.error('err', err);
+        },
+      ),
+    );
   }
 }

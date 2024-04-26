@@ -43,7 +43,7 @@
 			</view>
 			
 			<view class="post-publish" @click="handleClickPublish">
-				<image mode="widthFix" src="../../static/post-publish.png"></image>
+				<image mode="widthFix" src="/static/post-publish.png"></image>
 			</view>
 		</view>
 	</view>
@@ -83,7 +83,7 @@
 				],
 				activeTab: 0,
 				posts: [],
-				anonymousAvatar: "../../static/touxiang.png",
+				anonymousAvatar: "/static/touxiang.png",
 				anonymousName: "匿名用户"
 			}
 		},

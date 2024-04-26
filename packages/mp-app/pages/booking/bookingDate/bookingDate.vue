@@ -5,7 +5,8 @@
 				<view>预约总数: <text>{{currentDate.count}}</text></view>
 			</view>
 			<view class="right">
-				<view>剩余预约名额: <text>{{currentDate.count - currentDate.bookingDateRecords?.length}}</text></view>
+				<view>剩余预约名额: <text>{{sycount}}</text></view>
+				
 			</view>
 		</view>
 		<view class="select">
@@ -43,6 +44,13 @@
 			const bookId = query.bookId
 			this.bookId = parseInt(bookId)
 			this.getBookDateList()
+		},
+		
+			
+		computed: {
+			sycount() {
+				return this.currentDate.count - this.currentDate.bookingDateRecords?.filter(item => [0, 1].includes(item.status)).length
+			}
 		},
 		
 		methods: {
@@ -107,7 +115,7 @@
 				request({
 					url: '/api/booking/getBookingDateList',
 					data: {
-						bookingId: this.bookId
+						bookingId: this.bookId,
 					}
 				}).then(res => {
 					console.log('预约列表', res)
@@ -115,7 +123,7 @@
 					const dataList = res.data.data.data
 					this.start = dataList[0]?.date
 					this.end = dataList[dataList.length-1]?.date
-					// this.single = this.start
+					this.single = this.start
 					this.currentDate = dataList[0]
 				})
 			}

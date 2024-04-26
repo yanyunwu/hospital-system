@@ -94,12 +94,13 @@
 		},
 			
 		methods: {
-			handleCancel() {
+			handleCancel(id) {
 				uni.showModal({
 					title: '提示',
 					content: '确定要取消预约吗？',
 					success: (res) => {
 						if (res.confirm) {
+							this.cancel((id))
 							console.log('用户点击确定');
 						} else if (res.cancel) {
 							console.log('用户点击取消');
@@ -108,12 +109,13 @@
 				});
 			},
 			
-			handleDel() {
+			handleDel(id) {
 				uni.showModal({
 					title: '提示',
 					content: '确定要删除预约记录吗？',
 					success: (res) => {
 						if (res.confirm) {
+							this.del(id)
 							console.log('用户点击确定');
 						} else if (res.cancel) {
 							console.log('用户点击取消');
@@ -132,6 +134,39 @@
 					console.log('预约记录', res)
 
 					this.dataList = res.data.data
+				})
+			},
+			del(id) {
+				request({
+					url: '/api/booking/delBookingDateRecord',
+					method: 'post',
+					data: {
+						ids: [id]
+					}
+				}).then(res => {
+					console.log('预约记录删除', res)
+					uni.showToast({
+						icon: 'none',
+						title: '删除成功！'
+					})
+					this.getList()
+				})
+			},
+			cancel(id) {
+				request({
+					url: '/api/booking/setBookingDateRecord',
+					method: 'post',
+					data: {
+						id,
+						status: 3
+					}
+				}).then(res => {
+					console.log('预约记录取消', res)
+					uni.showToast({
+						icon: 'none',
+						title: '取消成功！'
+					})
+					this.getList()
 				})
 			}
 		},

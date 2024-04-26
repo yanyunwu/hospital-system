@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  ParseBoolPipe,
+  ParseIntPipe,
+  Post,
+  Query,
+  Req,
+} from '@nestjs/common';
 import { Request } from 'express';
 import { Post as PostEntity } from 'src/entities/post.entity';
 import { CommunityService } from './community.service';
@@ -74,8 +83,16 @@ export class CommunityController {
     return this.communityService.setPost(body);
   }
 
+  @Public()
   @Get('/getPost')
-  async getPost(@Query('id') id: string, @User() user: UserType) {
+  async getPost(
+    @Query('id') id: string,
+    @User() user: UserType,
+    @Query('isAddView', new ParseBoolPipe({ optional: true }))
+    isAddView?: boolean,
+  ) {
+    console.log('isAddViewisAddViewisAddView', isAddView);
+
     const data = await this.communityService.getPost(parseInt(id));
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore

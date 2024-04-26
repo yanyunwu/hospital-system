@@ -42,14 +42,15 @@
 				request({
 					url: '/api/booking/getUserRecord',
 					data: {
-						bookingId: id
+						bookingId: id,
+						status: '0,1'
 					}
 				}).then(res => {
 					console.log('用户已预约列表', res)
 					if (res.data.data.length) {
 						console.log(res.data.data.length)
 						uni.showModal({
-							content: '你已预约该项！',
+							content: '你已预约或完成该项！',
 							confirmText: '查看预约',
 							success: (res) => {
 								if (res.confirm) {
