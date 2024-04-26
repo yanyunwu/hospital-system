@@ -126,6 +126,14 @@ export async function getTopUserPosts() {
   })
 }
 
+export async function getTopUserPostReplys() {
+  return request('/api/visualization/getTopUserPostReplys', {
+    method: 'GET',
+  })
+}
+
+
+
 
 
 

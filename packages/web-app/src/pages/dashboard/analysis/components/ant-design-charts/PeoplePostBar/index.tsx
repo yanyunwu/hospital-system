@@ -33,7 +33,7 @@ const DemoBar = () => {
 
   const config: BarConfig = {
     data,
-    xField: 'labelName',
+    xField: 'nickname',
     yField: 'value',
     paddingRight: 80,
     style: {
@@ -42,7 +42,7 @@ const DemoBar = () => {
     markBackground: {
       label: {
         text: ({ originData }) => {
-          return `${(originData.value / 1000) * 100}% | ${originData.value}`
+          return `共发${originData.value}条`
         },
         position: 'right',
         dx: 80,

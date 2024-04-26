@@ -39,7 +39,7 @@ import { VisualizationModule } from './modules/visualization/visualization.modul
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
       entities: [resolve(__dirname, './entities/**/*.entity.{js,ts}')],
-      synchronize: true,
+      synchronize: false,
       logging: true,
     }),
     InitModule,

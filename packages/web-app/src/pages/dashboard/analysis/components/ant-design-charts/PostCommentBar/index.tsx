@@ -1,27 +1,28 @@
 import { Bar } from '@ant-design/charts'
 import ChatContainer from '../ChatContainer'
+import { getTopUserPostReplys } from '@/services/hospital-app'
+import { useRequest } from 'ahooks'
 
-const data = [
-  { year: '1951 年', value: 38 },
-  { year: '1952 年', value: 52 },
-  { year: '1956 年', value: 61 },
-  { year: '1957 年', value: 145 },
-  { year: '1958 年', value: 48 },
-]
+
+
 
 const DemoBar = () => {
+  const {data: reqData, loading} = useRequest(getTopUserPostReplys)
+
+  const data = reqData?.data || {}
+
+
   const config = {
     data,
-    xField: 'year',
+    xField: 'nickname',
     yField: 'value',
-    shapeField: 'hollow',
-    colorField: 'year',
+    colorField: 'nickname',
     legend: {
       color: { size: 72, autoWrap: true, maxRows: 3, cols: 6 },
     },
   }
   return (
-    <ChatContainer title='内容贴评论量排名'>
+    <ChatContainer title='内容贴评论量排名' loading={loading}>
       <Bar {...config} />
     </ChatContainer>
   )

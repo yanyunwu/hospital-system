@@ -56,4 +56,9 @@ export class VisualizationController {
   async getTopUserPosts() {
     return this.visualizationService.getTopUserPosts();
   }
+
+  @Get('/getTopUserPostReplys')
+  async getTopUserPostReplys() {
+    return this.visualizationService.getTopUserPostReplys();
+  }
 }

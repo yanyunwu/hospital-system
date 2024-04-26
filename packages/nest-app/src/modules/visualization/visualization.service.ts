@@ -83,6 +83,18 @@ export class VisualizationService {
   }
 
   async getTopUserPosts() {
-    return this.userService.getTopUserPosts();
+    const data = await this.userService.getTopUserPosts();
+    return data.map((item) => ({
+      ...item,
+      nickname: `${item.nickname}(id: ${item.userId})`,
+    }));
+  }
+
+  async getTopUserPostReplys() {
+    const data = await this.userService.getTopUserPostReplys();
+    return data.map((item) => ({
+      ...item,
+      nickname: `${item.nickname}(id: ${item.userId})`,
+    }));
   }
 }
