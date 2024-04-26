@@ -3,6 +3,7 @@ import { ProColumns, ProColumnType } from '@ant-design/pro-components'
 import { useGlobalContext } from '@/templates/CommonTemplate'
 import { TableListItem } from '../type'
 import DetailDrawer from '../components/DetailDrawer'
+import StatusModal from '../components/StatusModal'
 
 const useAction = (): ProColumnType<TableListItem> => {
   const { setCurrentRow } = useGlobalContext<TableListItem>()
@@ -11,15 +12,13 @@ const useAction = (): ProColumnType<TableListItem> => {
     dataIndex: 'option',
     valueType: 'option',
     render: (_, record) => [
-      <DetailDrawer key='3123' onTrigger={() => {
+      <DetailDrawer key='DetailDrawer' onTrigger={() => {
         setCurrentRow(record)
       }} />,
 
-      <a  key='12e'
-        onClick={() => {
-          // handleModalVisible(true)
-          setCurrentRow(record)
-        }}>审批</a>
+      <StatusModal key='StatusModal' onTrigger={() => {
+        setCurrentRow(record)
+      }} />
     ],
   }
 }

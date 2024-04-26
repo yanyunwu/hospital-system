@@ -1,7 +1,7 @@
 <template>
 	<view v-if="loading">
 		<view style="display: flex; justify-content: center;flex-direction: column;align-items: center;">
-			<image mode="widthFix" style="width: 50rpx;height: auto;" src="/static/loading.gif"></image>
+			<image style="width: 50rpx;height: 50rpx;" src="/static/loading.gif"></image>
 			<view style="margin-top: 10rpx; color: #aaa;font-size: 12px;">
 				加载中... 
 			</view>

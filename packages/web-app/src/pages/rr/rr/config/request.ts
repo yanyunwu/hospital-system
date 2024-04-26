@@ -4,7 +4,7 @@ import { TableListItem } from '../type'
 const GET_URL = '/api/rr/getRRList'
 const SET_URL = '/api/rr/setRR'
 const ADD_URL = ''
-const DEL_URL = ''
+const DEL_URL = '/api/rr/delRR'
 
 export async function get(
   params: {

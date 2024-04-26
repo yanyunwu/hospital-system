@@ -2,24 +2,30 @@
 	<view class="container">
 		<view class="info">
 			<view class="left">
-				<view>预约总数: <text>{{currentDate.count}}</text></view>
+				<view>当前选择时间: <text>{{currentDate.date}}</text></view>
 			</view>
-			<view class="right">
-				<view>剩余预约名额: <text>{{sycount}}</text></view>
-				
+			<view class="left">
+				<view>当前日预约总数: <text>{{currentDate.count}}</text></view>
+			</view>
+			<view class="left">
+				<view>当前日剩余预约名额: <text>{{sycount}}</text></view>
+			</view>
+			<view class="left">
+				<view class="text">可预约的时间有: <text>{{dates}}</text></view>
 			</view>
 		</view>
 		<view class="select">
-			<uni-section title="选择你想要预约的时间" type="line"></uni-section>
-			<view class="picker">
-				<uni-datetime-picker
-					type="date"
-					:value="single"
-					@change="change"
-					:start="start"
-					:end="end"
-				/>
-			</view>
+			<uni-section title="选择你想要预约的时间" type="line">
+				<view class="picker">
+					<uni-datetime-picker
+						type="date"
+						:start="start"
+						:end="end"
+						v-model="single"
+					/>
+				</view>
+			</uni-section>
+			
 		</view>
 		<button type="primary" @click="handleBook">立即预约</button>
 	</view>
@@ -46,10 +52,20 @@
 			this.getBookDateList()
 		},
 		
+		watch: {
+				single() {
+					this.change(this.single)
+				}
+		},
+		
 			
 		computed: {
 			sycount() {
 				return this.currentDate.count - this.currentDate.bookingDateRecords?.filter(item => [0, 1].includes(item.status)).length
+			},
+			
+			dates() {
+				return (this.data?.data || []).map(item => `[${item.date}]`).join('、')
 			}
 		},
 		
@@ -58,7 +74,6 @@
 				const dataList = this.data.data
 				const res = dataList.find((item) => item.date === e) 
 				this.currentDate = res
-				this.single = e
 			},
 			
 			findBookingDateId() {
@@ -153,6 +168,18 @@
 				background-color: #fff;
 				padding: 10px;
 			}
+			
+			border-radius: 10rpx;
+			overflow: hidden;
 		}
+	}
+	
+	.text {
+	  font-size: 16px;
+	  color: #333;
+	  line-height: 1.5;
+	  margin-bottom: 15px;
+				padding: 0 10rpx;
+				word-break: break-all;
 	}
 </style>

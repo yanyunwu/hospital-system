@@ -183,7 +183,7 @@ export class CommunityService {
     ];
   }
 
-  async getPost(id: number): Promise<Post> {
+  async getPost(id: number, isAddView = false): Promise<Post> {
     const data = await this.postRepository.findOne({
       where: {
         id,
@@ -191,7 +191,9 @@ export class CommunityService {
       relations: ['user', 'replies', 'replies.user'],
     });
 
-    data.views += 1;
+    if (isAddView) {
+      data.views += 1;
+    }
 
     const likeCount = await this.postRecordRepository.countBy({
       post: {

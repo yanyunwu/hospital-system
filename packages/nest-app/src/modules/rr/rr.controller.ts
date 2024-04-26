@@ -3,12 +3,17 @@ import { Request } from 'express';
 import { RrService } from './rr.service';
 import { RR } from 'src/entities/rr.entity';
 import { LoginService } from '../mp/login/login.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { In, Repository } from 'typeorm';
+import { UserService } from '../mp/user/user.service';
+import { User, UserType } from 'src/decorators/user.decorator';
 
 @Controller('/api/rr')
 export class RrController {
   constructor(
     private rrService: RrService,
     private loginService: LoginService,
+    private userService: UserService,
   ) {}
 
   @Get('/getRRList')
@@ -32,7 +37,7 @@ export class RrController {
   @Post('/addRR')
   async addRR(@Body() body: RR, @Req() req: Request) {
     const payload = req['user'];
-    const user = await this.loginService.getUserByOpenId(payload.openid);
+    const user = await this.userService.getUserById(parseInt(payload.userId));
     body.user = user;
     return this.rrService.addRR(body);
   }
@@ -45,5 +50,21 @@ export class RrController {
   @Post('/delRR')
   async delRR(@Body() body: { ids: number[] }) {
     return this.rrService.delRR(body.ids);
+  }
+
+  @Get('/getUserRR')
+  getUserRecord(@Req() req: Request, @Query('status') status?: string) {
+    const userInfo = req['user'];
+    return this.rrService.getUserRecord(parseInt(userInfo.userId), {
+      status: status
+        ? In(status.split(',').map((item) => parseInt(item)))
+        : undefined,
+    });
+  }
+
+  @Get('/getRR')
+  async getPost(@Query('id') id: string) {
+    const data = await this.rrService.getRR(parseInt(id));
+    return data;
   }
 }

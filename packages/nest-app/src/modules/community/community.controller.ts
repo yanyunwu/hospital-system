@@ -83,7 +83,6 @@ export class CommunityController {
     return this.communityService.setPost(body);
   }
 
-  @Public()
   @Get('/getPost')
   async getPost(
     @Query('id') id: string,
@@ -91,9 +90,7 @@ export class CommunityController {
     @Query('isAddView', new ParseBoolPipe({ optional: true }))
     isAddView?: boolean,
   ) {
-    console.log('isAddViewisAddViewisAddView', isAddView);
-
-    const data = await this.communityService.getPost(parseInt(id));
+    const data = await this.communityService.getPost(parseInt(id), isAddView);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     data.permission = [];
@@ -142,7 +139,6 @@ export class CommunityController {
 
   @Post('/setPostReply')
   async setPostReply(@Body() body: PostRecord) {
-    console.log('bodybodybody', body);
     return this.communityService.setPostRecord(body);
   }
 

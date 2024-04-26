@@ -111,7 +111,7 @@
 					current:current,
 				})
 			},
-			getPost(cb) {
+			getPost(cb, isAddView = false) {
 				if (!this.id) {
 					return
 				}
@@ -119,12 +119,15 @@
 				request({
 					url: '/api/community/getPost',
 					data: {
-						id: this.id
+						id: this.id,
+						isAddView
 					}
 				}).then(res => {
 					console.log('帖子', res)
 					this.item = res.data.data
 					this.list = this.item.replies
+					cb?.(true)
+				}).finally(() => {
 					cb?.()
 				})
 			},
@@ -211,7 +214,7 @@
 			
 			this.time = Math.floor((new Date().getTime()) / 1000)
 			
-			this.getPost()
+			this.getPost(undefined, true)
 			this.addPostRecord()
 		},
 		
@@ -220,12 +223,15 @@
 		},
 		
 		onPullDownRefresh() {
-			this.getPost(() => {
+			this.getPost((success) => {
 				uni.stopPullDownRefresh()
-				uni.showToast({
-					icon: 'none',
-					title: '刷新成功！'
-				})
+				if (success) {
+					uni.showToast({
+						icon: 'none',
+						title: '刷新成功！'
+					})
+				}
+				
 			})
 		}
 	}

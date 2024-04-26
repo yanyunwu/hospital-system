@@ -2,7 +2,7 @@ import { Injectable, Post } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RR } from 'src/entities/rr.entity';
 import { User } from 'src/entities/user.entity';
-import { In, Repository } from 'typeorm';
+import { FindOptionsWhere, In, Repository } from 'typeorm';
 
 @Injectable()
 export class RrService {
@@ -68,5 +68,20 @@ export class RrService {
     });
 
     return this.rrRepository.remove(columns);
+  }
+
+  getUserRecord(userId: number, options?: FindOptionsWhere<RR>) {
+    return this.rrRepository.find({
+      where: {
+        user: {
+          id: userId,
+        },
+
+        ...options,
+      },
+      order: {
+        createTime: 'DESC',
+      },
+    });
   }
 }

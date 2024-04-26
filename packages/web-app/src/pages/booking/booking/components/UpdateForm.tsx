@@ -117,14 +117,16 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
       title: '已经预约数',
       dataIndex: 'bookingDateRecords',
       render(dom, item) {
-        return item.bookingDateRecords?.length || 0
+        const len = item.bookingDateRecords?.filter(item => [0, 1].includes(item.status)).length || 0
+        return len
       },
     },
     {
       title: '剩余预约数',
       dataIndex: 'bookingDateRecords2',
       render(dom, item) {
-        return item.count - (item.bookingDateRecords?.length || 0)
+        const len = item.bookingDateRecords?.filter(item => [0, 1].includes(item.status)).length || 0
+        return item.count - len
       },
     },
     {
