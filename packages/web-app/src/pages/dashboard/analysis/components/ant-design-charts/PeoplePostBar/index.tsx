@@ -4,28 +4,7 @@ import { useRequest } from 'ahooks'
 import { getTopUserPosts } from '@/services/hospital-app'
 
 
-const data = [
-  {
-    labelName: '蓝领',
-    value: 110,
-  },
-  {
-    labelName: '白领',
-    value: 220,
-  },
-  {
-    labelName: '制造业蓝领',
-    value: 330,
-  },
-  {
-    labelName: '退休人员',
-    value: 440,
-  },
-]
-
 const DemoBar = () => {
-
-
 
   const {data: reqData, loading} = useRequest(getTopUserPosts)
 

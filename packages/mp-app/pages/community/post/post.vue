@@ -3,12 +3,12 @@
 		<view class="post">
 			<view class="info">
 				<view class="avatar">
-					<image mode="widthFix" :src="item.anonymous ? anonymousAvatar : item.user.avatar"></image>
+					<image mode="widthFix" :src="item.anonymous ? anonymousAvatar : item.user?.avatar"></image>
 				</view>
 				<view class="title">
-					<view class="name">{{item.anonymous ? anonymousName : item.user.nickname}}
-						<image v-if="item.user.sex === 0" mode="widthFix" style="width: 30rpx;" src="../../../static/nan.png"></image>
-						<image v-if="item.user.sex === 1" mode="widthFix" style="width: 30rpx;" src="../../../static/nv.png"></image>
+					<view class="name">{{item.anonymous ? anonymousName : item.user?.nickname}}
+						<image v-if="item.user?.sex === 0" mode="widthFix" style="width: 30rpx;" src="../../../static/nan.png"></image>
+						<image v-if="item.user?.sex === 1" mode="widthFix" style="width: 30rpx;" src="../../../static/nv.png"></image>
 					</view>
 					<view class="time">{{dayjs(item.createTime).format('YYYY/MM/DD HH:mm:ss')}}</view>
 				</view>
@@ -48,10 +48,10 @@
 			<view v-for="item in list">
 				<view class="info">
 					<view class="avatar">
-						<image mode="widthFix" :src="item.user.avatar"></image>
+						<image mode="widthFix" :src="item.user?.avatar"></image>
 					</view>
 					<view class="title">
-						<view class="name">{{item.user.nickname}}</view>
+						<view class="name">{{item.user?.nickname}}</view>
 						<view class="time">{{dayjs(item.createTime).format('YYYY/MM/DD HH:mm:ss')}}</view>
 					</view>
 				</view>

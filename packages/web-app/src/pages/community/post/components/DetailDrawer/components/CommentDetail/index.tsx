@@ -41,8 +41,8 @@ export default function CommentDetail({record}: CommentDetailProps) {
                 return (
                   <div key={index}>
                     <Comment
-                      avatarUrl={item.user.avatar}
-                      name={item.user.nickname}
+                      avatarUrl={item.user?.avatar}
+                      name={item.user?.nickname}
                       time={dayjs(item.createTime).format('YYYY-MM-DD HH:mm:ss')}
                       content={item.content}
                     />

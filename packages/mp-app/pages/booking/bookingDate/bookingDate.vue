@@ -71,6 +71,15 @@
 		
 		methods: {
 			change(e) {
+				
+				if (!(this.data?.data || []).some(item => item.date === e)) {
+					uni.showToast({
+						icon: 'none',
+						title: '当前日期无可预约时间'
+					})
+					return 
+				}
+				
 				const dataList = this.data.data
 				const res = dataList.find((item) => item.date === e) 
 				this.currentDate = res
