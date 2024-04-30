@@ -17,6 +17,7 @@ import { ConfigModule as SystemConfigModule } from './modules/config/config.modu
 import { InitModule } from './modules/init/init.module';
 import { RecommendModule } from './modules/recommend/recommend.module';
 import { VisualizationModule } from './modules/visualization/visualization.module';
+import { ModelModule } from './model/model.module';
 
 @Module({
   imports: [
@@ -39,12 +40,13 @@ import { VisualizationModule } from './modules/visualization/visualization.modul
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
       entities: [resolve(__dirname, './entities/**/*.entity.{js,ts}')],
-      synchronize: false,
+      synchronize: true,
       logging: true,
     }),
     InitModule,
     VisualizationModule,
     RecommendModule,
+    ModelModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -20,7 +20,7 @@ const DemoBar = () => {
     legend: {
       color: { size: 72, autoWrap: true, maxRows: 3, cols: 6 },
     },
-  }
+  } 
   return (
     <ChatContainer title='内容贴评论量排名' loading={loading}>
       <Bar {...config} />

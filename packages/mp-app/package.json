@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@hyoga/uni-socket.io": "^3.0.4",
+    "@microsoft/fetch-event-source": "^2.0.1",
     "dayjs": "^1.11.10",
     "nuid": "^1.1.6"
   }

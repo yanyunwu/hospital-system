@@ -12,8 +12,8 @@ export default defineConfig({
   //   babelPlugins: [],
   //   babelOptions: {},
   // },
-  // define: {
-  //   __SOCKET_BASE_URL__: 'ws://localhost:3000',
-  //   __BASE_URL__: ''
-  // },
+  define: {
+    __SOCKET_BASE_URL__: 'ws://localhost:3000',
+    __BASE_URL__: ''
+  },
 })

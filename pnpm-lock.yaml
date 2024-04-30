@@ -117,6 +117,9 @@ importers:
       '@hyoga/uni-socket.io':
         specifier: ^3.0.4
         version: 3.0.4
+      '@microsoft/fetch-event-source':
+        specifier: ^2.0.1
+        version: 2.0.1
       dayjs:
         specifier: ^1.11.10
         version: 1.11.10
@@ -272,7 +275,7 @@ importers:
   packages/web-app:
     dependencies:
       '@ant-design/charts':
-        specifier: ^2
+        specifier: ^2.1.0
         version: 2.1.0(lodash-es@4.17.21)(react-dom@18.2.0)(react@18.2.0)
       '@ant-design/compatible':
         specifier: ^5.1.2
@@ -307,6 +310,9 @@ importers:
       '@emoji-mart/react':
         specifier: ^1.1.1
         version: 1.1.1(emoji-mart@5.5.2)(react@18.2.0)
+      '@microsoft/fetch-event-source':
+        specifier: ^2.0.1
+        version: 2.0.1
       '@umijs/route-utils':
         specifier: ^2.0.0
         version: 2.2.2
@@ -327,7 +333,7 @@ importers:
         version: 3.5.10(react@18.2.0)
       bizcharts-plugin-slider:
         specifier: ^2.1.1-beta.1
-        version: 2.1.1(@antv/g2@5.1.15)(bizcharts@3.5.10)(react-dom@18.2.0)(react@18.2.0)
+        version: 2.1.1(@antv/g2@5.1.19)(bizcharts@3.5.10)(react-dom@18.2.0)(react@18.2.0)
       classnames:
         specifier: ^2.3.0
         version: 2.5.1
@@ -1318,15 +1324,6 @@ packages:
       wolfy87-eventemitter: 5.1.0
     dev: false
 
-  /@antv/component@1.0.1-beta.2:
-    resolution: {integrity: sha512-yIR2svYP8uaD0NfhbrqbtmSlpdNSyYZLuO64UqnFMBDtDSiG/dK5cyUn0OqK3+ZwIdZDIEkFmFcx1H/lWV/4Cg==}
-    dependencies:
-      '@antv/g': 5.18.24
-      '@antv/scale': 0.4.15
-      '@antv/util': 3.3.6
-      svg-path-parser: 1.1.0
-    dev: false
-
   /@antv/component@2.0.0:
     resolution: {integrity: sha512-wl1pmqLIW/Zt9p7twMcAlvowHU81iV4bb5XWS38DL7gimSONHRh5C/uYKCXKB1KtHAH5d25YHESoGMBc0L3r+w==}
     dependencies:
@@ -1375,35 +1372,12 @@ packages:
     resolution: {integrity: sha512-4ddpsiHN9Pd4UIlWuKVK1C4IiZIdbwQvy9i7DUSI3xNJ89FPUFt8lxDYj8GzzfdllV0NkJTRxnG+FvLk0llidg==}
     dev: false
 
-  /@antv/g-camera-api@1.2.22:
-    resolution: {integrity: sha512-+sWDUMTeOACfb6HUJbuMS3ab79xCtFgCHhD+drlNbOjRCJDlkFHPsplyM7vA1a2Rs0zoyV+K68duClsP7Ei3OA==}
-    dependencies:
-      '@antv/g-lite': 1.2.21
-      '@antv/util': 3.3.6
-      gl-matrix: 3.4.3
-      tslib: 2.6.2
-    dev: false
-
   /@antv/g-camera-api@2.0.2:
     resolution: {integrity: sha512-3rto8sqH9ah3y5dwK4hkwdQO/dcdbPVt7xNFy7NJpJek2RiHOfvHJ+GUqs4OrEpfbXWJp9FV8wFLZWUCeHIb2g==}
     dependencies:
       '@antv/g-lite': 2.0.2
       '@antv/util': 3.3.6
       gl-matrix: 3.4.3
-      tslib: 2.6.2
-    dev: false
-
-  /@antv/g-canvas@1.11.26:
-    resolution: {integrity: sha512-7THxFINBbh5MHaapzuUs1mcgXLh4imGZP6xovg8W1riroWGg9q/Mkyt9oXVxK9TtrBNTYQkGR6yVQw7pz3dm6g==}
-    dependencies:
-      '@antv/g-lite': 1.2.21
-      '@antv/g-plugin-canvas-path-generator': 1.3.21
-      '@antv/g-plugin-canvas-picker': 1.10.23
-      '@antv/g-plugin-canvas-renderer': 1.9.23
-      '@antv/g-plugin-dom-interaction': 1.9.21
-      '@antv/g-plugin-html-renderer': 1.9.24
-      '@antv/g-plugin-image-loader': 1.3.21
-      '@antv/util': 3.3.6
       tslib: 2.6.2
     dev: false
 
@@ -1431,28 +1405,10 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@antv/g-dom-mutation-observer-api@1.2.21:
-    resolution: {integrity: sha512-/gE0hYFAKyrh0bDad4HH6pI9s9VRG3h9RWA5pU4MzFo/9nTQtjp+DvWr9TR/oahg0u9gtyrBO5HE4eI5kziMRA==}
-    dependencies:
-      '@antv/g-lite': 1.2.21
-    dev: false
-
   /@antv/g-dom-mutation-observer-api@2.0.2:
     resolution: {integrity: sha512-FZh2UN53O+FMfq0UR41XbWDHnFEo5Ew6SFJHhE7MLA5twF1e6HQPIp6HnvXrUv8tkxbN44EDCWZzp/zVFBlXhg==}
     dependencies:
       '@antv/g-lite': 2.0.2
-    dev: false
-
-  /@antv/g-lite@1.2.21:
-    resolution: {integrity: sha512-VGo78eaJE93cRPLaWZcXyi0TjfymHrAbweAVI01t3A3wgduqn1CpTXKBICqaNgi/T73rL0zcVO0Nn9th3Lincg==}
-    dependencies:
-      '@antv/g-math': 2.0.2
-      '@antv/util': 3.3.6
-      d3-color: 1.4.1
-      eventemitter3: 5.0.1
-      gl-matrix: 3.4.3
-      rbush: 3.0.1
-      tslib: 2.6.2
     dev: false
 
   /@antv/g-lite@2.0.2:
@@ -1467,28 +1423,11 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@antv/g-math@2.0.2:
-    resolution: {integrity: sha512-uqGU1C+70orjeSUoIzD3TuXjL5dRQCIyjZrBrTmm0FWd6VQJMWHyG5ypuZ2lMiI5MrRajVSE1w+3J4hiNBYSJg==}
-    dependencies:
-      '@antv/util': 3.3.6
-      gl-matrix: 3.4.3
-      tslib: 2.6.2
-    dev: false
-
   /@antv/g-math@3.0.0:
     resolution: {integrity: sha512-AkmiNIEL1vgqTPeGY2wtsMdBBqKFwF7SKSgs+D1iOS/rqYMsXdhp/HvtuQ5tx/HdawE/ZzTiicIYopc520ADZw==}
     dependencies:
       '@antv/util': 3.3.6
       gl-matrix: 3.4.3
-      tslib: 2.6.2
-    dev: false
-
-  /@antv/g-plugin-canvas-path-generator@1.3.21:
-    resolution: {integrity: sha512-pz+2mCHIFGQ9w3ED4awGCrpUQbxdxkGtw1VqjAu178+uimDQJYaTXkpT2rdqsobVcm4LwQCNlugczAJfoJp9fQ==}
-    dependencies:
-      '@antv/g-lite': 1.2.21
-      '@antv/g-math': 2.0.2
-      '@antv/util': 3.3.6
       tslib: 2.6.2
     dev: false
 
@@ -1501,18 +1440,6 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@antv/g-plugin-canvas-picker@1.10.23:
-    resolution: {integrity: sha512-rdgSrLQMXIzPAnHf+vJ0unSKGkq1gC90iQVisyWKbH761sfNfVa6I+4lFWrpcBnwU09E3AfGroD1vfiHcpvQ1A==}
-    dependencies:
-      '@antv/g-lite': 1.2.21
-      '@antv/g-math': 2.0.2
-      '@antv/g-plugin-canvas-path-generator': 1.3.21
-      '@antv/g-plugin-canvas-renderer': 1.9.23
-      '@antv/util': 3.3.6
-      gl-matrix: 3.4.3
-      tslib: 2.6.2
-    dev: false
-
   /@antv/g-plugin-canvas-picker@2.0.2:
     resolution: {integrity: sha512-V2sw+JJQ9UlWuAKGSYigXS7LFk8cLuecR0rDTWji5WSXNdFrYzFynhNibwSK8VIDn8HYWxHiby+rXesqJ32G2A==}
     dependencies:
@@ -1520,18 +1447,6 @@ packages:
       '@antv/g-math': 3.0.0
       '@antv/g-plugin-canvas-path-generator': 2.0.2
       '@antv/g-plugin-canvas-renderer': 2.0.2
-      '@antv/util': 3.3.6
-      gl-matrix: 3.4.3
-      tslib: 2.6.2
-    dev: false
-
-  /@antv/g-plugin-canvas-renderer@1.9.23:
-    resolution: {integrity: sha512-uT2IsUJnwQ0m6n3S86eJYYDMMqF3yUMYcfj6sBchwym2NB3tAC/x0BVFGHZtEyqUkfmBr2wKcYjjBOfPl1tbhw==}
-    dependencies:
-      '@antv/g-lite': 1.2.21
-      '@antv/g-math': 2.0.2
-      '@antv/g-plugin-canvas-path-generator': 1.3.21
-      '@antv/g-plugin-image-loader': 1.3.21
       '@antv/util': 3.3.6
       gl-matrix: 3.4.3
       tslib: 2.6.2
@@ -1549,25 +1464,10 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@antv/g-plugin-dom-interaction@1.9.21:
-    resolution: {integrity: sha512-aO4yWve2yquZQYqZDU03pM2vgkOjFKk24zTRk+V4cAmdgjtUjCa7EcMWODI8eX2UB6zT31aySzyhOjXHQVC78A==}
-    dependencies:
-      '@antv/g-lite': 1.2.21
-      tslib: 2.6.2
-    dev: false
-
   /@antv/g-plugin-dom-interaction@2.0.2:
     resolution: {integrity: sha512-r55/aNVrYGT7tS6Rx2z/STB1wp5RIpo9Pe6aa7SItLh2PEVKe9+j7rmaSEripx0b5cGEMt93FDiaJAc4b7TKCA==}
     dependencies:
       '@antv/g-lite': 2.0.2
-      tslib: 2.6.2
-    dev: false
-
-  /@antv/g-plugin-dragndrop@1.8.21:
-    resolution: {integrity: sha512-iyhZJsToY3vmVqwuiZIpeWOqGcpK/9Nk13rPR2Qjk+U/9DncNF2b5fEXh3GHMFmQYysiCdPfMbFAwMuRUvoRKQ==}
-    dependencies:
-      '@antv/g-lite': 1.2.21
-      '@antv/util': 3.3.6
       tslib: 2.6.2
     dev: false
 
@@ -1576,15 +1476,6 @@ packages:
     dependencies:
       '@antv/g-lite': 2.0.2
       '@antv/util': 3.3.6
-      tslib: 2.6.2
-    dev: false
-
-  /@antv/g-plugin-html-renderer@1.9.24:
-    resolution: {integrity: sha512-8tM2LaHXpgoyT27tryu/lVDX+YEvKv+KaPCtMTfQf04vL0XfbQ/ATcEXAEksIsNdZ+brQvi3LKh6UPiWCRAs3A==}
-    dependencies:
-      '@antv/g-lite': 1.2.21
-      '@antv/util': 3.3.6
-      gl-matrix: 3.4.3
       tslib: 2.6.2
     dev: false
 
@@ -1597,29 +1488,12 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@antv/g-plugin-image-loader@1.3.21:
-    resolution: {integrity: sha512-PCFRYscSapA4pMkm9TcUQcxV9hnHKe0AIJaR35kV2F1hhuWLMyCPEuxVyWaCMYDFMfrDtVj7dXzL81L4fja8HQ==}
-    dependencies:
-      '@antv/g-lite': 1.2.21
-      '@antv/util': 3.3.6
-      gl-matrix: 3.4.3
-      tslib: 2.6.2
-    dev: false
-
   /@antv/g-plugin-image-loader@2.0.2:
     resolution: {integrity: sha512-dvaadjvJiGDJcdN8emvq3x4C6ivmNFO74SCIkUaQDLGRjDKs25+kMKplWQOxUEoIJOMoxkJynrTs7EkzXI0dNQ==}
     dependencies:
       '@antv/g-lite': 2.0.2
       '@antv/util': 3.3.6
       gl-matrix: 3.4.3
-      tslib: 2.6.2
-    dev: false
-
-  /@antv/g-web-animations-api@1.2.22:
-    resolution: {integrity: sha512-/bh/jUF/hVaDOnNtXRoB5ZsDnPK9IIrduLr4o5sFP+tOuCCBpalWgxeP11yBJoMpl2Y14GmipZTAD8QUoZyyNw==}
-    dependencies:
-      '@antv/g-lite': 1.2.21
-      '@antv/util': 3.3.6
       tslib: 2.6.2
     dev: false
 
@@ -1640,12 +1514,12 @@ packages:
       d3-hierarchy: 3.1.2
     dev: false
 
-  /@antv/g2-plugin-slider@2.1.0(@antv/g2@5.1.15):
+  /@antv/g2-plugin-slider@2.1.0(@antv/g2@5.1.19):
     resolution: {integrity: sha512-VbCUK+WRFB1fW7dx3d/AixgLuXFuhfA7n9Ex08KQBM9QIgpWJICsBUdFMHdfRgwzXHw+eCkCNB2gTVPoyesquA==}
     peerDependencies:
       '@antv/g2': '>=3.2.8'
     dependencies:
-      '@antv/g2': 5.1.15
+      '@antv/g2': 5.1.19
     dev: false
 
   /@antv/g2@3.5.19:
@@ -1661,33 +1535,6 @@ packages:
       core-js: 2.6.12
       venn.js: 0.2.20
       wolfy87-eventemitter: 5.1.0
-    dev: false
-
-  /@antv/g2@5.1.15:
-    resolution: {integrity: sha512-WiISs4GUOzHlA4vrkt+eQfr1+LVIAuv4AkfFCRzTprayMO72pLAdgTcwUg9YlvafwM220r9FQD1nXIlYNXOOhA==}
-    dependencies:
-      '@antv/component': 1.0.1-beta.2
-      '@antv/coord': 0.4.7
-      '@antv/event-emitter': 0.1.3
-      '@antv/g': 5.18.24
-      '@antv/g-canvas': 1.11.26
-      '@antv/g-plugin-dragndrop': 1.8.21
-      '@antv/path-util': 3.0.1
-      '@antv/scale': 0.4.15
-      '@antv/util': 3.3.6
-      d3-array: 3.2.4
-      d3-dsv: 3.0.1
-      d3-force: 3.0.0
-      d3-format: 3.1.0
-      d3-geo: 3.1.0
-      d3-hierarchy: 3.1.2
-      d3-path: 3.1.0
-      d3-scale-chromatic: 3.0.0
-      d3-shape: 3.2.0
-      d3-voronoi: 1.1.4
-      flru: 1.0.2
-      fmin: 0.0.2
-      pdfast: 0.2.0
     dev: false
 
   /@antv/g2@5.1.19:
@@ -1766,15 +1613,6 @@ packages:
       d3-interpolate: 1.1.6
       d3-timer: 1.0.10
       detect-browser: 5.3.0
-    dev: false
-
-  /@antv/g@5.18.24:
-    resolution: {integrity: sha512-qUIjxNPd60VpA6bjDALkRWEWA0CKm2G+vRPkP729eiZ0JnqlRuSqVNibo6QbrlZGEZQfqKiNjiVDODbJjHxNIw==}
-    dependencies:
-      '@antv/g-camera-api': 1.2.22
-      '@antv/g-dom-mutation-observer-api': 1.2.21
-      '@antv/g-lite': 1.2.21
-      '@antv/g-web-animations-api': 1.2.22
     dev: false
 
   /@antv/g@6.0.3:
@@ -5874,6 +5712,10 @@ packages:
       minimist: 1.2.8
       rw: 1.3.3
       sort-object: 3.0.3
+    dev: false
+
+  /@microsoft/fetch-event-source@2.0.1:
+    resolution: {integrity: sha512-W6CLUJ2eBMw3Rec70qrsEW0jOm/3twwJv21mrmj2yORiaVmVYGS4sSS5yUwvQc1ZlDLYGPnClVWmUUMagKNsfA==}
     dev: false
 
   /@microsoft/tsdoc@0.14.2:
@@ -10635,14 +10477,14 @@ packages:
     engines: {node: '>=0.8'}
     dev: true
 
-  /bizcharts-plugin-slider@2.1.1(@antv/g2@5.1.15)(bizcharts@3.5.10)(react-dom@18.2.0)(react@18.2.0):
+  /bizcharts-plugin-slider@2.1.1(@antv/g2@5.1.19)(bizcharts@3.5.10)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-8GDLwd8f4tlcT8EQ27cCRf9LYfR8J8wx0OPsiFF2rRmc6QX1KIAvdcbRGRjFNjS7gY295TAzLCaGshSW4cUNHQ==}
     peerDependencies:
       bizcharts: '>=3.2.3'
       react: '>15'
       react-dom: '>15'
     dependencies:
-      '@antv/g2-plugin-slider': 2.1.0(@antv/g2@5.1.15)
+      '@antv/g2-plugin-slider': 2.1.0(@antv/g2@5.1.19)
       bizcharts: 3.5.10(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)

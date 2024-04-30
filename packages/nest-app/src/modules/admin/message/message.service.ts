@@ -25,7 +25,7 @@ export class MessageService {
     livaChatId: number,
     text: string,
     type: number,
-    speakUserId: number,
+    speakUserId?: number,
   ) {
     const liveChat = await this.liveChatRepository.findOne({
       where: {
@@ -38,19 +38,18 @@ export class MessageService {
     liveChat.lastMessage = text;
     message.liveChat = liveChat;
     message.speakUserType = type;
-    message.speakUserId = speakUserId;
 
-    if (type === 0) {
-      const user = await this.userRepository.findOne({
-        where: { id: speakUserId },
-      });
-      message.speakUserName = user.nickname;
-    } else if (type === 1) {
-      const admin = await this.adminRepository.findOne({
-        where: { id: speakUserId },
-      });
-      message.speakUserName = admin.nickname;
-    }
+    // if (type === 0) {
+    //   const user = await this.userRepository.findOne({
+    //     where: { id: speakUserId },
+    //   });
+    //   message.speakUserName = user.nickname;
+    // } else if (type === 1) {
+    //   const admin = await this.adminRepository.findOne({
+    //     where: { id: speakUserId },
+    //   });
+    //   message.speakUserName = admin.nickname;
+    // }
 
     await this.liveChatRepository.save(liveChat);
 

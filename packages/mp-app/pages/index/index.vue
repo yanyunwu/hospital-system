@@ -58,6 +58,11 @@ export default {
 					to: "/pages/chat/chat"
 				},
 				{
+					image: "../../static/zaixianjiaoliu.png",
+					text: "情绪小助手",
+					to: "/pages/bot-chat/bot-chat"
+				},
+				{
 					image: "../../static/zhuanzhenbaoxiao.png",
 					text: "转诊报销",
 					to: "/pages/rr/rr"
@@ -101,6 +106,11 @@ export default {
 				return 
 			}
 			
+			if (item.to === '/pages/bot-chat/bot-chat') {
+				this.handleBeforeGoToBotChat(item)
+				return 
+			}
+			
 			if (item.onClick) {
 				item.onClick()
 				return
@@ -123,6 +133,16 @@ export default {
 			
 			uni.navigateTo({
 				url: `${item.to}?sessionId=${data.data.data.id}`
+			})
+		},
+		async handleBeforeGoToBotChat(item) {
+			const data = await request({
+				url: "/api/session/addNewSession",
+				method: "post"
+			})
+			
+			uni.navigateTo({
+				url: `${item.to}?chatID=${data.data.data.id}`
 			})
 		}
 	},

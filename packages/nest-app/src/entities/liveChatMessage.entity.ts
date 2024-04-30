@@ -24,7 +24,7 @@ export class LiveChatMessage {
   @Column() // 0 用户 1 系统用户
   speakUserType: number;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'longtext' })
   content: string;
 
   @CreateDateColumn()

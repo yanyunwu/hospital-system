@@ -153,6 +153,14 @@
 				"navigationBarTitleText" : "",
 				"enablePullDownRefresh" : false
 			}
+		},
+		{
+			"path" : "pages/bot-chat/bot-chat",
+			"style" : 
+			{
+				"navigationBarTitleText" : "心理健康小助手",
+				"enablePullDownRefresh" : false
+			}
 		}
 	],
 	"globalStyle": {

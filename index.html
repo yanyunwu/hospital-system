@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@microsoft/fetch-event-source@2.0.1/lib/cjs/index.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+   <script>
+    const fetchStream = (url, params) => {
+  const { onmessage, onclose, ...otherParams } = params;
+
+  const push = async (controller, reader) => {
+    const { value, done } = await reader.read();
+    if (done) {
+      controller.close();
+      onclose?.();
+    } else {
+      onmessage?.(value);
+      controller.enqueue(value);
+      push(controller, reader);
+    }
+  };
+  // 发送请求
+  return fetch(url, otherParams)
+    .then((response) => {
+      // 以ReadableStream解析数据
+      const reader = response.body.getReader();
+      const stream = new ReadableStream({
+        start(controller) {
+          push(controller, reader);
+        },
+      });
+      return stream;
+    })
+    .then((stream) => new Response(stream, { headers: { 'Content-Type': 'text/html' } }).text());
+};
+
+fetchStream(`http://127.0.0.1:3000/api/model/sse`, {
+  method: 'POST',
+  headers: {
+    'accept': 'text/event-stream',
+    'Content-Type': 'application/json',
+  },
+  onmessage: (res) => {
+    // todo
+    console.log(res);
+  },
+});
+   </script>
+</body>
+</html>

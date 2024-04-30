@@ -8,12 +8,14 @@ import { LiveChat } from 'src/entities/liveChat.entity';
 import { LiveChatMessage } from 'src/entities/liveChatMessage.entity';
 import { LoginModule } from '../mp/login/login.module';
 import { UserModule } from '../mp/user/user.module';
+import { MessageModule } from '../admin/message/message.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Admin, User, LiveChat, LiveChatMessage]),
     LoginModule,
     UserModule,
+    MessageModule,
   ],
   controllers: [SessionController],
   providers: [SessionService],
