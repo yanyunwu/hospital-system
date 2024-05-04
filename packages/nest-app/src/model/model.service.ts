@@ -4,10 +4,6 @@ import * as https from 'https';
 import { TOKEN } from './consts';
 import { ConfigService } from 'src/modules/config/config.service';
 
-const httpsAgent = new https.Agent({
-  maxVersion: 'TLSv1.2',
-  minVersion: 'TLSv1.2',
-});
 @Injectable()
 export class ModelService {
   constructor(private configService: ConfigService) {}
@@ -46,7 +42,7 @@ export class ModelService {
           Authorization: `Bearer ${TOKEN}`,
           Connection: 'keep-alive',
         },
-        httpsAgent,
+        timeout: 10000,
       },
     );
   }
