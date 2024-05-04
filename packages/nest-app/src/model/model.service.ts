@@ -17,6 +17,8 @@ export class ModelService {
       messages.push(...ctx);
     }
 
+    console.log('messagesmessages', messages);
+
     return axios.post(
       'https://api.aigcbest.top/v1/chat/completions',
       {
