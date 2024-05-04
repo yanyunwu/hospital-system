@@ -47,6 +47,7 @@ export class ModelService {
             Connection: 'keep-alive',
           },
           timeout: 10000,
+          httpsAgent: new https.Agent({ rejectUnauthorized: false }),
         },
       );
 
