@@ -50,11 +50,18 @@ export class ModelService {
         },
       );
 
+    let index = 0;
+
     const retry = async () => {
       try {
         const r = await request();
         return r;
       } catch (err) {
+        if (index > 50) {
+          throw err;
+        }
+
+        index++;
         await sleep(100);
         const r = await retry();
         return r;
