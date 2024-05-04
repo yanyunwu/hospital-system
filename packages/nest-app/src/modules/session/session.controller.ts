@@ -8,6 +8,8 @@ import { LoginService } from '../mp/login/login.service';
 import { SessionService } from './session.service';
 import { UserService } from '../mp/user/user.service';
 import { MessageService } from '../admin/message/message.service';
+import { ConfigService } from '../config/config.service';
+import { UsersService } from '../admin/users/users.service';
 
 @Controller('/api/session')
 export class SessionController {
@@ -18,17 +20,51 @@ export class SessionController {
     private sessionService: SessionService,
     private userService: UserService,
     private messageService: MessageService,
+    private configService: ConfigService,
+    private usersService: UsersService,
+    // private live:
   ) {}
 
   @Post('/addNewSession')
-  async addNewSession(@Req() req: Request) {
+  async addNewSession(
+    @Req() req: Request,
+    @Body()
+    body: {
+      isModel?: boolean;
+    },
+  ) {
+    const isModel = body.isModel ?? false;
     const payload = req['user'];
     const user = await this.userService.getUserById(payload.userId);
     const live = new LiveChat();
     live.status = 0;
     live.user = user;
 
-    return this.liveChatRepository.save(live);
+    const config = await this.configService.getJsonValue('bot');
+
+    if (isModel) {
+      live.isModel = true;
+      if (config) {
+        const botID = config.botID;
+        if (botID) {
+          const admin = await this.usersService.getOwnerAdminUser(botID);
+          live.adminUser = admin;
+        }
+      }
+    }
+
+    const result = await this.liveChatRepository.save(live);
+
+    if (isModel) {
+      if (config) {
+        const openingRemarks = config.openingRemarks;
+        if (openingRemarks) {
+          await this.messageService.addMessage(result.id, openingRemarks, 1);
+        }
+      }
+    }
+
+    return result;
   }
 
   @Post('/delSession')

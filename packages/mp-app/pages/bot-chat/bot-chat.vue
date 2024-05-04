@@ -82,7 +82,7 @@
 				request({
 					url: '/api/admin/session/getOneSessionInfo',
 					data: {
-						id: this.chatID
+						id: this.chatID,
 					}
 				}).then(value => {
 					const { data: uniData } = value
@@ -148,7 +148,8 @@
 				        'Content-Type': 'application/json',
 				      },
 					  body: JSON.stringify({
-							message
+							message,
+							chatID: this.chatID
 						}),
 				      onmessage: (ev) => {
 							

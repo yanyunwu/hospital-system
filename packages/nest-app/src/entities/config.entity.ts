@@ -15,7 +15,7 @@ export class SystemConfig {
   @Column()
   key: string;
 
-  @Column({ type: 'json' })
+  @Column({ type: 'longtext' })
   value: string;
 
   @CreateDateColumn()

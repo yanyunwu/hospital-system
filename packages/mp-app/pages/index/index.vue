@@ -58,7 +58,7 @@ export default {
 					to: "/pages/chat/chat"
 				},
 				{
-					image: "../../static/zaixianjiaoliu.png",
+					image: "../../static/zixun.png",
 					text: "情绪小助手",
 					to: "/pages/bot-chat/bot-chat"
 				},
@@ -138,7 +138,10 @@ export default {
 		async handleBeforeGoToBotChat(item) {
 			const data = await request({
 				url: "/api/session/addNewSession",
-				method: "post"
+				method: "post",
+				data: {
+					isModel: true
+				}
 			})
 			
 			uni.navigateTo({

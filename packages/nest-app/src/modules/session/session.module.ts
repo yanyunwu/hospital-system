@@ -9,6 +9,8 @@ import { LiveChatMessage } from 'src/entities/liveChatMessage.entity';
 import { LoginModule } from '../mp/login/login.module';
 import { UserModule } from '../mp/user/user.module';
 import { MessageModule } from '../admin/message/message.module';
+import { ConfigModule } from '../config/config.module';
+import { UsersModule } from '../admin/users/users.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { MessageModule } from '../admin/message/message.module';
     LoginModule,
     UserModule,
     MessageModule,
+    ConfigModule,
+    UsersModule,
   ],
   controllers: [SessionController],
   providers: [SessionService],

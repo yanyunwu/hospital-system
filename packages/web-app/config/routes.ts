@@ -174,6 +174,11 @@ export default  [
         component: './other/feedback',
         access: 'other.feedback'
       },
+      {
+        name: '模型设置',
+        path: '/other/bot',
+        component: './config/bot',
+      },
       // {
       //   name: '首页通知',
       //   icon: 'smile',

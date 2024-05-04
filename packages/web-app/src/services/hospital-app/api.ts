@@ -133,6 +133,32 @@ export async function getTopUserPostReplys() {
 }
 
 
+export async function getModels() {
+  return request('/api/model/models', {
+    method: 'GET',
+  })
+}
+
+export async function setSysConfig(key: string, value: Record<string, any>) {
+  return request('/api/config/setSysConfig', {
+    method: 'POST',
+    data: {
+      key,
+      value
+    }
+  })
+}
+
+export async function getSysConfig(key: string) {
+  return request('/api/config/getSysConfig', {
+    method: 'GET',
+    params: {
+      key
+    }
+  })
+}
+
+
 
 
 

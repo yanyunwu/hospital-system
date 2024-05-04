@@ -5,13 +5,13 @@
 			<Empty style="margin-top: 40rpx;" v-if="!messages.length" content="当前没有任何消息呢!" />
 			<uni-swipe-action>
 				<uni-swipe-action-item  v-for="(item, index) in messages" :right-options="options" @click="handleDelMessage($event, item.id)">
-					<view class="info" :key="index" @click="handleClickItem(item.id)">
+					<view class="info" :key="index" @click="handleClickItem(item.id, item.isModel)">
 						<view class="avatar">
-							<image mode="widthFix" :src="item.adminUser?.avatar ?? '/static/touxiang.png'"></image>
+							<image style="width: 100%;height: 100%;" :src="item.adminUser?.avatar ?? '/static/touxiang.png'"></image>
 						</view>
 						<view class="title">
 							<view class="name">{{item.adminUser?.nickname ?? '等待回复中...'}}</view>
-							<view class="time">{{item.lastMessage}}</view>
+							<view class="time text">{{item.lastMessage}}</view>
 						</view>
 					</view>
 				</uni-swipe-action-item>
@@ -58,10 +58,18 @@ export default {
             this.activeTab = e.currentIndex;
         },
 		
-		handleClickItem(id) {
-			uni.navigateTo({
-				url: `/pages/chat/chat?sessionId=${id}`
-			})
+		handleClickItem(id, isModel) {
+			if (isModel) {
+				uni.navigateTo({
+					url: `/pages/bot-chat/bot-chat?chatID=${id}`
+				})
+				
+			} else {
+				uni.navigateTo({
+					url: `/pages/chat/chat?sessionId=${id}`
+				})
+			}
+			
 		},
 		
 		handleDelMessage(e, id) {
@@ -130,7 +138,8 @@ export default {
 	      .avatar {
 	        width: 50px;
 	        height: 50px;
-	        border-radius: 50%;
+			min-width: 50px;
+	        // border-radius: 50%;
 	        overflow: hidden;
 	
 	        image {
@@ -151,8 +160,17 @@ export default {
 	        .time {
 	          font-size: 14px;
 	          color: #999;
-			  padding-left: 10px;
 	        }
 	      }
 	    }
+		
+		
+		.text {
+			overflow : hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-line-clamp: 3; 
+			-webkit-box-orient: vertical;
+			word-break: break-all;
+		}
 </style>
