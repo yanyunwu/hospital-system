@@ -9,6 +9,8 @@ import { PostRecord } from 'src/entities/postRecord.entity';
 import { PostBrowseRecord } from 'src/entities/postBrowseRecord.entity';
 import { UserModule } from '../mp/user/user.module';
 import { User } from 'src/entities/user.entity';
+import { ModelModule } from 'src/model/model.module';
+import { ConfigModule } from '../config/config.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { User } from 'src/entities/user.entity';
     ]),
     LoginModule,
     UserModule,
+    ModelModule,
+    ConfigModule,
   ],
   providers: [CommunityService],
   controllers: [CommunityController],

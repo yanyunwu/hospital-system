@@ -8,5 +8,6 @@ import { SessionModule } from 'src/modules/admin/session/session.module';
   imports: [ConfigModule, SessionModule],
   controllers: [ModelController],
   providers: [ModelService],
+  exports: [ModelService],
 })
 export class ModelModule {}

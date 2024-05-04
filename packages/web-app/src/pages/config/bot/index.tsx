@@ -42,7 +42,16 @@ export default function () {
         <ProFormDigit
           width="md"
           name="botID"
-          label="机器人账号id"
+          label="咨询机器人账号id"
+          tooltip="机器上也是一个用户账号，用于设置回复的账号"
+          placeholder="机器上也是一个用户账号，用于设置回复的账号"
+          required
+        />
+
+        <ProFormDigit
+          width="md"
+          name="cbotID"
+          label="社区机器人账号id"
           tooltip="机器上也是一个用户账号，用于设置回复的账号"
           placeholder="机器上也是一个用户账号，用于设置回复的账号"
           required

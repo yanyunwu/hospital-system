@@ -17,13 +17,21 @@ import * as Segment from 'segment';
 import unionArr from 'src/utils/unionArr';
 import { PostRecord } from 'src/entities/postRecord.entity';
 import { PostBrowseRecord } from 'src/entities/postBrowseRecord.entity';
+import { ModelService } from 'src/model/model.service';
+import { UserService } from '../mp/user/user.service';
+import { ConfigService } from '../config/config.service';
 
 const segment = new Segment();
 segment.useDefault();
 
 @Injectable()
 export class CommunityService {
-  constructor(private dataSource: DataSource) {}
+  constructor(
+    private dataSource: DataSource,
+    private modelService: ModelService,
+    private userService: UserService,
+    private configService: ConfigService,
+  ) {}
 
   @InjectRepository(Post)
   private postRepository: Repository<Post>;
@@ -256,9 +264,37 @@ export class CommunityService {
     return this.postRecordRepository.save(p);
   }
 
-  addPost(body: Post) {
+  async addPost(body: Post) {
     // const post = new Post()
-    return this.postRepository.save(body);
+    const result = await this.postRepository.save(body);
+    const config = await this.configService.getJsonValue('bot');
+
+    const messages = [];
+
+    if (config?.hSetting) {
+      messages.push({
+        role: 'user',
+        content: config?.hSetting,
+      });
+    }
+
+    this.modelService
+      .requestChat(result.content, messages, false)
+      .then(async (axiosData) => {
+        try {
+          console.log(' axiosData.data;', axiosData.data);
+          const choice = axiosData.data.choices[0];
+          const user = await this.userService.getUserById(config?.cbotID);
+          await this.addPostReply(result.id, user, choice.message.content);
+        } catch (err) {
+          console.error(err);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+
+    return result;
   }
 
   setPost(body: Post) {
