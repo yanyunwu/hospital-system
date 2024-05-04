@@ -25,7 +25,7 @@ export class ModelController {
 
   @Public()
   @Post('/chat')
-  @Header('Content-Type', 'text/event-stream')
+  // @Header('Content-Type', 'text/event-stream')
   @HttpCode(200)
   async chat(
     @Res() res: Response,
@@ -33,6 +33,7 @@ export class ModelController {
     body: {
       message: string;
       chatID?: number;
+      stream?: boolean;
     },
   ) {
     const messages = [];
@@ -66,8 +67,17 @@ export class ModelController {
     const response = await this.modelService.requestChat(
       body.message,
       messages,
+      body.stream ?? true,
     );
-    response.data.pipe(res);
+
+    console.log('body.stream', response.data);
+
+    if (body.stream == null || body.stream) {
+      res.setHeader('Content-Type', 'text/event-stream');
+      response.data.pipe(res);
+    } else {
+      res.json(response.data);
+    }
   }
 
   @Public()

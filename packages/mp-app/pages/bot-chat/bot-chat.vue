@@ -40,6 +40,7 @@
 		
 		methods: {
 			handleSendMessage() {
+				console.log('handleSendMessage')
 				if (!this.waitMsg) {
 					uni.showToast({
 						icon: 'none',
@@ -100,12 +101,12 @@
 				
 				const info_map = {
 					[0]: {
-						avatar: this.sessionInfo.user?.avatar,
-						nickname: this.sessionInfo.user?.nickname
+						avatar: this.sessionInfo?.user?.avatar,
+						nickname: this.sessionInfo?.user?.nickname
 					},
 					[1]: {
-						avatar: this.sessionInfo.adminUser?.avatar,
-						nickname: this.sessionInfo.adminUser?.nickname
+						avatar: this.sessionInfo?.adminUser?.avatar,
+						nickname: this.sessionInfo?.adminUser?.nickname
 					}
 				}
 				
@@ -119,7 +120,7 @@
 					this.messageList = (uniData.data || []).map(item => {
 						return {
 							avatar: info_map[item.speakUserType]?.avatar,
-							nickname: info_map[item.speakUserType].nickname,
+							nickname: info_map[item.speakUserType]?.nickname,
 							content: item.content,
 							type: map[item.speakUserType]
 						}
@@ -141,38 +142,89 @@
 				
 				const lastMessage = this.messageList[this.messageList.length - 1]
 				
-				
-				 fetchEventSource(`${BASE_URL}/api/model/chat`, {
-				      method: 'post',
-				      headers: {
-				        'Content-Type': 'application/json',
-				      },
-					  body: JSON.stringify({
+				// #ifdef MP-WEIXIN || APP
+					request(
+					{
+						url: `/api/model/chat`,
+						method: "post",
+						data: {
 							message,
-							chatID: this.chatID
-						}),
-				      onmessage: (ev) => {
-							
-						if (ev.data === '[DONE]') {
-							lastMessage.loading = false
-							this.loading = false
-							this.addMessage({ content: lastMessage.content, type: 1 })
-							return
+							chatID: this.chatID,
+							stream: false
 						}
-						  
-						const data = JSON.parse(ev.data)
-						const choice = data.choices[0]
-						if (choice.delta?.content) {
-							lastMessage.content += choice.delta.content
+					}
+					).then(value => {
+						console.log('valuevalue', value)
+						const uniData = value.data
+						const choice = uniData.choices[0]
+						if (choice.message?.content) {
+							lastMessage.content += choice.message.content
 						}
 						
-				        console.log('onmessage', ev)
-				      },
-				      onerror(event) {
-				        // 服务异常
-				        console.log('服务异常', event)
-				      }
-				    })
+						lastMessage.loading = false
+						this.loading = false
+						this.addMessage({ content: lastMessage.content, type: 1 })
+					}).catch(err => {
+						this.loading = false
+						uni.showToast({
+							icon: 'none',
+							title: '发送失败请重试'
+						})
+						this.messageList.pop()
+					})
+				// #endif
+				
+				// #ifdef WEB
+				fetchEventSource(`${BASE_URL}/api/model/chat`, {
+				     method: 'post',
+				     headers: {
+				       'Content-Type': 'application/json',
+				     },
+									  body: JSON.stringify({
+											message,
+											chatID: this.chatID
+										}),
+				     onmessage: (ev) => {
+											
+										if (ev.data === '[DONE]') {
+											lastMessage.loading = false
+											this.loading = false
+											this.addMessage({ content: lastMessage.content, type: 1 })
+											return
+										}
+										  
+										const data = JSON.parse(ev.data)
+										const choice = data.choices[0]
+										if (choice.delta?.content) {
+											lastMessage.content += choice.delta.content
+										}
+										
+				       console.log('onmessage', ev)
+				     },
+				     onerror(event) {
+				       // 服务异常
+				       console.log('服务异常', event)
+				     },
+									  onclose: (e) => {
+										console.log('e', e)
+											if (lastMessage.loading) {
+												uni.showToast({
+													icon: 'none',
+													title: '发送失败请重试'
+												})
+												this.messageList.pop()
+											}
+										this.loading = false
+									  }
+				   }).then((value) => {
+										console.log('value', value)
+									}, (err) => {
+										console.log('err', err)
+									})
+				// #endif
+	
+				
+				
 			}
 		},
 		

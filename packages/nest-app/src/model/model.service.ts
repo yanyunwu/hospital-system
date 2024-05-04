@@ -1,8 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
+import * as https from 'https';
 import { TOKEN } from './consts';
 import { ConfigService } from 'src/modules/config/config.service';
 
+const httpsAgent = new https.Agent({
+  maxVersion: 'TLSv1.2',
+  minVersion: 'TLSv1.2',
+});
 @Injectable()
 export class ModelService {
   constructor(private configService: ConfigService) {}
@@ -10,6 +15,7 @@ export class ModelService {
   async requestChat(
     message: string,
     ctx?: Array<{ role: string; content: string }>,
+    stream?: boolean,
   ) {
     const config = await this.configService.getJsonValue('bot');
     const messages = [];
@@ -31,14 +37,16 @@ export class ModelService {
           },
         ],
         temperature: config?.temperature ?? 0.7,
-        stream: true,
+        stream: stream ?? true,
         max_tokens: config?.maxTokens ?? undefined,
       },
       {
-        responseType: 'stream',
+        responseType: stream ? 'stream' : 'json',
         headers: {
           Authorization: `Bearer ${TOKEN}`,
+          Connection: 'keep-alive',
         },
+        httpsAgent,
       },
     );
   }
