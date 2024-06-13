@@ -26,7 +26,7 @@ export class ModelService {
 
     const request = () =>
       axios.post(
-        'https://api.aigcbest.top/v1/chat/completions',
+        'https://api2.aigcbest.top/v1/chat/completions',
         {
           model: config?.model || 'gpt-3.5-turbo',
           messages: [
@@ -74,7 +74,7 @@ export class ModelService {
   }
 
   getModels() {
-    return axios.get('https://api.aigcbest.top/v1/models', {
+    return axios.get('https://api2.aigcbest.top/v1/models', {
       headers: {
         Authorization: `Bearer ${TOKEN}`,
       },
